@@ -1,5 +1,4 @@
-// Generated from java-escape by ANTLR 4.11.1
-package mar;
+// Generated from c:\Users\luisr\OneDrive - Universidade do Algarve\u005Cuni\3º Ano\2º SEMESTRE\Compiladores\Trabalho\Part1\src\mar.g4 by ANTLR 4.9.2
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -9,9 +8,9 @@ import java.util.List;
 import java.util.Iterator;
 import java.util.ArrayList;
 
-@SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast", "CheckReturnValue"})
+@SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class marParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.11.1", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.9.2", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -75,7 +74,7 @@ public class marParser extends Parser {
 	}
 
 	@Override
-	public String getGrammarFileName() { return "java-escape"; }
+	public String getGrammarFileName() { return "mar.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }
@@ -91,7 +90,6 @@ public class marParser extends Parser {
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 
-	@SuppressWarnings("CheckReturnValue")
 	public static class ProgContext extends ParserRuleContext {
 		public List<InstContext> inst() {
 			return getRuleContexts(InstContext.class);
@@ -103,19 +101,6 @@ public class marParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_prog; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof marListener ) ((marListener)listener).enterProg(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof marListener ) ((marListener)listener).exitProg(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof marVisitor ) return ((marVisitor<? extends T>)visitor).visitProg(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final ProgContext prog() throws RecognitionException {
@@ -152,7 +137,6 @@ public class marParser extends Parser {
 		return _localctx;
 	}
 
-	@SuppressWarnings("CheckReturnValue")
 	public static class InstContext extends ParserRuleContext {
 		public TerminalNode PRINT() { return getToken(marParser.PRINT, 0); }
 		public ExprContext expr() {
@@ -163,19 +147,6 @@ public class marParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_inst; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof marListener ) ((marListener)listener).enterInst(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof marListener ) ((marListener)listener).exitInst(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof marVisitor ) return ((marVisitor<? extends T>)visitor).visitInst(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final InstContext inst() throws RecognitionException {
@@ -203,7 +174,6 @@ public class marParser extends Parser {
 		return _localctx;
 	}
 
-	@SuppressWarnings("CheckReturnValue")
 	public static class ExprContext extends ParserRuleContext {
 		public ExprContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -215,7 +185,6 @@ public class marParser extends Parser {
 			super.copyFrom(ctx);
 		}
 	}
-	@SuppressWarnings("CheckReturnValue")
 	public static class HandleParenContext extends ExprContext {
 		public TerminalNode PARENTL() { return getToken(marParser.PARENTL, 0); }
 		public ExprContext expr() {
@@ -223,21 +192,7 @@ public class marParser extends Parser {
 		}
 		public TerminalNode PARENTR() { return getToken(marParser.PARENTR, 0); }
 		public HandleParenContext(ExprContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof marListener ) ((marListener)listener).enterHandleParen(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof marListener ) ((marListener)listener).exitHandleParen(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof marVisitor ) return ((marVisitor<? extends T>)visitor).visitHandleParen(this);
-			else return visitor.visitChildren(this);
-		}
 	}
-	@SuppressWarnings("CheckReturnValue")
 	public static class DivContext extends ExprContext {
 		public List<ExprContext> expr() {
 			return getRuleContexts(ExprContext.class);
@@ -247,21 +202,7 @@ public class marParser extends Parser {
 		}
 		public TerminalNode DIV() { return getToken(marParser.DIV, 0); }
 		public DivContext(ExprContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof marListener ) ((marListener)listener).enterDiv(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof marListener ) ((marListener)listener).exitDiv(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof marVisitor ) return ((marVisitor<? extends T>)visitor).visitDiv(this);
-			else return visitor.visitChildren(this);
-		}
 	}
-	@SuppressWarnings("CheckReturnValue")
 	public static class AddContext extends ExprContext {
 		public List<ExprContext> expr() {
 			return getRuleContexts(ExprContext.class);
@@ -271,21 +212,7 @@ public class marParser extends Parser {
 		}
 		public TerminalNode ADD() { return getToken(marParser.ADD, 0); }
 		public AddContext(ExprContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof marListener ) ((marListener)listener).enterAdd(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof marListener ) ((marListener)listener).exitAdd(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof marVisitor ) return ((marVisitor<? extends T>)visitor).visitAdd(this);
-			else return visitor.visitChildren(this);
-		}
 	}
-	@SuppressWarnings("CheckReturnValue")
 	public static class SubContext extends ExprContext {
 		public List<ExprContext> expr() {
 			return getRuleContexts(ExprContext.class);
@@ -295,60 +222,18 @@ public class marParser extends Parser {
 		}
 		public TerminalNode SUB() { return getToken(marParser.SUB, 0); }
 		public SubContext(ExprContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof marListener ) ((marListener)listener).enterSub(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof marListener ) ((marListener)listener).exitSub(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof marVisitor ) return ((marVisitor<? extends T>)visitor).visitSub(this);
-			else return visitor.visitChildren(this);
-		}
 	}
-	@SuppressWarnings("CheckReturnValue")
 	public static class NegativeContext extends ExprContext {
 		public TerminalNode SUB() { return getToken(marParser.SUB, 0); }
 		public ExprContext expr() {
 			return getRuleContext(ExprContext.class,0);
 		}
 		public NegativeContext(ExprContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof marListener ) ((marListener)listener).enterNegative(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof marListener ) ((marListener)listener).exitNegative(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof marVisitor ) return ((marVisitor<? extends T>)visitor).visitNegative(this);
-			else return visitor.visitChildren(this);
-		}
 	}
-	@SuppressWarnings("CheckReturnValue")
 	public static class NumberContext extends ExprContext {
 		public TerminalNode NUMBER() { return getToken(marParser.NUMBER, 0); }
 		public NumberContext(ExprContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof marListener ) ((marListener)listener).enterNumber(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof marListener ) ((marListener)listener).exitNumber(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof marVisitor ) return ((marVisitor<? extends T>)visitor).visitNumber(this);
-			else return visitor.visitChildren(this);
-		}
 	}
-	@SuppressWarnings("CheckReturnValue")
 	public static class MultContext extends ExprContext {
 		public List<ExprContext> expr() {
 			return getRuleContexts(ExprContext.class);
@@ -358,19 +243,6 @@ public class marParser extends Parser {
 		}
 		public TerminalNode MULT() { return getToken(marParser.MULT, 0); }
 		public MultContext(ExprContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof marListener ) ((marListener)listener).enterMult(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof marListener ) ((marListener)listener).exitMult(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof marVisitor ) return ((marVisitor<? extends T>)visitor).visitMult(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final ExprContext expr() throws RecognitionException {
@@ -530,35 +402,19 @@ public class marParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001\u000b+\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
-		"\u0002\u0007\u0002\u0001\u0000\u0004\u0000\b\b\u0000\u000b\u0000\f\u0000"+
-		"\t\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0002\u0001\u0002"+
-		"\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002"+
-		"\u0003\u0002\u0018\b\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002"+
-		"\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002"+
-		"\u0001\u0002\u0001\u0002\u0005\u0002&\b\u0002\n\u0002\f\u0002)\t\u0002"+
-		"\u0001\u0002\u0000\u0001\u0004\u0003\u0000\u0002\u0004\u0000\u0000.\u0000"+
-		"\u0007\u0001\u0000\u0000\u0000\u0002\u000b\u0001\u0000\u0000\u0000\u0004"+
-		"\u0017\u0001\u0000\u0000\u0000\u0006\b\u0003\u0002\u0001\u0000\u0007\u0006"+
-		"\u0001\u0000\u0000\u0000\b\t\u0001\u0000\u0000\u0000\t\u0007\u0001\u0000"+
-		"\u0000\u0000\t\n\u0001\u0000\u0000\u0000\n\u0001\u0001\u0000\u0000\u0000"+
-		"\u000b\f\u0005\u0006\u0000\u0000\f\r\u0003\u0004\u0002\u0000\r\u000e\u0005"+
-		"\u0001\u0000\u0000\u000e\u0003\u0001\u0000\u0000\u0000\u000f\u0010\u0006"+
-		"\u0002\uffff\uffff\u0000\u0010\u0011\u0005\u0005\u0000\u0000\u0011\u0018"+
-		"\u0003\u0004\u0002\u0007\u0012\u0018\u0005\t\u0000\u0000\u0013\u0014\u0005"+
-		"\u0007\u0000\u0000\u0014\u0015\u0003\u0004\u0002\u0000\u0015\u0016\u0005"+
-		"\b\u0000\u0000\u0016\u0018\u0001\u0000\u0000\u0000\u0017\u000f\u0001\u0000"+
-		"\u0000\u0000\u0017\u0012\u0001\u0000\u0000\u0000\u0017\u0013\u0001\u0000"+
-		"\u0000\u0000\u0018\'\u0001\u0000\u0000\u0000\u0019\u001a\n\u0006\u0000"+
-		"\u0000\u001a\u001b\u0005\u0003\u0000\u0000\u001b&\u0003\u0004\u0002\u0007"+
-		"\u001c\u001d\n\u0005\u0000\u0000\u001d\u001e\u0005\u0004\u0000\u0000\u001e"+
-		"&\u0003\u0004\u0002\u0006\u001f \n\u0004\u0000\u0000 !\u0005\u0002\u0000"+
-		"\u0000!&\u0003\u0004\u0002\u0005\"#\n\u0003\u0000\u0000#$\u0005\u0005"+
-		"\u0000\u0000$&\u0003\u0004\u0002\u0004%\u0019\u0001\u0000\u0000\u0000"+
-		"%\u001c\u0001\u0000\u0000\u0000%\u001f\u0001\u0000\u0000\u0000%\"\u0001"+
-		"\u0000\u0000\u0000&)\u0001\u0000\u0000\u0000\'%\u0001\u0000\u0000\u0000"+
-		"\'(\u0001\u0000\u0000\u0000(\u0005\u0001\u0000\u0000\u0000)\'\u0001\u0000"+
-		"\u0000\u0000\u0004\t\u0017%\'";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\r-\4\2\t\2\4\3\t"+
+		"\3\4\4\t\4\3\2\6\2\n\n\2\r\2\16\2\13\3\3\3\3\3\3\3\3\3\4\3\4\3\4\3\4\3"+
+		"\4\3\4\3\4\3\4\5\4\32\n\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4"+
+		"\3\4\7\4(\n\4\f\4\16\4+\13\4\3\4\2\3\6\5\2\4\6\2\2\2\60\2\t\3\2\2\2\4"+
+		"\r\3\2\2\2\6\31\3\2\2\2\b\n\5\4\3\2\t\b\3\2\2\2\n\13\3\2\2\2\13\t\3\2"+
+		"\2\2\13\f\3\2\2\2\f\3\3\2\2\2\r\16\7\b\2\2\16\17\5\6\4\2\17\20\7\3\2\2"+
+		"\20\5\3\2\2\2\21\22\b\4\1\2\22\23\7\7\2\2\23\32\5\6\4\t\24\32\7\13\2\2"+
+		"\25\26\7\t\2\2\26\27\5\6\4\2\27\30\7\n\2\2\30\32\3\2\2\2\31\21\3\2\2\2"+
+		"\31\24\3\2\2\2\31\25\3\2\2\2\32)\3\2\2\2\33\34\f\b\2\2\34\35\7\5\2\2\35"+
+		"(\5\6\4\t\36\37\f\7\2\2\37 \7\6\2\2 (\5\6\4\b!\"\f\6\2\2\"#\7\4\2\2#("+
+		"\5\6\4\7$%\f\5\2\2%&\7\7\2\2&(\5\6\4\6\'\33\3\2\2\2\'\36\3\2\2\2\'!\3"+
+		"\2\2\2\'$\3\2\2\2(+\3\2\2\2)\'\3\2\2\2)*\3\2\2\2*\7\3\2\2\2+)\3\2\2\2"+
+		"\6\13\31\')";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

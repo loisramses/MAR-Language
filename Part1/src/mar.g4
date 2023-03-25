@@ -5,12 +5,14 @@ prog: inst+;
 inst: PRINT expr ENDLINE;
 
 expr:
-	SUB expr					# Negative
-	| expr (MULT | DIV) expr	# MultOrDiv
-	| expr (ADD | SUB) expr		# AddOrSub
-	| NUMBER					# Number
-	| PARENTL expr PARENTR		# HandleParen;
-	
+	SUB expr				# Negative
+	| expr MULT expr		# Mult
+	| expr DIV expr			# Div
+	| expr ADD expr			# Add
+	| expr SUB expr			# Sub
+	| NUMBER				# Number
+	| PARENTL expr PARENTR	# HandleParen;
+
 ENDLINE: ';';
 ADD: '+';
 MULT: '*';

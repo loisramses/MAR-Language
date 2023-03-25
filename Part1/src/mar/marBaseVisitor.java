@@ -39,7 +39,21 @@ public class marBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements ma
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitAddOrSub(marParser.AddOrSubContext ctx) { return visitChildren(ctx); }
+	@Override public T visitDiv(marParser.DivContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitAdd(marParser.AddContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitSub(marParser.SubContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -60,5 +74,5 @@ public class marBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements ma
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitMultOrDiv(marParser.MultOrDivContext ctx) { return visitChildren(ctx); }
+	@Override public T visitMult(marParser.MultContext ctx) { return visitChildren(ctx); }
 }

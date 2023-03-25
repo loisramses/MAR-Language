@@ -1,3 +1,4 @@
+
 /***
  * Excerpted from "The Definitive ANTLR 4 Reference",
  * published by The Pragmatic Bookshelf.
@@ -17,31 +18,49 @@ import mar.*;
 public class Main {
     /** Sample "calculator" */
     public static class Evaluator extends marBaseListener {
-        Stack<Integer> stack = new Stack<Integer>();
+        Stack<Double> stack = new Stack<Double>();
 
-        public void exitMult(marParser.MultOrDivContext ctx) {
-            int right = stack.pop();
-            int left = stack.pop();
-            stack.push( left * right );
+        public void exitMult(marParser.MultContext ctx) {
+            double right = stack.pop();
+            double left = stack.pop();
+            stack.push(left * right);
         }
 
-        public void exitAdd(marParser.AddOrSubContext ctx) {
-            int right = stack.pop();
-            int left = stack.pop();
+        public void exitDiv(marParser.DivContext ctx) {
+            double right = stack.pop();
+            double left = stack.pop();
+            stack.push(left / right);
+        }
+
+        public void exitAdd(marParser.AddContext ctx) {
+            double right = stack.pop();
+            double left = stack.pop();
             stack.push(left + right);
         }
 
-        public void exitInt(marParser.NumberContext ctx) {
-            stack.push( Integer.valueOf(ctx.NUMBER().getText()) );
+        public void exitSub(marParser.SubContext ctx) {
+            double right = stack.pop();
+            double left = stack.pop();
+            stack.push(left - right);
+        }
+
+        public void exitNumber(marParser.NumberContext ctx) {
+            stack.push(Double.valueOf(ctx.NUMBER().getText()));
+        }
+
+        public void exitNegative(marParser.NegativeContext ctx) {
+            stack.push(-stack.pop());
         }
     }
 
     public static void main(String[] args) throws Exception {
         String inputFile = null;
-        if ( args.length>0 ) inputFile = args[0];
+        if (args.length > 0)
+            inputFile = args[0];
         InputStream is = System.in;
         try {
-            if (inputFile != null) is = new FileInputStream(inputFile);
+            if (inputFile != null)
+                is = new FileInputStream(inputFile);
             CharStream input = CharStreams.fromStream(is);
             marLexer lexer = new marLexer(input);
             CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -51,8 +70,7 @@ public class Main {
             Evaluator eval = new Evaluator();
             walker.walk(eval, tree);
             System.out.println("stack result = " + eval.stack.pop());
-        }
-        catch (java.io.IOException e) {
+        } catch (java.io.IOException e) {
             System.out.println(e);
         }
     }

@@ -30,12 +30,26 @@ public interface marVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitHandleParen(marParser.HandleParenContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code AddOrSub}
+	 * Visit a parse tree produced by the {@code Div}
 	 * labeled alternative in {@link marParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitAddOrSub(marParser.AddOrSubContext ctx);
+	T visitDiv(marParser.DivContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Add}
+	 * labeled alternative in {@link marParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAdd(marParser.AddContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Sub}
+	 * labeled alternative in {@link marParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSub(marParser.SubContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code Negative}
 	 * labeled alternative in {@link marParser#expr}.
@@ -51,10 +65,10 @@ public interface marVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitNumber(marParser.NumberContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code MultOrDiv}
+	 * Visit a parse tree produced by the {@code Mult}
 	 * labeled alternative in {@link marParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitMultOrDiv(marParser.MultOrDivContext ctx);
+	T visitMult(marParser.MultContext ctx);
 }

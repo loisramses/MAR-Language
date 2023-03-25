@@ -40,17 +40,41 @@ public interface marListener extends ParseTreeListener {
 	 */
 	void exitHandleParen(marParser.HandleParenContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code AddOrSub}
+	 * Enter a parse tree produced by the {@code Div}
 	 * labeled alternative in {@link marParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void enterAddOrSub(marParser.AddOrSubContext ctx);
+	void enterDiv(marParser.DivContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code AddOrSub}
+	 * Exit a parse tree produced by the {@code Div}
 	 * labeled alternative in {@link marParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void exitAddOrSub(marParser.AddOrSubContext ctx);
+	void exitDiv(marParser.DivContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code Add}
+	 * labeled alternative in {@link marParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterAdd(marParser.AddContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Add}
+	 * labeled alternative in {@link marParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitAdd(marParser.AddContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code Sub}
+	 * labeled alternative in {@link marParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterSub(marParser.SubContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Sub}
+	 * labeled alternative in {@link marParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitSub(marParser.SubContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code Negative}
 	 * labeled alternative in {@link marParser#expr}.
@@ -76,15 +100,15 @@ public interface marListener extends ParseTreeListener {
 	 */
 	void exitNumber(marParser.NumberContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code MultOrDiv}
+	 * Enter a parse tree produced by the {@code Mult}
 	 * labeled alternative in {@link marParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void enterMultOrDiv(marParser.MultOrDivContext ctx);
+	void enterMult(marParser.MultContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code MultOrDiv}
+	 * Exit a parse tree produced by the {@code Mult}
 	 * labeled alternative in {@link marParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void exitMultOrDiv(marParser.MultOrDivContext ctx);
+	void exitMult(marParser.MultContext ctx);
 }
