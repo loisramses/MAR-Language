@@ -116,7 +116,6 @@ public class marVM {
             for (byte b : byteCodes)
                 System.out.print(b + " ");
             System.out.println();
-            vm.dataInputStream.mark(0);
             vm.resetInputStream();
         }
 

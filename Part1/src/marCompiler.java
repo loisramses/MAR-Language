@@ -2,7 +2,6 @@ import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 
 import java.io.*;
-// import java.util.*;
 import mar.*;
 
 public class marCompiler {
@@ -28,9 +27,8 @@ public class marCompiler {
             }
         }
 
-        boolean debug;
-        int count;
-        // Stack<Double> stack = new Stack<Double>();
+        private boolean debug;
+        private int count;
         DataOutputStream dataOutputStream;
         String outputFile;
 
@@ -50,10 +48,6 @@ public class marCompiler {
         }
 
         public void exitMult(marParser.MultContext ctx) {
-            // double right = stack.pop();
-            // double left = stack.pop();
-            // double result = left * right;
-            // stack.push(result);
             try {
                 dataOutputStream.writeInt(marCompiler.Evaluator.opCode.MULT.getValue());
             } catch (IOException e) {
@@ -64,10 +58,6 @@ public class marCompiler {
         }
 
         public void exitDiv(marParser.DivContext ctx) {
-            // double right = stack.pop();
-            // double left = stack.pop();
-            // double result = left / right;
-            // stack.push(result);
             try {
                 dataOutputStream.writeInt(marCompiler.Evaluator.opCode.DIV.getValue());
             } catch (IOException e) {
@@ -78,10 +68,6 @@ public class marCompiler {
         }
 
         public void exitAdd(marParser.AddContext ctx) {
-            // double right = stack.pop();
-            // double left = stack.pop();
-            // double result = Double.sum(left, right);
-            // stack.push(result);
             try {
                 dataOutputStream.writeInt(marCompiler.Evaluator.opCode.ADD.getValue());
             } catch (IOException e) {
@@ -92,10 +78,6 @@ public class marCompiler {
         }
 
         public void exitSub(marParser.SubContext ctx) {
-            // double right = stack.pop();
-            // double left = stack.pop();
-            // double result = left - right;
-            // stack.push(result);
             try {
                 dataOutputStream.writeInt(marCompiler.Evaluator.opCode.SUB.getValue());
             } catch (IOException e) {
@@ -107,7 +89,6 @@ public class marCompiler {
 
         public void exitNumber(marParser.NumberContext ctx) {
             double result = Double.valueOf(ctx.NUMBER().getText());
-            // stack.push(result);
             try {
                 dataOutputStream.writeInt(marCompiler.Evaluator.opCode.DCONST.getValue());
                 dataOutputStream.writeDouble(result);
@@ -119,8 +100,6 @@ public class marCompiler {
         }
 
         public void exitNegative(marParser.NegativeContext ctx) {
-            // double result = -stack.pop();
-            // stack.push(result);
             try {
                 dataOutputStream.writeInt(marCompiler.Evaluator.opCode.UMINUS.getValue());
             } catch (IOException e) {
