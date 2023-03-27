@@ -35,7 +35,7 @@ public class Main {
         public void exitAdd(marParser.AddContext ctx) {
             double right = stack.pop();
             double left = stack.pop();
-            stack.push(left + right);
+            stack.push(Double.sum(left, right));
         }
 
         public void exitSub(marParser.SubContext ctx) {
@@ -50,6 +50,10 @@ public class Main {
 
         public void exitNegative(marParser.NegativeContext ctx) {
             stack.push(-stack.pop());
+        }
+
+        public void exitInst(marParser.InstContext ctx) {
+            System.out.println(stack.pop());
         }
     }
 
@@ -69,7 +73,6 @@ public class Main {
             ParseTreeWalker walker = new ParseTreeWalker();
             Evaluator eval = new Evaluator();
             walker.walk(eval, tree);
-            System.out.println("stack result = " + eval.stack.pop());
         } catch (java.io.IOException e) {
             System.out.println(e);
         }

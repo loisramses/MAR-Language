@@ -17,7 +17,7 @@ public class marParser extends Parser {
 		new PredictionContextCache();
 	public static final int
 		ENDLINE=1, ADD=2, MULT=3, DIV=4, SUB=5, PRINT=6, PARENTL=7, PARENTR=8, 
-		NUMBER=9, DIGIT=10, WS=11;
+		NEWLINE=9, NUMBER=10, DIGIT=11, WS=12;
 	public static final int
 		RULE_prog = 0, RULE_inst = 1, RULE_expr = 2;
 	private static String[] makeRuleNames() {
@@ -29,14 +29,14 @@ public class marParser extends Parser {
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "';'", "'+'", "'*'", "'/'", "'-'", "'print'", "'('", "')'"
+			null, "';'", "'+'", "'*'", "'/'", "'-'", "'print'", "'('", "')'", "'\n'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
 			null, "ENDLINE", "ADD", "MULT", "DIV", "SUB", "PRINT", "PARENTL", "PARENTR", 
-			"NUMBER", "DIGIT", "WS"
+			"NEWLINE", "NUMBER", "DIGIT", "WS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -97,6 +97,10 @@ public class marParser extends Parser {
 		public InstContext inst(int i) {
 			return getRuleContext(InstContext.class,i);
 		}
+		public List<TerminalNode> NEWLINE() { return getTokens(marParser.NEWLINE); }
+		public TerminalNode NEWLINE(int i) {
+			return getToken(marParser.NEWLINE, i);
+		}
 		public ProgContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -110,7 +114,7 @@ public class marParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(7); 
+			setState(9); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
@@ -118,9 +122,11 @@ public class marParser extends Parser {
 				{
 				setState(6);
 				inst();
+				setState(7);
+				match(NEWLINE);
 				}
 				}
-				setState(9); 
+				setState(11); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==PRINT );
@@ -155,11 +161,11 @@ public class marParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(11);
-			match(PRINT);
-			setState(12);
-			expr(0);
 			setState(13);
+			match(PRINT);
+			setState(14);
+			expr(0);
+			setState(15);
 			match(ENDLINE);
 			}
 		}
@@ -260,7 +266,7 @@ public class marParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(23);
+			setState(25);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case SUB:
@@ -269,19 +275,10 @@ public class marParser extends Parser {
 				_ctx = _localctx;
 				_prevctx = _localctx;
 
-				setState(16);
-				match(SUB);
-				setState(17);
-				expr(7);
-				}
-				break;
-			case NUMBER:
-				{
-				_localctx = new NumberContext(_localctx);
-				_ctx = _localctx;
-				_prevctx = _localctx;
 				setState(18);
-				match(NUMBER);
+				match(SUB);
+				setState(19);
+				expr(7);
 				}
 				break;
 			case PARENTL:
@@ -289,19 +286,28 @@ public class marParser extends Parser {
 				_localctx = new HandleParenContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(19);
-				match(PARENTL);
 				setState(20);
-				expr(0);
+				match(PARENTL);
 				setState(21);
+				expr(0);
+				setState(22);
 				match(PARENTR);
+				}
+				break;
+			case NUMBER:
+				{
+				_localctx = new NumberContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(24);
+				match(NUMBER);
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(39);
+			setState(41);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,3,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
@@ -309,61 +315,61 @@ public class marParser extends Parser {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(37);
+					setState(39);
 					_errHandler.sync(this);
 					switch ( getInterpreter().adaptivePredict(_input,2,_ctx) ) {
 					case 1:
 						{
 						_localctx = new MultContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(25);
-						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
-						setState(26);
-						match(MULT);
 						setState(27);
-						expr(7);
+						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
+						setState(28);
+						match(MULT);
+						setState(29);
+						expr(6);
 						}
 						break;
 					case 2:
 						{
 						_localctx = new DivContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(28);
-						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
-						setState(29);
-						match(DIV);
 						setState(30);
-						expr(6);
+						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
+						setState(31);
+						match(DIV);
+						setState(32);
+						expr(5);
 						}
 						break;
 					case 3:
 						{
 						_localctx = new AddContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(31);
-						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
-						setState(32);
-						match(ADD);
 						setState(33);
-						expr(5);
+						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
+						setState(34);
+						match(ADD);
+						setState(35);
+						expr(4);
 						}
 						break;
 					case 4:
 						{
 						_localctx = new SubContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(34);
-						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
-						setState(35);
-						match(SUB);
 						setState(36);
-						expr(4);
+						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
+						setState(37);
+						match(SUB);
+						setState(38);
+						expr(3);
 						}
 						break;
 					}
 					} 
 				}
-				setState(41);
+				setState(43);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,3,_ctx);
 			}
@@ -390,31 +396,31 @@ public class marParser extends Parser {
 	private boolean expr_sempred(ExprContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 0:
-			return precpred(_ctx, 6);
-		case 1:
 			return precpred(_ctx, 5);
-		case 2:
+		case 1:
 			return precpred(_ctx, 4);
-		case 3:
+		case 2:
 			return precpred(_ctx, 3);
+		case 3:
+			return precpred(_ctx, 2);
 		}
 		return true;
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\r-\4\2\t\2\4\3\t"+
-		"\3\4\4\t\4\3\2\6\2\n\n\2\r\2\16\2\13\3\3\3\3\3\3\3\3\3\4\3\4\3\4\3\4\3"+
-		"\4\3\4\3\4\3\4\5\4\32\n\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4"+
-		"\3\4\7\4(\n\4\f\4\16\4+\13\4\3\4\2\3\6\5\2\4\6\2\2\2\60\2\t\3\2\2\2\4"+
-		"\r\3\2\2\2\6\31\3\2\2\2\b\n\5\4\3\2\t\b\3\2\2\2\n\13\3\2\2\2\13\t\3\2"+
-		"\2\2\13\f\3\2\2\2\f\3\3\2\2\2\r\16\7\b\2\2\16\17\5\6\4\2\17\20\7\3\2\2"+
-		"\20\5\3\2\2\2\21\22\b\4\1\2\22\23\7\7\2\2\23\32\5\6\4\t\24\32\7\13\2\2"+
-		"\25\26\7\t\2\2\26\27\5\6\4\2\27\30\7\n\2\2\30\32\3\2\2\2\31\21\3\2\2\2"+
-		"\31\24\3\2\2\2\31\25\3\2\2\2\32)\3\2\2\2\33\34\f\b\2\2\34\35\7\5\2\2\35"+
-		"(\5\6\4\t\36\37\f\7\2\2\37 \7\6\2\2 (\5\6\4\b!\"\f\6\2\2\"#\7\4\2\2#("+
-		"\5\6\4\7$%\f\5\2\2%&\7\7\2\2&(\5\6\4\6\'\33\3\2\2\2\'\36\3\2\2\2\'!\3"+
-		"\2\2\2\'$\3\2\2\2(+\3\2\2\2)\'\3\2\2\2)*\3\2\2\2*\7\3\2\2\2+)\3\2\2\2"+
-		"\6\13\31\')";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\16/\4\2\t\2\4\3\t"+
+		"\3\4\4\t\4\3\2\3\2\3\2\6\2\f\n\2\r\2\16\2\r\3\3\3\3\3\3\3\3\3\4\3\4\3"+
+		"\4\3\4\3\4\3\4\3\4\3\4\5\4\34\n\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4"+
+		"\3\4\3\4\3\4\7\4*\n\4\f\4\16\4-\13\4\3\4\2\3\6\5\2\4\6\2\2\2\62\2\13\3"+
+		"\2\2\2\4\17\3\2\2\2\6\33\3\2\2\2\b\t\5\4\3\2\t\n\7\13\2\2\n\f\3\2\2\2"+
+		"\13\b\3\2\2\2\f\r\3\2\2\2\r\13\3\2\2\2\r\16\3\2\2\2\16\3\3\2\2\2\17\20"+
+		"\7\b\2\2\20\21\5\6\4\2\21\22\7\3\2\2\22\5\3\2\2\2\23\24\b\4\1\2\24\25"+
+		"\7\7\2\2\25\34\5\6\4\t\26\27\7\t\2\2\27\30\5\6\4\2\30\31\7\n\2\2\31\34"+
+		"\3\2\2\2\32\34\7\f\2\2\33\23\3\2\2\2\33\26\3\2\2\2\33\32\3\2\2\2\34+\3"+
+		"\2\2\2\35\36\f\7\2\2\36\37\7\5\2\2\37*\5\6\4\b !\f\6\2\2!\"\7\6\2\2\""+
+		"*\5\6\4\7#$\f\5\2\2$%\7\4\2\2%*\5\6\4\6&\'\f\4\2\2\'(\7\7\2\2(*\5\6\4"+
+		"\5)\35\3\2\2\2) \3\2\2\2)#\3\2\2\2)&\3\2\2\2*-\3\2\2\2+)\3\2\2\2+,\3\2"+
+		"\2\2,\7\3\2\2\2-+\3\2\2\2\6\r\33)+";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

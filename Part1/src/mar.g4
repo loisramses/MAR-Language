@@ -1,17 +1,17 @@
 grammar mar;
 
-prog: inst+;
+prog: (inst NEWLINE)+;
 
 inst: PRINT expr ENDLINE;
 
 expr:
 	SUB expr				# Negative
+	| PARENTL expr PARENTR	# HandleParen
 	| expr MULT expr		# Mult
 	| expr DIV expr			# Div
 	| expr ADD expr			# Add
 	| expr SUB expr			# Sub
-	| NUMBER				# Number
-	| PARENTL expr PARENTR	# HandleParen;
+	| NUMBER				# Number;
 
 ENDLINE: ';';
 ADD: '+';
@@ -21,6 +21,7 @@ SUB: '-';
 PRINT: 'print';
 PARENTL: '(';
 PARENTR: ')';
+NEWLINE: '\n';
 NUMBER: DIGIT+ ('.' DIGIT+)?;
 DIGIT: [0-9];
-WS: [ \t\r\n]+ -> skip;
+WS: [ \t\r]+ -> skip;
