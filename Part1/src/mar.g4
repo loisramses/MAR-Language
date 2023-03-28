@@ -1,6 +1,6 @@
 grammar mar;
 
-prog: (inst NEWLINE)+;
+prog: (inst NEWLINE?)+;
 
 inst: PRINT expr ENDLINE;
 

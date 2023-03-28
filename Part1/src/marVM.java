@@ -120,10 +120,10 @@ public class marVM {
         }
 
         while (vm.dataInputStream.available() > 0) {
-            op = marVM.VM.opCode.valueOf(vm.dataInputStream.readInt());
+            op = marVM.VM.opCode.valueOf(vm.dataInputStream.read());
             switch (op) {
                 case DCONST:
-                    value = vm.dataInputStream.readDouble();
+                    value = vm.dataInputStream.read();
                     if (vm.debug) {
                         System.out.println("\t\tStack: " + vm.stack);
                         System.out.println(" " + op + " " + value);
