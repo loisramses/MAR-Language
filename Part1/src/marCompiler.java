@@ -30,59 +30,93 @@ public class marCompiler {
         private boolean debug;
         private int count;
         ByteArrayOutputStream byteArray;
+        DataOutputStream byteArrayOutputStream;
 
         public Evaluator(/* String fileName, */boolean debug) {
             this.debug = debug;
             this.count = 0;
             byteArray = new ByteArrayOutputStream();
+            byteArrayOutputStream = new DataOutputStream(byteArray);
         }
 
         public void exitMult(marParser.MultContext ctx) {
-            this.byteArray.write(Integer.valueOf(marCompiler.Evaluator.opCode.MULT.getValue()).byteValue());
+            try {
+                this.byteArrayOutputStream.writeInt(Integer.valueOf(marCompiler.Evaluator.opCode.MULT.getValue()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             if (this.debug)
                 System.out.println(count++ + ": MULT");
         }
 
         public void exitDiv(marParser.DivContext ctx) {
-            this.byteArray.write(Integer.valueOf(marCompiler.Evaluator.opCode.DIV.getValue()).byteValue());
+            try {
+                this.byteArrayOutputStream.writeInt(Integer.valueOf(marCompiler.Evaluator.opCode.DIV.getValue()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             if (this.debug)
                 System.out.println(count++ + ": DIV");
         }
 
         public void exitAdd(marParser.AddContext ctx) {
-            this.byteArray.write(Integer.valueOf(marCompiler.Evaluator.opCode.ADD.getValue()).byteValue());
+            try {
+                this.byteArrayOutputStream.writeInt(Integer.valueOf(marCompiler.Evaluator.opCode.ADD.getValue()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             if (this.debug)
                 System.out.println(count++ + ": ADD");
         }
 
         public void exitSub(marParser.SubContext ctx) {
-            this.byteArray.write(Integer.valueOf(marCompiler.Evaluator.opCode.SUB.getValue()).byteValue());
+            try {
+                this.byteArrayOutputStream.writeInt(Integer.valueOf(marCompiler.Evaluator.opCode.SUB.getValue()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             if (this.debug)
                 System.out.println(count++ + ": SUB");
         }
 
         public void exitNumber(marParser.NumberContext ctx) {
             double result = Double.valueOf(ctx.NUMBER().getText());
-            this.byteArray.write(Integer.valueOf(marCompiler.Evaluator.opCode.DCONST.getValue()).byteValue());
-            this.byteArray.write(Double.valueOf(result).byteValue());
+            try {
+                this.byteArrayOutputStream.writeInt(Integer.valueOf(marCompiler.Evaluator.opCode.DCONST.getValue()));
+                this.byteArrayOutputStream.writeDouble(Double.valueOf(result));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             if (this.debug)
                 System.out.println(count++ + ": DCONST " + result);
         }
 
         public void exitNegative(marParser.NegativeContext ctx) {
-            this.byteArray.write(Integer.valueOf(marCompiler.Evaluator.opCode.UMINUS.getValue()).byteValue());
+            try {
+                this.byteArrayOutputStream.writeInt(Integer.valueOf(marCompiler.Evaluator.opCode.UMINUS.getValue()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             if (this.debug)
                 System.out.println(count++ + ": UMINUS");
         }
 
         public void exitInst(marParser.InstContext ctx) {
-            this.byteArray.write(Integer.valueOf(marCompiler.Evaluator.opCode.PRINT.getValue()).byteValue());
+            try {
+                this.byteArrayOutputStream.writeInt(Integer.valueOf(marCompiler.Evaluator.opCode.PRINT.getValue()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             if (this.debug)
                 System.out.println(count++ + ": PRINT");
         }
 
         public void exitProg(marParser.ProgContext ctx) {
-            this.byteArray.write(Integer.valueOf(marCompiler.Evaluator.opCode.HALT.getValue()).byteValue());
+            try {
+                this.byteArrayOutputStream.writeInt(Integer.valueOf(marCompiler.Evaluator.opCode.HALT.getValue()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             if (this.debug)
                 System.out.println(count++ + ": HALT");
         }
@@ -113,7 +147,7 @@ public class marCompiler {
                 System.exit(1);
             }
             ParseTreeWalker walker = new ParseTreeWalker();
-            Evaluator eval = new Evaluator(/* inputFile, */debug);
+            Evaluator eval = new Evaluator(debug);
             if (debug)
                 System.out.println("Generated assembly code:");
             walker.walk(eval, tree);
