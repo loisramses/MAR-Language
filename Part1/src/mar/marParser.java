@@ -1,4 +1,4 @@
-// Generated from java-escape by ANTLR 4.11.1
+// Generated from C:/Users/luisr/OneDrive - Universidade do Algarve/uni/3º Ano/2º SEMESTRE/Compiladores/Trabalho/Part1/src\mar.g4 by ANTLR 4.12.0
 package mar;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast", "CheckReturnValue"})
 public class marParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.11.1", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.12.0", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -75,7 +75,7 @@ public class marParser extends Parser {
 	}
 
 	@Override
-	public String getGrammarFileName() { return "java-escape"; }
+	public String getGrammarFileName() { return "mar.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }
@@ -386,6 +386,29 @@ public class marParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
+	@SuppressWarnings("CheckReturnValue")
+	public static class TestContext extends ExprContext {
+		public Token op;
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
+		}
+		public TerminalNode MULT() { return getToken(marParser.MULT, 0); }
+		public TerminalNode DIV() { return getToken(marParser.DIV, 0); }
+		public TestContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof marListener ) ((marListener)listener).enterTest(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof marListener ) ((marListener)listener).exitTest(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof marVisitor ) return ((marVisitor<? extends T>)visitor).visitTest(this);
+			else return visitor.visitChildren(this);
+		}
+	}
 
 	public final ExprContext expr() throws RecognitionException {
 		return expr(0);
@@ -398,6 +421,7 @@ public class marParser extends Parser {
 		ExprContext _prevctx = _localctx;
 		int _startState = 4;
 		enterRecursionRule(_localctx, 4, RULE_expr, _p);
+		int _la;
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
@@ -414,7 +438,7 @@ public class marParser extends Parser {
 				setState(19);
 				match(SUB);
 				setState(20);
-				expr(7);
+				expr(8);
 				}
 				break;
 			case PARENTL:
@@ -443,7 +467,7 @@ public class marParser extends Parser {
 				throw new NoViableAltException(this);
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(42);
+			setState(44);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
@@ -451,7 +475,7 @@ public class marParser extends Parser {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(40);
+					setState(42);
 					_errHandler.sync(this);
 					switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
 					case 1:
@@ -502,10 +526,29 @@ public class marParser extends Parser {
 						expr(3);
 						}
 						break;
+					case 5:
+						{
+						_localctx = new TestContext(new ExprContext(_parentctx, _parentState));
+						pushNewRecursionContext(_localctx, _startState, RULE_expr);
+						setState(40);
+						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
+						setState(41);
+						((TestContext)_localctx).op = _input.LT(1);
+						_la = _input.LA(1);
+						if ( !(_la==MULT || _la==DIV) ) {
+							((TestContext)_localctx).op = (Token)_errHandler.recoverInline(this);
+						}
+						else {
+							if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+							_errHandler.reportMatch(this);
+							consume();
+						}
+						}
+						break;
 					}
 					} 
 				}
-				setState(44);
+				setState(46);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
 			}
@@ -539,42 +582,46 @@ public class marParser extends Parser {
 			return precpred(_ctx, 3);
 		case 3:
 			return precpred(_ctx, 2);
+		case 4:
+			return precpred(_ctx, 6);
 		}
 		return true;
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001\f.\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0004\u0001\f0\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
 		"\u0002\u0007\u0002\u0001\u0000\u0001\u0000\u0003\u0000\t\b\u0000\u0004"+
 		"\u0000\u000b\b\u0000\u000b\u0000\f\u0000\f\u0001\u0001\u0001\u0001\u0001"+
 		"\u0001\u0001\u0001\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001"+
 		"\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0003\u0002\u001b\b\u0002\u0001"+
 		"\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001"+
-		"\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0005"+
-		"\u0002)\b\u0002\n\u0002\f\u0002,\t\u0002\u0001\u0002\u0000\u0001\u0004"+
-		"\u0003\u0000\u0002\u0004\u0000\u00002\u0000\n\u0001\u0000\u0000\u0000"+
-		"\u0002\u000e\u0001\u0000\u0000\u0000\u0004\u001a\u0001\u0000\u0000\u0000"+
-		"\u0006\b\u0003\u0002\u0001\u0000\u0007\t\u0005\t\u0000\u0000\b\u0007\u0001"+
-		"\u0000\u0000\u0000\b\t\u0001\u0000\u0000\u0000\t\u000b\u0001\u0000\u0000"+
-		"\u0000\n\u0006\u0001\u0000\u0000\u0000\u000b\f\u0001\u0000\u0000\u0000"+
-		"\f\n\u0001\u0000\u0000\u0000\f\r\u0001\u0000\u0000\u0000\r\u0001\u0001"+
-		"\u0000\u0000\u0000\u000e\u000f\u0005\u0006\u0000\u0000\u000f\u0010\u0003"+
-		"\u0004\u0002\u0000\u0010\u0011\u0005\u0001\u0000\u0000\u0011\u0003\u0001"+
-		"\u0000\u0000\u0000\u0012\u0013\u0006\u0002\uffff\uffff\u0000\u0013\u0014"+
-		"\u0005\u0005\u0000\u0000\u0014\u001b\u0003\u0004\u0002\u0007\u0015\u0016"+
-		"\u0005\u0007\u0000\u0000\u0016\u0017\u0003\u0004\u0002\u0000\u0017\u0018"+
-		"\u0005\b\u0000\u0000\u0018\u001b\u0001\u0000\u0000\u0000\u0019\u001b\u0005"+
-		"\n\u0000\u0000\u001a\u0012\u0001\u0000\u0000\u0000\u001a\u0015\u0001\u0000"+
-		"\u0000\u0000\u001a\u0019\u0001\u0000\u0000\u0000\u001b*\u0001\u0000\u0000"+
-		"\u0000\u001c\u001d\n\u0005\u0000\u0000\u001d\u001e\u0005\u0003\u0000\u0000"+
-		"\u001e)\u0003\u0004\u0002\u0006\u001f \n\u0004\u0000\u0000 !\u0005\u0004"+
-		"\u0000\u0000!)\u0003\u0004\u0002\u0005\"#\n\u0003\u0000\u0000#$\u0005"+
-		"\u0002\u0000\u0000$)\u0003\u0004\u0002\u0004%&\n\u0002\u0000\u0000&\'"+
-		"\u0005\u0005\u0000\u0000\')\u0003\u0004\u0002\u0003(\u001c\u0001\u0000"+
-		"\u0000\u0000(\u001f\u0001\u0000\u0000\u0000(\"\u0001\u0000\u0000\u0000"+
-		"(%\u0001\u0000\u0000\u0000),\u0001\u0000\u0000\u0000*(\u0001\u0000\u0000"+
-		"\u0000*+\u0001\u0000\u0000\u0000+\u0005\u0001\u0000\u0000\u0000,*\u0001"+
-		"\u0000\u0000\u0000\u0005\b\f\u001a(*";
+		"\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001"+
+		"\u0002\u0001\u0002\u0005\u0002+\b\u0002\n\u0002\f\u0002.\t\u0002\u0001"+
+		"\u0002\u0000\u0001\u0004\u0003\u0000\u0002\u0004\u0000\u0001\u0001\u0000"+
+		"\u0003\u00045\u0000\n\u0001\u0000\u0000\u0000\u0002\u000e\u0001\u0000"+
+		"\u0000\u0000\u0004\u001a\u0001\u0000\u0000\u0000\u0006\b\u0003\u0002\u0001"+
+		"\u0000\u0007\t\u0005\t\u0000\u0000\b\u0007\u0001\u0000\u0000\u0000\b\t"+
+		"\u0001\u0000\u0000\u0000\t\u000b\u0001\u0000\u0000\u0000\n\u0006\u0001"+
+		"\u0000\u0000\u0000\u000b\f\u0001\u0000\u0000\u0000\f\n\u0001\u0000\u0000"+
+		"\u0000\f\r\u0001\u0000\u0000\u0000\r\u0001\u0001\u0000\u0000\u0000\u000e"+
+		"\u000f\u0005\u0006\u0000\u0000\u000f\u0010\u0003\u0004\u0002\u0000\u0010"+
+		"\u0011\u0005\u0001\u0000\u0000\u0011\u0003\u0001\u0000\u0000\u0000\u0012"+
+		"\u0013\u0006\u0002\uffff\uffff\u0000\u0013\u0014\u0005\u0005\u0000\u0000"+
+		"\u0014\u001b\u0003\u0004\u0002\b\u0015\u0016\u0005\u0007\u0000\u0000\u0016"+
+		"\u0017\u0003\u0004\u0002\u0000\u0017\u0018\u0005\b\u0000\u0000\u0018\u001b"+
+		"\u0001\u0000\u0000\u0000\u0019\u001b\u0005\n\u0000\u0000\u001a\u0012\u0001"+
+		"\u0000\u0000\u0000\u001a\u0015\u0001\u0000\u0000\u0000\u001a\u0019\u0001"+
+		"\u0000\u0000\u0000\u001b,\u0001\u0000\u0000\u0000\u001c\u001d\n\u0005"+
+		"\u0000\u0000\u001d\u001e\u0005\u0003\u0000\u0000\u001e+\u0003\u0004\u0002"+
+		"\u0006\u001f \n\u0004\u0000\u0000 !\u0005\u0004\u0000\u0000!+\u0003\u0004"+
+		"\u0002\u0005\"#\n\u0003\u0000\u0000#$\u0005\u0002\u0000\u0000$+\u0003"+
+		"\u0004\u0002\u0004%&\n\u0002\u0000\u0000&\'\u0005\u0005\u0000\u0000\'"+
+		"+\u0003\u0004\u0002\u0003()\n\u0006\u0000\u0000)+\u0007\u0000\u0000\u0000"+
+		"*\u001c\u0001\u0000\u0000\u0000*\u001f\u0001\u0000\u0000\u0000*\"\u0001"+
+		"\u0000\u0000\u0000*%\u0001\u0000\u0000\u0000*(\u0001\u0000\u0000\u0000"+
+		"+.\u0001\u0000\u0000\u0000,*\u0001\u0000\u0000\u0000,-\u0001\u0000\u0000"+
+		"\u0000-\u0005\u0001\u0000\u0000\u0000.,\u0001\u0000\u0000\u0000\u0005"+
+		"\b\f\u001a*,";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

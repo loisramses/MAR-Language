@@ -41,7 +41,7 @@ public class marCompiler {
 
         public void exitMult(marParser.MultContext ctx) {
             try {
-                this.byteArrayOutputStream.writeInt(Integer.valueOf(marCompiler.Evaluator.opCode.MULT.getValue()));
+                this.byteArrayOutputStream.writeInt(Integer.valueOf(opCode.MULT.getValue()));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -51,7 +51,7 @@ public class marCompiler {
 
         public void exitDiv(marParser.DivContext ctx) {
             try {
-                this.byteArrayOutputStream.writeInt(Integer.valueOf(marCompiler.Evaluator.opCode.DIV.getValue()));
+                this.byteArrayOutputStream.writeInt(Integer.valueOf(opCode.DIV.getValue()));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -61,7 +61,7 @@ public class marCompiler {
 
         public void exitAdd(marParser.AddContext ctx) {
             try {
-                this.byteArrayOutputStream.writeInt(Integer.valueOf(marCompiler.Evaluator.opCode.ADD.getValue()));
+                this.byteArrayOutputStream.writeInt(Integer.valueOf(opCode.ADD.getValue()));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -71,7 +71,7 @@ public class marCompiler {
 
         public void exitSub(marParser.SubContext ctx) {
             try {
-                this.byteArrayOutputStream.writeInt(Integer.valueOf(marCompiler.Evaluator.opCode.SUB.getValue()));
+                this.byteArrayOutputStream.writeInt(Integer.valueOf(opCode.SUB.getValue()));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -79,10 +79,13 @@ public class marCompiler {
                 System.out.println(count++ + ": SUB");
         }
 
+        public void exitTest(marParser.TestContext ctx) {
+            System.out.println(ctx.op.getText());
+        }
         public void exitNumber(marParser.NumberContext ctx) {
             double result = Double.valueOf(ctx.NUMBER().getText());
             try {
-                this.byteArrayOutputStream.writeInt(Integer.valueOf(marCompiler.Evaluator.opCode.DCONST.getValue()));
+                this.byteArrayOutputStream.writeInt(Integer.valueOf(opCode.DCONST.getValue()));
                 this.byteArrayOutputStream.writeDouble(Double.valueOf(result));
             } catch (IOException e) {
                 e.printStackTrace();
@@ -93,7 +96,7 @@ public class marCompiler {
 
         public void exitNegative(marParser.NegativeContext ctx) {
             try {
-                this.byteArrayOutputStream.writeInt(Integer.valueOf(marCompiler.Evaluator.opCode.UMINUS.getValue()));
+                this.byteArrayOutputStream.writeInt(Integer.valueOf(opCode.UMINUS.getValue()));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -103,7 +106,7 @@ public class marCompiler {
 
         public void exitInst(marParser.InstContext ctx) {
             try {
-                this.byteArrayOutputStream.writeInt(Integer.valueOf(marCompiler.Evaluator.opCode.PRINT.getValue()));
+                this.byteArrayOutputStream.writeInt(Integer.valueOf(opCode.PRINT.getValue()));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -113,7 +116,7 @@ public class marCompiler {
 
         public void exitProg(marParser.ProgContext ctx) {
             try {
-                this.byteArrayOutputStream.writeInt(Integer.valueOf(marCompiler.Evaluator.opCode.HALT.getValue()));
+                this.byteArrayOutputStream.writeInt(Integer.valueOf(opCode.HALT.getValue()));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -135,7 +138,7 @@ public class marCompiler {
             if (inputFileName != null) {
                 is = new FileInputStream(inputFileName);
                 temp = new File(inputFileName);
-                outputFile = new File("../outputs/" + temp.getName() + "bc");
+                outputFile = new File("outputs/" + temp.getName() + "bc");
                 temp.delete();
             }
             CharStream input = CharStreams.fromStream(is);
@@ -161,7 +164,7 @@ public class marCompiler {
                     System.out.print(b + " ");
                 System.out.println();
             }
-        } catch (java.io.IOException e) {
+        } catch (IOException e) {
             System.out.println(e);
         }
     }

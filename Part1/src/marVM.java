@@ -23,7 +23,7 @@ public class marVM {
             }
 
             static {
-                for (marVM.VM.opCode op : opCode.values()) {
+                for (opCode op : opCode.values()) {
                     map.put(op.value, op);
                 }
             }
@@ -107,7 +107,7 @@ public class marVM {
             debug = true;
         File input = new File(inputFile);
         VM vm = new VM(input, debug);
-        marVM.VM.opCode op;
+        VM.opCode op;
         double value;
         if (debug) {
             byte[] byteCodes = new byte[(int) input.length()];
@@ -120,7 +120,7 @@ public class marVM {
         }
 
         while (vm.dataInputStream.available() > 0) {
-            op = marVM.VM.opCode.valueOf(vm.dataInputStream.readInt());
+            op = VM.opCode.valueOf(vm.dataInputStream.readInt());
             switch (op) {
                 case DCONST:
                     value = vm.dataInputStream.readDouble();

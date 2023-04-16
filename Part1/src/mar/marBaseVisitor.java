@@ -1,4 +1,4 @@
-// Generated from java-escape by ANTLR 4.11.1
+// Generated from C:/Users/luisr/OneDrive - Universidade do Algarve/uni/3º Ano/2º SEMESTRE/Compiladores/Trabalho/Part1/src\mar.g4 by ANTLR 4.12.0
 package mar;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
@@ -75,4 +75,11 @@ public class marBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements ma
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitMult(marParser.MultContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitTest(marParser.TestContext ctx) { return visitChildren(ctx); }
 }

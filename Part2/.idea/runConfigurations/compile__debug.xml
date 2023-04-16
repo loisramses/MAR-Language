@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="compile -debug" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="marCompiler" />
+    <module name="Part2" />
+    <option name="PROGRAM_PARAMETERS" value="inputs\in1.mar -debug" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

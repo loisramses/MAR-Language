@@ -1,4 +1,4 @@
-// Generated from java-escape by ANTLR 4.11.1
+// Generated from C:/Users/luisr/OneDrive - Universidade do Algarve/uni/3º Ano/2º SEMESTRE/Compiladores/Trabalho/Part1/src\mar.g4 by ANTLR 4.12.0
 package mar;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -111,4 +111,16 @@ public interface marListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitMult(marParser.MultContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code Test}
+	 * labeled alternative in {@link marParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterTest(marParser.TestContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Test}
+	 * labeled alternative in {@link marParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitTest(marParser.TestContext ctx);
 }

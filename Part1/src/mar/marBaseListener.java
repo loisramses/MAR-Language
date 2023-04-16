@@ -1,4 +1,4 @@
-// Generated from java-escape by ANTLR 4.11.1
+// Generated from C:/Users/luisr/OneDrive - Universidade do Algarve/uni/3º Ano/2º SEMESTRE/Compiladores/Trabalho/Part1/src\mar.g4 by ANTLR 4.12.0
 package mar;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -120,6 +120,18 @@ public class marBaseListener implements marListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitMult(marParser.MultContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTest(marParser.TestContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTest(marParser.TestContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

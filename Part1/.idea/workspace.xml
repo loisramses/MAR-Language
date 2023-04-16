@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="766d870e-ff99-42aa-af36-9c20bfed5278" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../.idea/Trabalho.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations/compile.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations/compile__debug.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations/run.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations/run__debug.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Part2/Part2.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.vscode/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/../.vscode/settings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/antlr_4_11_1_complete.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/antlr_4_12_0_complete.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Part1.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Part1.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputs/in1.mar" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/in1.mar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/outputs/in1.marbc" beforeDir="false" afterPath="$PROJECT_DIR$/outputs/in1.marbc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/.antlr/mar.interp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/.antlr/mar.tokens" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/.antlr/marLexer.interp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/.antlr/marLexer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/.antlr/marLexer.tokens" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/.antlr/marParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/.antlr/teste.interp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/.antlr/teste.tokens" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/.antlr/testeLexer.interp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/.antlr/testeLexer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/.antlr/testeLexer.tokens" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/.antlr/testeParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mar/mar.interp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mar/mar.tokens" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mar/marBaseListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mar/marBaseListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mar/marBaseVisitor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mar/marLexer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mar/marLexer.interp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mar/marLexer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mar/marLexer.tokens" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mar/marListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mar/marListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mar/marParser$AddContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mar/marParser$DivContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mar/marParser$ExprContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mar/marParser$HandleParenContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mar/marParser$InstContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mar/marParser$MultContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mar/marParser$NegativeContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mar/marParser$NumberContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mar/marParser$ProgContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mar/marParser$SubContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mar/marParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mar/marParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mar/marVisitor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mar/marVisitor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/marCompiler$Evaluator$opCode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/marCompiler$Evaluator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/marCompiler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/marCompiler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/marCompiler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/marVM$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/marVM$VM$opCode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/marVM$VM.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/marVM.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/marVM.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/marVM.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2ONQIhmcq4azOe9POVM6JOsb2fg" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/luisr/OneDrive - Universidade do Algarve/uni/3º Ano/2º SEMESTRE/Compiladores/Trabalho/Part2&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\luisr\OneDrive - Universidade do Algarve\uni\3º Ano\2º SEMESTRE\Compiladores\Trabalho\Part1" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\luisr\OneDrive - Universidade do Algarve\uni\3º Ano\2º SEMESTRE\Compiladores\Trabalho\Part1\src" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.compile -debug">
+    <list>
+      <item itemvalue="Application.compile" />
+      <item itemvalue="Application.compile -debug" />
+      <item itemvalue="Application.run" />
+      <item itemvalue="Application.run -debug" />
+    </list>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="766d870e-ff99-42aa-af36-9c20bfed5278" name="Changes" comment="" />
+      <created>1681398481874</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1681398481874</updated>
+      <workItem from="1681398483030" duration="532000" />
+      <workItem from="1681411238344" duration="145000" />
+      <workItem from="1681412240886" duration="62000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
