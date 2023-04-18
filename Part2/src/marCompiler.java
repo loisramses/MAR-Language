@@ -9,21 +9,43 @@ import util.*;
 public class marCompiler {
     public static class Evaluator extends marBaseListener {
         private final boolean debug;
-        private int opCount, rejected, typeErrors;
+        private int opCount, typeErrors;
         ByteArrayOutputStream byteArray;
         DataOutputStream byteArrayOutputStream;
-        Stack<Const> constPool;
-        Stack<String> opCodes;
+        ArrayList<Const> constPool;
+        ArrayList<String> opCodes;
+        Stack<Const> vars;
 
         public Evaluator(boolean debug) {
             this.debug = debug;
             this.opCount = 0;
-            this.rejected = 0;
             this.typeErrors = 0;
             this.byteArray = new ByteArrayOutputStream();
             this.byteArrayOutputStream = new DataOutputStream(byteArray);
-            this.constPool = new Stack<>();
-            this.opCodes = new Stack<>();
+            this.vars = new Stack<>();
+            this.opCodes = new ArrayList<>();
+            this.constPool = new ArrayList<>(50);
+        }
+
+        public byte[] constToByteArray() {
+            ByteArrayOutputStream array = new ByteArrayOutputStream();
+            DataOutputStream arrayOutputStream = new DataOutputStream(array);
+            try {
+                arrayOutputStream.writeInt(this.constPool.size());
+                for (Const const1 : constPool) {
+                    if (const1.isNumber()) {
+                        arrayOutputStream.writeInt(OpCode.NUMBER.getValue());
+                        arrayOutputStream.writeDouble((Double) const1.getValue());
+                    } else { // must be string
+                        arrayOutputStream.writeInt(OpCode.STRING.getValue());
+                        arrayOutputStream.writeInt(((String) const1.getValue()).length());
+                        arrayOutputStream.write(((String) const1.getValue()).getBytes());
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return array.toByteArray();
         }
 
         private void printError(Object ctx, Const left, Const right) {
@@ -35,9 +57,9 @@ public class marCompiler {
         }
 
         public void exitProg(marParser.ProgContext ctx) {
+            opCodes.add(opCount++ + ": HALT");
             try {
                 this.byteArrayOutputStream.writeInt(OpCode.HALT.getValue());
-                opCodes.push(opCount++ + ": HALT");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -45,32 +67,31 @@ public class marCompiler {
 
         public void exitInst(marParser.InstContext ctx) {
             String OP = null;
+            Const temp = this.vars.pop();
             try {
-                if (this.constPool.peek().isNumber()) {
+                if (temp.isNumber()) {
                     OP = "PRINT_N";
                     this.byteArrayOutputStream.writeInt(OpCode.PRINT_N.getValue());
-                } else if (this.constPool.peek().isString()) {
+                } else if (temp.isString()) {
                     OP = "PRINT_S";
                     this.byteArrayOutputStream.writeInt(OpCode.PRINT_S.getValue());
-                } else if (this.constPool.peek().isBool()) {
+                } else if (temp.isBool()) {
                     OP = "PRINT_B";
                     this.byteArrayOutputStream.writeInt(OpCode.PRINT_B.getValue());
-                } else if (this.constPool.peek().isNil()) {
+                } else if (temp.isNil()) {
                     OP = "PRINT_NIL";
                     this.byteArrayOutputStream.writeInt(OpCode.PRINT_NIL.getValue());
                 }
-                if (OP != null)
-                    opCodes.push(opCount++ + ": " + OP);
+                this.opCodes.add(opCount++ + ": " + OP);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
         public void exitNil(marParser.NilContext ctx) {
+            this.vars.push(new Const("nil", null));
+            this.opCodes.add(opCount++ + ": NIL");
             try {
-                this.rejected++;
-                this.constPool.push(new Const("nil", null));
-                this.opCodes.push(opCount++ + ": NIL");
                 this.byteArrayOutputStream.writeInt(OpCode.NIL.getValue());
             } catch (IOException e) {
                 e.printStackTrace();
@@ -78,40 +99,40 @@ public class marCompiler {
         }
 
         public void exitBinMulDiv(marParser.BinMulDivContext ctx) {
-            String OP = "MULT";
-            Const temp;
+            String OP;
+            Const right = this.vars.pop(), left = this.vars.pop();
             try {
-                temp = this.constPool.pop();
-                if (temp.isNumber() && this.constPool.peek().isNumber()) {
+                if (right.isNumber() && left.isNumber()) {
                     if (ctx.op.getText().equals("*")) {
+                        OP = "MULT";
                         this.byteArrayOutputStream.writeInt(OpCode.MULT.getValue());
                     } else {
                         OP = "DIV";
                         this.byteArrayOutputStream.writeInt(OpCode.DIV.getValue());
                     }
-                    opCodes.push(opCount++ + ": " + OP);
+                    opCodes.add(opCount++ + ": " + OP);
                 } else {
                     this.typeErrors++;
-                    printError(ctx, this.constPool.peek(), temp);
+                    printError(ctx, left, right);
                 }
-                this.constPool.push(temp);
+                this.vars.push(right);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
         public void exitLogicOr(marParser.LogicOrContext ctx) {
-            Const temp;
+            Const right = this.vars.pop(), left = this.vars.pop();
             try {
-                temp = this.constPool.pop();
-                if (temp.isBool() && this.constPool.peek().isBool()) {
+                if (right.isBool() && left.isBool()) {
+                    this.vars.push(new Const("bool", false));
                     this.byteArrayOutputStream.writeInt(OpCode.OR.getValue());
-                    this.opCodes.push(opCount++ + ": OR");
+                    this.opCodes.add(opCount++ + ": OR");
                 } else {
                     this.typeErrors++;
-                    printError(ctx, this.constPool.peek(), temp);
+                    printError(ctx, left, right);
                 }
-                this.constPool.push(temp);
+                this.vars.push(new Const("bool", false));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -119,61 +140,48 @@ public class marCompiler {
 
         public void exitNumber(marParser.NumberContext ctx) {
             double result = Double.parseDouble(ctx.NUMBER().getText());
+            Const temp = new Const("number", result);
+            this.vars.push(temp);
+            this.constPool.add(temp);
+            this.opCodes.add(opCount++ + ": CONST " + (this.constPool.size() - 1));
             try {
-                this.constPool.push(new Const("number", result));
-                this.opCodes.push(opCount++ + ": CONST " + (this.constPool.size() - this.rejected));
                 this.byteArrayOutputStream.writeInt(OpCode.NUMBER.getValue());
-                this.byteArrayOutputStream.writeDouble(result);
+                this.byteArrayOutputStream.writeInt(this.constPool.size() - 1);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
         public void exitInEquality(marParser.InEqualityContext ctx) {
-            String OP = null;
-            Boolean result = null, NEQ = false;
-            Const temp;
-            Object left, right;
+            String OP;
+            boolean NEQ = false;
+            Const right = this.vars.pop(), left = this.vars.pop();
             try {
-                if (ctx.op.getText().equals("!="))
-                    NEQ = true;
-                temp = this.constPool.pop();
-                left = this.constPool.peek().getValue();
-                right = temp.getValue();
-                if (temp.isNumber() && this.constPool.peek().isNumber()) {
+                if (ctx.op.getText().equals("!=")) NEQ = true;
+                if (right.isNumber() && left.isNumber()) {
                     OP = "EQ_N";
-                    result = ((Double) left).equals((Double) right);
                     if (NEQ) this.byteArrayOutputStream.writeInt(OpCode.NEQ_N.getValue());
                     else this.byteArrayOutputStream.writeInt(OpCode.EQ_N.getValue());
-                } else if (temp.isString() && this.constPool.peek().isString()) {
+                } else if (right.isString() && left.isString()) {
                     OP = "EQ_S";
-                    result = ((String) left).equals((String) right);
                     if (NEQ) this.byteArrayOutputStream.writeInt(OpCode.NEQ_S.getValue());
                     else this.byteArrayOutputStream.writeInt(OpCode.EQ_S.getValue());
-                } else if (temp.isBool() && this.constPool.peek().isBool()) {
+                } else if (right.isBool() && left.isBool()) {
                     OP = "EQ_B";
-                    result = ((Boolean) left).equals((Boolean) right);
                     if (NEQ) this.byteArrayOutputStream.writeInt(OpCode.NEQ_B.getValue());
                     else this.byteArrayOutputStream.writeInt(OpCode.EQ_B.getValue());
-                } else if (temp.isNil() && this.constPool.peek().isNil()) {
+                } else if (right.isNil() && left.isNil()) {
                     OP = "EQ_NIL";
-                    result = left == null && right == null;
                     if (NEQ) this.byteArrayOutputStream.writeInt(OpCode.NEQ_NIL.getValue());
                     else this.byteArrayOutputStream.writeInt(OpCode.EQ_NIL.getValue());
                 } else {
                     this.typeErrors++;
-                    printError(ctx, this.constPool.peek(), temp);
+                    printError(ctx, left, right);
                     return;
                 }
-                if (NEQ) {
-                    OP = "N" + OP;
-                    result = !result;
-                }
-                this.constPool.push(temp);
-                this.rejected++;
-                this.constPool.push(new Const("bool", result));
-                if (OP != null)
-                    this.opCodes.push(opCount++ + ": " + OP);
+                if (NEQ) OP = "N" + OP;
+                this.vars.push(new Const("bool", false));
+                this.opCodes.add(opCount++ + ": " + OP);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -181,45 +189,29 @@ public class marCompiler {
 
         public void exitRelational(marParser.RelationalContext ctx) {
             String OP = null;
-            Boolean result = null;
-            Const temp;
-            Object left, right;
+            Const right = this.vars.pop(), left = this.vars.pop();
             try {
-                temp = this.constPool.pop();
-                left = this.constPool.peek().getValue();
-                right = temp.getValue();
-                if (temp.isNumber() && this.constPool.peek().isNumber()) {
+                if (right.isNumber() && left.isNumber()) {
                     if (ctx.op.getText().equals("<")) {
                         OP = "LT";
                         this.byteArrayOutputStream.writeInt(OpCode.LT.getValue());
-                        result = ((Double) left) < ((Double) right);
-                    }
-                    if (ctx.op.getText().equals(">")) {
+                    } else if (ctx.op.getText().equals(">")) {
                         OP = "GT";
                         this.byteArrayOutputStream.writeInt(OpCode.GT.getValue());
-                        result = ((Double) left) > ((Double) right);
-                    }
-                    if (ctx.op.getText().equals("<=")) {
+                    } else if (ctx.op.getText().equals("<=")) {
                         OP = "LEQ";
                         this.byteArrayOutputStream.writeInt(OpCode.LEQ.getValue());
-                        result = ((Double) left) <= ((Double) right);
-                    }
-                    if (ctx.op.getText().equals(">=")) {
+                    } else if (ctx.op.getText().equals(">=")) {
                         OP = "GEQ";
                         this.byteArrayOutputStream.writeInt(OpCode.GEQ.getValue());
-                        result = ((Double) left) >= ((Double) right);
                     }
                 } else {
                     this.typeErrors++;
-                    printError(ctx, this.constPool.peek(), temp);
+                    printError(ctx, left, right);
                     return;
                 }
-                this.constPool.push(temp);
-                this.rejected++;
-                this.constPool.push(new Const("bool", result));
-                if (OP != null)
-                    this.opCodes.push(opCount++ + ": " + OP);
-
+                this.vars.push(new Const("bool", false));
+                this.opCodes.add(opCount++ + ": " + OP);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -227,12 +219,13 @@ public class marCompiler {
 
         public void exitString(marParser.StringContext ctx) {
             String result = ctx.STRING().getText();
+            Const temp = new Const("string", result);
+            this.vars.push(temp);
+            this.constPool.add(temp);
+            this.opCodes.add(opCount++ + ": CONST " + (this.constPool.size() - 1));
             try {
-                this.constPool.push(new Const("string", result));
-                this.opCodes.push(opCount++ + ": CONST " + (this.constPool.size() - this.rejected));
                 this.byteArrayOutputStream.writeInt(OpCode.STRING.getValue());
-                this.byteArrayOutputStream.writeInt(result.length());
-                this.byteArrayOutputStream.write(result.getBytes());
+                this.byteArrayOutputStream.writeInt(this.constPool.size() - 1);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -241,30 +234,26 @@ public class marCompiler {
         public void exitBoolean(marParser.BooleanContext ctx) {
             Boolean result = Boolean.parseBoolean(ctx.op.getText());
             try {
-                this.rejected++;
-                this.constPool.push(new Const("bool", result));
-                this.opCodes.push(opCount++ + ": " + result.toString().toUpperCase());
-                if (result)
-                    this.byteArrayOutputStream.writeInt(OpCode.TRUE.getValue());
-                else
-                    this.byteArrayOutputStream.writeInt(OpCode.FALSE.getValue());
+                this.vars.push(new Const("bool", result));
+                this.opCodes.add(opCount++ + ": " + result.toString().toUpperCase());
+                if (result) this.byteArrayOutputStream.writeInt(OpCode.TRUE.getValue());
+                else this.byteArrayOutputStream.writeInt(OpCode.FALSE.getValue());
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
         public void exitLogicAnd(marParser.LogicAndContext ctx) {
-            Const temp;
+            Const right = this.vars.pop(), left = this.vars.pop();
             try {
-                temp = this.constPool.pop();
-                if (temp.isBool() && this.constPool.peek().isBool()) {
+                if (right.isBool() && left.isBool()) {
                     this.byteArrayOutputStream.writeInt(OpCode.AND.getValue());
-                    opCodes.push(opCount++ + ": AND");
+                    opCodes.add(opCount++ + ": AND");
                 } else {
                     this.typeErrors++;
-                    printError(ctx, this.constPool.peek(), temp);
+                    printError(ctx, left, right);
                 }
-                this.constPool.push(temp);
+                this.vars.push(new Const("bool", false));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -272,59 +261,61 @@ public class marCompiler {
 
         public void exitUnary(marParser.UnaryContext ctx) {
             boolean error = false;
+            Const temp = this.vars.pop();
             try {
                 if (ctx.op.getText().equals("-")) {
-                    if (this.constPool.peek().isNumber()) {
+                    if (temp.isNumber()) {
                         this.byteArrayOutputStream.writeInt(OpCode.UMINUS.getValue());
-                        this.opCodes.push(opCount++ + ": UMINUS");
+                        this.opCodes.add(opCount++ + ": UMINUS");
                     } else {
                         error = true;
                     }
                 } else { // must be "not" operator
-                    if (this.constPool.peek().isBool()) {
+                    if (temp.isBool()) {
                         this.byteArrayOutputStream.writeInt(OpCode.NOT.getValue());
-                        this.opCodes.push(opCount++ + ": NOT");
+                        this.opCodes.add(opCount++ + ": NOT");
                     } else {
                         error = true;
                     }
                 }
-                if (error)
+                this.vars.push(temp);
+                if (error) {
+                    this.typeErrors++;
                     System.out.println("line " + ctx.getStart().getLine() + ":"
-                            + ctx.getStop().getCharPositionInLine() + " error: unary operator " + ctx.op.getText()
-                            + " is invalid for " + this.constPool.peek().getType());
+                                + ctx.getStop().getCharPositionInLine() + " error: unary operator " + ctx.op.getText()
+                                + " is invalid for " + temp.getType());
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
         public void exitBinAddSub(marParser.BinAddSubContext ctx) {
-            String OP = "ADD";
-            Const temp;
+            String OP;
+            Const right = this.vars.pop(), left = this.vars.pop();
             try {
-                temp = this.constPool.pop();
                 if (ctx.op.getText().equals("+")) {
-                    if (temp.isNumber() && this.constPool.peek().isNumber()) {
+                    OP = "ADD";
+                    if (right.isNumber() && left.isNumber()) {
                         this.byteArrayOutputStream.writeInt(OpCode.ADD.getValue());
-                        opCodes.push(opCount++ + ": " + OP);
-                    } else if (temp.isString() && this.constPool.peek().isString()) {
+                    } else if (right.isString() && left.isString()) {
                         OP = "CONCAT";
                         this.byteArrayOutputStream.writeInt(OpCode.CONCAT.getValue());
-                        opCodes.push(opCount++ + ": " + OP);
                     } else {
                         this.typeErrors++;    
-                        printError(ctx, this.constPool.peek(), temp);
+                        printError(ctx, left, right);
                     }
                 } else { // must be subtraction
                     OP = "SUB";
-                    if (temp.isNumber() && this.constPool.peek().isNumber()) {
+                    if (right.isNumber() && left.isNumber()) {
                         this.byteArrayOutputStream.writeInt(OpCode.SUB.getValue());
-                        opCodes.push(opCount++ + ": " + OP);
                     } else {
                         this.typeErrors++;
-                        printError(ctx, this.constPool.peek(), temp);
+                        printError(ctx, left, right);
                     }
                 }
-                this.constPool.push(temp);
+                this.vars.push(right);
+                opCodes.add(opCount++ + ": " + OP);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -352,7 +343,9 @@ public class marCompiler {
             CommonTokenStream tokens = new CommonTokenStream(lexer);
             marParser parser = new marParser(tokens);
             ParseTree tree = parser.prog();
-            if (parser.getNumberOfSyntaxErrors() > 0) System.exit(1);
+            if (parser.getNumberOfSyntaxErrors() > 0) {
+                System.exit(1);
+            }
             System.out.println("... no parsing errors");
             ParseTreeWalker walker = new ParseTreeWalker();
             Evaluator eval = new Evaluator(debug);
@@ -361,24 +354,17 @@ public class marCompiler {
             else return;
             DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream(outputFile));
             System.out.println("... code generation");
+            dataOutputStream.write(eval.constToByteArray());
             dataOutputStream.write(eval.byteArray.toByteArray());
             dataOutputStream.close();
             if (eval.debug) {
                 System.out.println("Constant pool:");
-                int i = 1;
-                for (Const var : eval.constPool) {
-                    if (var.isBool() || var.isNil()) continue;
-                    System.out.println(i++ + ": " + var.toString());
-                }
+                for (int i = 0; i < eval.constPool.size(); i++)
+                    System.out.println(i + ": " + eval.constPool.get(i));
                 System.out.println("Generated assembly code:");
                 for (String string : eval.opCodes)
                     System.out.println(string);
-                System.out.println("Corrresponding bytecodes:");
-                byte[] byteCodes = eval.byteArray.toByteArray();
-                for (byte b : byteCodes)
-                    System.out.print(b + " ");
-                System.out.println("\n");
-                System.out.println("Saving bytecodes to " + outputFile);
+                System.out.println("Saving the constant pool and the bytecodes to " + outputFile);
             }
         } catch (java.io.IOException e) {
             e.printStackTrace();

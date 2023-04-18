@@ -1,5 +1,6 @@
 package util;
 
+
 public class Const {
     private String TYPE;
     private Object VALUE;
@@ -10,27 +11,32 @@ public class Const {
     }
 
     public String toString() {
-        if (this.VALUE == null) return "<NIL>";
+        if (this.VALUE == null)
+            return "<NIL>";
         return "<" + this.TYPE.toUpperCase() + ":" + this.VALUE + ">";
     }
 
-    public boolean isString() {return this.VALUE instanceof String;}
+    public boolean isString() {
+        return this.VALUE instanceof String;
+    }
 
-    public boolean isNumber() {return this.VALUE instanceof Double;}
-    
-    public boolean isBool() {return this.VALUE instanceof Boolean;}
-    
-    public boolean isNil() {return this.VALUE == null;}
+    public boolean isNumber() {
+        return this.VALUE instanceof Double;
+    }
 
-    public String getType() {return this.TYPE;}
+    public boolean isBool() {
+        return this.VALUE instanceof Boolean;
+    }
 
-    public Object getValue() {return this.VALUE;}
+    public boolean isNil() {
+        return this.VALUE == null;
+    }
 
-    public static void main(String[] args) {
-        Const a = new Const("bool", true);
-        Const b = new Const("bool", true);
-        System.out.println(((Boolean) b.getValue()).equals((Boolean) a.getValue()));
-        System.out.println(null != null);
-        // Const a = new Const("STRING", teString);
+    public String getType() {
+        return this.TYPE;
+    }
+
+    public Object getValue() {
+        return this.VALUE;
     }
 }

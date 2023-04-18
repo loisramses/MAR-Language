@@ -5,64 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="766d870e-ff99-42aa-af36-9c20bfed5278" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../.idea/Trabalho.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations/compile.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations/compile__debug.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations/run.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations/run__debug.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Part2/Part2.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.vscode/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/../.vscode/settings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/antlr_4_11_1_complete.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/antlr_4_12_0_complete.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Part1.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Part1.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inputs/in1.mar" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/in1.mar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/outputs/in1.marbc" beforeDir="false" afterPath="$PROJECT_DIR$/outputs/in1.marbc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/.antlr/mar.interp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/.antlr/mar.tokens" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/.antlr/marLexer.interp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/.antlr/marLexer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/.antlr/marLexer.tokens" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/.antlr/marParser.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/.antlr/teste.interp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/.antlr/teste.tokens" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/.antlr/testeLexer.interp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/.antlr/testeLexer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/.antlr/testeLexer.tokens" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/.antlr/testeParser.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mar/mar.interp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mar/mar.tokens" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mar/marBaseListener.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mar/marBaseListener.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mar/marBaseVisitor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mar/marLexer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mar/marLexer.interp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mar/marLexer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mar/marLexer.tokens" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mar/marListener.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mar/marListener.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mar/marParser$AddContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mar/marParser$DivContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mar/marParser$ExprContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mar/marParser$HandleParenContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mar/marParser$InstContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mar/marParser$MultContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mar/marParser$NegativeContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mar/marParser$NumberContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mar/marParser$ProgContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mar/marParser$SubContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mar/marParser.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mar/marParser.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mar/marVisitor.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mar/marVisitor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/marCompiler$Evaluator$opCode.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/marCompiler$Evaluator.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/marCompiler.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/marCompiler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/marCompiler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/marVM$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/marVM$VM$opCode.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/marVM$VM.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/marVM.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/marVM.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/marVM.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part2/inputs/in1.mar" beforeDir="false" afterPath="$PROJECT_DIR$/../Part2/inputs/in1.mar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part2/out/production/Part2/marCompiler.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Part2/out/production/Part2/marCompiler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part2/outputs/in1.marbc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part2/src/mar/mar.interp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part2/src/mar/mar.tokens" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part2/src/mar/marBaseListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part2/src/mar/marBaseVisitor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part2/src/mar/marLexer.interp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part2/src/mar/marLexer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part2/src/mar/marLexer.tokens" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part2/src/mar/marListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part2/src/mar/marParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part2/src/mar/marVisitor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part2/src/marCompiler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Part2/src/marCompiler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -124,6 +80,7 @@
       <workItem from="1681398483030" duration="532000" />
       <workItem from="1681411238344" duration="145000" />
       <workItem from="1681412240886" duration="62000" />
+      <workItem from="1681660994152" duration="26000" />
     </task>
     <servers />
   </component>

@@ -1,6 +1,6 @@
 grammar mar;
 
-prog: (inst NEWLINE?)+;
+prog: inst+ EOF;
 
 inst: PRINT expr ENDLINE;
 
@@ -27,7 +27,6 @@ NOT: 'not';
 PRINT: 'print';
 PARENTL: '(';
 PARENTR: ')';
-NEWLINE: '\n';
 NUMBER: DIGIT+ ('.' DIGIT+)?;
 DIGIT: [0-9];
 DQ: '"';
@@ -44,4 +43,4 @@ LT: '<';
 GEQ: '>=';
 LEQ: '<=';
 
-WS: [ \t\r]+ -> skip;
+WS: [ \t\r\n]+ -> skip;
