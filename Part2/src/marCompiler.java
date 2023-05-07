@@ -48,10 +48,9 @@ public class marCompiler {
             return array.toByteArray();
         }
 
-        private void printError(Object ctx, Const left, Const right) {
-            String line = ((ParserRuleContext) ctx).getStart().getLine() + ":"
-                    + ((ParserRuleContext) ctx).getStop().getCharPositionInLine();
-            String operator = ((ParserRuleContext) ctx).getChild(1).getText();
+        private void printError(ParserRuleContext ctx, Const left, Const right) {
+            String line = ctx.getStart().getLine() + ":" + ctx.getStop().getCharPositionInLine();
+            String operator = ctx.getChild(1).getText();
             System.out.println("line: " + line + " error: operator " + operator + " is invalid between "
                     + left.getType() + " and " + right.getType());
         }
@@ -103,7 +102,7 @@ public class marCompiler {
             Const right = this.vars.pop(), left = this.vars.pop();
             try {
                 if (right.isNumber() && left.isNumber()) {
-                    if (ctx.op.getText().equals("*")) {
+                    if (ctx.op.getType() == marParser.MULT) {
                         OP = "MULT";
                         this.byteArrayOutputStream.writeInt(OpCode.MULT.getValue());
                     } else {
@@ -157,29 +156,39 @@ public class marCompiler {
             boolean NEQ = false;
             Const right = this.vars.pop(), left = this.vars.pop();
             try {
-                if (ctx.op.getText().equals("!=")) NEQ = true;
+                if (ctx.op.getType() == marParser.NEQ)
+                    NEQ = true;
                 if (right.isNumber() && left.isNumber()) {
                     OP = "EQ_N";
-                    if (NEQ) this.byteArrayOutputStream.writeInt(OpCode.NEQ_N.getValue());
-                    else this.byteArrayOutputStream.writeInt(OpCode.EQ_N.getValue());
+                    if (NEQ)
+                        this.byteArrayOutputStream.writeInt(OpCode.NEQ_N.getValue());
+                    else
+                        this.byteArrayOutputStream.writeInt(OpCode.EQ_N.getValue());
                 } else if (right.isString() && left.isString()) {
                     OP = "EQ_S";
-                    if (NEQ) this.byteArrayOutputStream.writeInt(OpCode.NEQ_S.getValue());
-                    else this.byteArrayOutputStream.writeInt(OpCode.EQ_S.getValue());
+                    if (NEQ)
+                        this.byteArrayOutputStream.writeInt(OpCode.NEQ_S.getValue());
+                    else
+                        this.byteArrayOutputStream.writeInt(OpCode.EQ_S.getValue());
                 } else if (right.isBool() && left.isBool()) {
                     OP = "EQ_B";
-                    if (NEQ) this.byteArrayOutputStream.writeInt(OpCode.NEQ_B.getValue());
-                    else this.byteArrayOutputStream.writeInt(OpCode.EQ_B.getValue());
+                    if (NEQ)
+                        this.byteArrayOutputStream.writeInt(OpCode.NEQ_B.getValue());
+                    else
+                        this.byteArrayOutputStream.writeInt(OpCode.EQ_B.getValue());
                 } else if (right.isNil() && left.isNil()) {
                     OP = "EQ_NIL";
-                    if (NEQ) this.byteArrayOutputStream.writeInt(OpCode.NEQ_NIL.getValue());
-                    else this.byteArrayOutputStream.writeInt(OpCode.EQ_NIL.getValue());
+                    if (NEQ)
+                        this.byteArrayOutputStream.writeInt(OpCode.NEQ_NIL.getValue());
+                    else
+                        this.byteArrayOutputStream.writeInt(OpCode.EQ_NIL.getValue());
                 } else {
                     this.typeErrors++;
                     printError(ctx, left, right);
                     return;
                 }
-                if (NEQ) OP = "N" + OP;
+                if (NEQ)
+                    OP = "N" + OP;
                 this.vars.push(new Const("bool", false));
                 this.opCodes.add(opCount++ + ": " + OP);
             } catch (IOException e) {
@@ -192,16 +201,16 @@ public class marCompiler {
             Const right = this.vars.pop(), left = this.vars.pop();
             try {
                 if (right.isNumber() && left.isNumber()) {
-                    if (ctx.op.getText().equals("<")) {
+                    if (ctx.op.getType() == marParser.LT) {
                         OP = "LT";
                         this.byteArrayOutputStream.writeInt(OpCode.LT.getValue());
-                    } else if (ctx.op.getText().equals(">")) {
+                    } else if (ctx.op.getType() == marParser.GT) {
                         OP = "GT";
                         this.byteArrayOutputStream.writeInt(OpCode.GT.getValue());
-                    } else if (ctx.op.getText().equals("<=")) {
+                    } else if (ctx.op.getType() == marParser.LEQ) {
                         OP = "LEQ";
                         this.byteArrayOutputStream.writeInt(OpCode.LEQ.getValue());
-                    } else if (ctx.op.getText().equals(">=")) {
+                    } else if (ctx.op.getType() == marParser.GEQ) {
                         OP = "GEQ";
                         this.byteArrayOutputStream.writeInt(OpCode.GEQ.getValue());
                     }
@@ -236,8 +245,10 @@ public class marCompiler {
             try {
                 this.vars.push(new Const("bool", result));
                 this.opCodes.add(opCount++ + ": " + result.toString().toUpperCase());
-                if (result) this.byteArrayOutputStream.writeInt(OpCode.TRUE.getValue());
-                else this.byteArrayOutputStream.writeInt(OpCode.FALSE.getValue());
+                if (result)
+                    this.byteArrayOutputStream.writeInt(OpCode.TRUE.getValue());
+                else
+                    this.byteArrayOutputStream.writeInt(OpCode.FALSE.getValue());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -263,7 +274,7 @@ public class marCompiler {
             boolean error = false;
             Const temp = this.vars.pop();
             try {
-                if (ctx.op.getText().equals("-")) {
+                if (ctx.op.getType() == marParser.SUB) {
                     if (temp.isNumber()) {
                         this.byteArrayOutputStream.writeInt(OpCode.UMINUS.getValue());
                         this.opCodes.add(opCount++ + ": UMINUS");
@@ -282,8 +293,8 @@ public class marCompiler {
                 if (error) {
                     this.typeErrors++;
                     System.out.println("line " + ctx.getStart().getLine() + ":"
-                                + ctx.getStop().getCharPositionInLine() + " error: unary operator " + ctx.op.getText()
-                                + " is invalid for " + temp.getType());
+                            + ctx.getStop().getCharPositionInLine() + " error: unary operator " + ctx.op.getText()
+                            + " is invalid for " + temp.getType());
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -294,7 +305,7 @@ public class marCompiler {
             String OP;
             Const right = this.vars.pop(), left = this.vars.pop();
             try {
-                if (ctx.op.getText().equals("+")) {
+                if (ctx.op.getType() == marParser.ADD) {
                     OP = "ADD";
                     if (right.isNumber() && left.isNumber()) {
                         this.byteArrayOutputStream.writeInt(OpCode.ADD.getValue());
@@ -302,7 +313,7 @@ public class marCompiler {
                         OP = "CONCAT";
                         this.byteArrayOutputStream.writeInt(OpCode.CONCAT.getValue());
                     } else {
-                        this.typeErrors++;    
+                        this.typeErrors++;
                         printError(ctx, left, right);
                     }
                 } else { // must be subtraction
@@ -350,8 +361,10 @@ public class marCompiler {
             ParseTreeWalker walker = new ParseTreeWalker();
             Evaluator eval = new Evaluator(debug);
             walker.walk(eval, tree);
-            if (eval.typeErrors <= 0) System.out.println("... no type errors");
-            else return;
+            if (eval.typeErrors <= 0)
+                System.out.println("... no type errors");
+            else
+                return;
             DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream(outputFile));
             System.out.println("... code generation");
             dataOutputStream.write(eval.constToByteArray());

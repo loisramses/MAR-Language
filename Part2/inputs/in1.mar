@@ -1,9 +1,1 @@
-print not (5 > 3);
-print nil;
-print nil == nil;
-print nil != nil;
-print "uni" + "ver" + "sidade";
-print true and (false or true);
-print 1 + 2 * 3;
-print "bolo" == "pastel";
-print "ma" + "ria" == "maria";
+print 1 + 2;
