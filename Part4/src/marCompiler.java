@@ -17,7 +17,7 @@ public class marCompiler {
         private final Stack<Integer> ifElsePos;
         private final Stack<Integer> whilePos;
         private final Map<String, Symbol> symbols;
-        private boolean changedValue;
+        boolean changedValue;
         private boolean inElse;
 
         public Evaluator(Scope global) {
@@ -322,7 +322,8 @@ public class marCompiler {
             Symbol temp = this.symbols.get(ctx.ID().getText());
             Const tempConst = this.vars.pop();
             if (temp.getType() != tempConst.getType()) {
-                printError(ctx, "cannot assign " + tempConst.getType().getText() + " to type " + temp.getType().getText());
+                printError(ctx,
+                        "cannot assign " + tempConst.getType().getText() + " to type " + temp.getType().getText());
                 this.typeErrors++;
             }
             temp.assign();
@@ -335,7 +336,8 @@ public class marCompiler {
                 temp.assign();
                 Const tempConst = this.vars.pop();
                 if (temp.getType() != tempConst.getType()) {
-                    printError(ctx, "cannot assign " + tempConst.getType().getText() + " to type " + temp.getType().getText());
+                    printError(ctx,
+                            "cannot assign " + tempConst.getType().getText() + " to type " + temp.getType().getText());
                     this.typeErrors++;
                 }
                 this.opCodes.add("STORE " + temp.getIndex());
@@ -481,14 +483,14 @@ public class marCompiler {
             walker.walk(ref, tree);
 
             if (def.getNumErrors() > 0 || ref.getNumErrors() > 0)
-                System.exit(1);
+                return;
             Evaluator eval = new Evaluator(def.global);
             walker.walk(eval, tree);
 
             if (eval.typeErrors <= 0) {
                 if (debug) System.out.println("... no type errors");
             } else
-                System.exit(1);
+                return;
             DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream(outputFile));
             if (debug) System.out.println("... code generation");
             dataOutputStream.write(eval.constToByteArray());

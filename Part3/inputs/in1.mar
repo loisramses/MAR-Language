@@ -1,5 +1,6 @@
-number i = 0;
-while i < 3 do {
+number i;
+i = 0;
+if i < 3 then {
     i = i + 1;
-}
+} else print 2;
 print "Fim";
