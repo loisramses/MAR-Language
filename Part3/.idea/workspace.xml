@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="f9cccd00-31d1-4829-911e-1560b45e3a75" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../Part3.zip" beforeDir="false" afterPath="$PROJECT_DIR$/../Part3.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputs/in1.mar" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/in1.mar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Part3/marCompiler$Evaluator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Part3/marCompiler$Evaluator.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Part3/marVM.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Part3/marVM.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/outputs/in1.marbc" beforeDir="false" afterPath="$PROJECT_DIR$/outputs/in1.marbc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/marCompiler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/marCompiler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/marVM.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/marVM.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/inputs/in1.mar" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/inputs/in1.mar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/DefPhase.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/DefPhase.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/RefPhase.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/RefPhase.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/SymbolTable/Symbol.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/SymbolTable/Symbol.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/SymbolTable/Type.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/SymbolTable/Type.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/mar.g4" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/mar.g4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/mar.interp" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/mar.interp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/mar.tokens" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/mar.tokens" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marBaseListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marBaseListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marLexer.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marLexer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marLexer.interp" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marLexer.interp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marLexer.tokens" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marLexer.tokens" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$AssignContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$AssignContext.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$BinAddSubContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$BinAddSubContext.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$BinMulDivContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$BinMulDivContext.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$BlockContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$BlockContext.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$BooleanContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$BooleanContext.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$DeclareContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$ExprContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$ExprContext.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$HandleParenContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$HandleParenContext.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$IdContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$IdContext.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$IfContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$IfContext.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$InEqualityContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$InEqualityContext.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$InstContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$InstContext.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$LogicAndContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$LogicAndContext.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$LogicOrContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$LogicOrContext.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$NilContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$NilContext.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$NumberContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$NumberContext.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$PrintContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$PrintContext.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$ProgContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$ProgContext.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$RelationalContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$RelationalContext.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$StringContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$StringContext.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$TypeContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$TypeContext.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$UnaryContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$UnaryContext.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$VarDeclContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$VarDeclContext.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$WhileContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser$WhileContext.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/mar/marParser.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/marCompiler$Evaluator.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/marCompiler$Evaluator.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/outputs/in1.marbc" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/outputs/in1.marbc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/src/DefPhase.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/src/DefPhase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/src/RefPhase.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/src/RefPhase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/src/SymbolTable/Symbol.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/src/SymbolTable/Symbol.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/src/mar.g4" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/src/mar.g4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/src/mar/mar.interp" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/src/mar/mar.interp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/src/mar/mar.tokens" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/src/mar/mar.tokens" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/src/mar/marBaseListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/src/mar/marBaseListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/src/mar/marLexer.interp" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/src/mar/marLexer.interp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/src/mar/marLexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/src/mar/marLexer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/src/mar/marLexer.tokens" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/src/mar/marLexer.tokens" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/src/mar/marListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/src/mar/marListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/src/mar/marParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/src/mar/marParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/src/marCompiler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/src/marCompiler.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="2PWGlVMOc2deFPVx7IgBlDyADAm" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/luisr/OneDrive - Universidade do Algarve/uni/3º Ano/2º SEMESTRE/Compiladores/Trabalho/Part4&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RunManager" selected="Application.compile -debug" />
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f9cccd00-31d1-4829-911e-1560b45e3a75" name="Changes" comment="" />
+      <created>1683565575032</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1683565575032</updated>
+      <workItem from="1683565576166" duration="1769000" />
+      <workItem from="1683989592098" duration="27000" />
+      <workItem from="1683989717786" duration="5000" />
+      <workItem from="1683992800567" duration="15000" />
+      <workItem from="1683995659380" duration="13000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
