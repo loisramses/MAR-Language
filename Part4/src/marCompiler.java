@@ -16,7 +16,7 @@ public class marCompiler {
         private final Stack<Const> vars;
         private final Stack<Integer> ifElsePos;
         private final Stack<Integer> whilePos;
-        private final Map<String, Symbol> symbols;
+        private final Map<String, Symbol> globalSymbols;
         boolean changedValue;
         private boolean inElse;
 
@@ -27,13 +27,13 @@ public class marCompiler {
             this.vars = new Stack<>();
             this.opCodes = new ArrayList<>();
             this.constPool = new ArrayList<>(50);
-            this.symbols = global.getSymbols();
+            this.globalSymbols = global.getSymbols();
             this.ifElsePos = new Stack<>();
             this.whilePos = new Stack<>();
             this.inElse = false;
             this.changedValue = false;
-            if (this.symbols.size() > 0)
-                this.opCodes.add("GLOBAL " + this.symbols.size());
+            if (this.globalSymbols.size() > 0)
+                this.opCodes.add("GLOBAL " + this.globalSymbols.size());
         }
 
         public void writeData() {
@@ -319,7 +319,7 @@ public class marCompiler {
         }
 
         public void exitAssign(marParser.AssignContext ctx) {
-            Symbol temp = this.symbols.get(ctx.ID().getText());
+            VariableSymbol temp = (VariableSymbol) this.globalSymbols.get(ctx.ID().getText());
             Const tempConst = this.vars.pop();
             if (temp.getType() != tempConst.getType()) {
                 printError(ctx,
@@ -332,7 +332,7 @@ public class marCompiler {
 
         public void exitVarDecl(marParser.VarDeclContext ctx) {
             if (ctx.AFFECT() != null) {
-                Symbol temp = this.symbols.get(ctx.ID().getText());
+                VariableSymbol temp = (VariableSymbol) this.globalSymbols.get(ctx.ID().getText());
                 temp.assign();
                 Const tempConst = this.vars.pop();
                 if (temp.getType() != tempConst.getType()) {
@@ -345,7 +345,7 @@ public class marCompiler {
         }
 
         public void exitId(marParser.IdContext ctx) {
-            Symbol temp = this.symbols.get(ctx.ID().getText());
+            VariableSymbol temp = (VariableSymbol)  this.globalSymbols.get(ctx.ID().getText());
             Type tempType = temp.getType();
             int symbIndex = temp.getIndex();
             switch (tempType) {
@@ -485,7 +485,7 @@ public class marCompiler {
             if (def.getNumErrors() > 0 || ref.getNumErrors() > 0)
                 return;
             Evaluator eval = new Evaluator(def.global);
-            walker.walk(eval, tree);
+            // walker.walk(eval, tree);
 
             if (eval.typeErrors <= 0) {
                 if (debug) System.out.println("... no type errors");

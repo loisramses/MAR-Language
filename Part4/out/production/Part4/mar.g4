@@ -3,19 +3,31 @@ grammar mar;
 prog: inst+ EOF;
 
 inst:
-	CPARENTL inst* CPARENTR					# Block
+	block									# InstBlock
 	| ID AFFECT expr ENDLINE				# Assign
 	| PRINT expr ENDLINE					# Print
 	| 'if' expr 'then' inst ('else' inst)?	# If
 	| 'while' expr 'do' inst				# While
-	| varDecl                               # Declare;
+	| varDecl								# VarDeclare
+	| functionDecl							# FuncDeclare
+	| 'return' expr? ENDLINE				# Return
+	| expr ENDLINE							# Useless;
 
-type: 'number' | 'string' | 'bool' | 'nil';
+type: 'number' | 'string' | 'bool';
+
+block: CPARENTL inst* CPARENTR;
 
 varDecl: type ID (AFFECT expr)? ENDLINE;
 
+functionDecl: type? ID PARENTL formalParams? PARENTR block;
+
+formalParams: formalParam (',' formalParam)*;
+
+formalParam: type ID;
+
 expr:
-	PARENTL expr PARENTR					# HandleParen
+	ID PARENTL exprList? PARENTR			# Call
+	| PARENTL expr PARENTR					# HandleParen
 	| op = (SUB | NOT) expr					# Unary
 	| expr op = (MULT | DIV) expr			# BinMulDiv
 	| expr op = (ADD | SUB) expr			# BinAddSub
@@ -28,6 +40,8 @@ expr:
 	| NUMBER								# Number
 	| T_NIL									# Nil
 	| ID									# Id;
+
+exprList: expr (',' expr)*;
 
 ENDLINE: ';';
 ADD: '+';

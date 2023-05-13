@@ -365,8 +365,7 @@ public class marCompiler {
                     }
                     this.opCodes.add("JUMPF ");
                     this.ifElsePos.push(this.opCodes.size() - 1);
-                } else if ((ctx instanceof marParser.InstContext)
-                        && ctx.getParent().getChildCount() > 4) { // else
+                } else if ((ctx instanceof marParser.InstContext) && ctx.getParent().getChildCount() > 4) { // else
                     if (!this.inElse) {
                         this.opCodes.add("JUMP ");
                         int index = this.ifElsePos.pop();
@@ -380,14 +379,14 @@ public class marCompiler {
             }
             if (ctx.getParent() instanceof marParser.WhileContext) {
                 if (ctx instanceof marParser.ExprContext) {
-                    ArrayList<Integer> loadIndexes = this.conditionChecker(this.whilePos.peek(),
+                    ArrayList<Integer> loadIndexes = this.searchInstruction(this.whilePos.peek(),
                             this.opCodes.size() - 1, "LOAD");
                     if (loadIndexes.size() == 0) {
                         this.printError(ctx.getParent(), "loop is likely to be endless");
                         this.typeErrors++;
                     } else {
                         String[] res;
-                        ArrayList<Integer> storeIndexes = this.conditionChecker(this.whilePos.peek(),
+                        ArrayList<Integer> storeIndexes = this.searchInstruction(this.whilePos.peek(),
                                 this.opCodes.size() - 1, "STORE");
                         for (int integer : loadIndexes) {
                             res = this.opCodes.get(integer).split(" ");
@@ -429,7 +428,7 @@ public class marCompiler {
             this.opCodes.set(index, this.opCodes.get(index) + this.opCodes.size());
         }
 
-        private ArrayList<Integer> conditionChecker(int start, int end, String keyword) {
+        private ArrayList<Integer> searchInstruction(int start, int end, String keyword) {
             ArrayList<Integer> indexes = new ArrayList<>();
             String str;
             int index;

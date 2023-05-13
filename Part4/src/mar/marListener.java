@@ -18,17 +18,17 @@ public interface marListener extends ParseTreeListener {
 	 */
 	void exitProg(marParser.ProgContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code Block}
+	 * Enter a parse tree produced by the {@code InstBlock}
 	 * labeled alternative in {@link marParser#inst}.
 	 * @param ctx the parse tree
 	 */
-	void enterBlock(marParser.BlockContext ctx);
+	void enterInstBlock(marParser.InstBlockContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code Block}
+	 * Exit a parse tree produced by the {@code InstBlock}
 	 * labeled alternative in {@link marParser#inst}.
 	 * @param ctx the parse tree
 	 */
-	void exitBlock(marParser.BlockContext ctx);
+	void exitInstBlock(marParser.InstBlockContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code Assign}
 	 * labeled alternative in {@link marParser#inst}.
@@ -78,17 +78,53 @@ public interface marListener extends ParseTreeListener {
 	 */
 	void exitWhile(marParser.WhileContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code Declare}
+	 * Enter a parse tree produced by the {@code VarDeclare}
 	 * labeled alternative in {@link marParser#inst}.
 	 * @param ctx the parse tree
 	 */
-	void enterDeclare(marParser.DeclareContext ctx);
+	void enterVarDeclare(marParser.VarDeclareContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code Declare}
+	 * Exit a parse tree produced by the {@code VarDeclare}
 	 * labeled alternative in {@link marParser#inst}.
 	 * @param ctx the parse tree
 	 */
-	void exitDeclare(marParser.DeclareContext ctx);
+	void exitVarDeclare(marParser.VarDeclareContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code FuncDeclare}
+	 * labeled alternative in {@link marParser#inst}.
+	 * @param ctx the parse tree
+	 */
+	void enterFuncDeclare(marParser.FuncDeclareContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code FuncDeclare}
+	 * labeled alternative in {@link marParser#inst}.
+	 * @param ctx the parse tree
+	 */
+	void exitFuncDeclare(marParser.FuncDeclareContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code Return}
+	 * labeled alternative in {@link marParser#inst}.
+	 * @param ctx the parse tree
+	 */
+	void enterReturn(marParser.ReturnContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Return}
+	 * labeled alternative in {@link marParser#inst}.
+	 * @param ctx the parse tree
+	 */
+	void exitReturn(marParser.ReturnContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code Useless}
+	 * labeled alternative in {@link marParser#inst}.
+	 * @param ctx the parse tree
+	 */
+	void enterUseless(marParser.UselessContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Useless}
+	 * labeled alternative in {@link marParser#inst}.
+	 * @param ctx the parse tree
+	 */
+	void exitUseless(marParser.UselessContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link marParser#type}.
 	 * @param ctx the parse tree
@@ -100,6 +136,16 @@ public interface marListener extends ParseTreeListener {
 	 */
 	void exitType(marParser.TypeContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link marParser#block}.
+	 * @param ctx the parse tree
+	 */
+	void enterBlock(marParser.BlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link marParser#block}.
+	 * @param ctx the parse tree
+	 */
+	void exitBlock(marParser.BlockContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link marParser#varDecl}.
 	 * @param ctx the parse tree
 	 */
@@ -109,6 +155,48 @@ public interface marListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitVarDecl(marParser.VarDeclContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link marParser#functionDecl}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunctionDecl(marParser.FunctionDeclContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link marParser#functionDecl}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunctionDecl(marParser.FunctionDeclContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link marParser#formalParams}.
+	 * @param ctx the parse tree
+	 */
+	void enterFormalParams(marParser.FormalParamsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link marParser#formalParams}.
+	 * @param ctx the parse tree
+	 */
+	void exitFormalParams(marParser.FormalParamsContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link marParser#formalParam}.
+	 * @param ctx the parse tree
+	 */
+	void enterFormalParam(marParser.FormalParamContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link marParser#formalParam}.
+	 * @param ctx the parse tree
+	 */
+	void exitFormalParam(marParser.FormalParamContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code Call}
+	 * labeled alternative in {@link marParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterCall(marParser.CallContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Call}
+	 * labeled alternative in {@link marParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitCall(marParser.CallContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code BinMulDiv}
 	 * labeled alternative in {@link marParser#expr}.
@@ -265,4 +353,14 @@ public interface marListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitLogicAnd(marParser.LogicAndContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link marParser#exprList}.
+	 * @param ctx the parse tree
+	 */
+	void enterExprList(marParser.ExprListContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link marParser#exprList}.
+	 * @param ctx the parse tree
+	 */
+	void exitExprList(marParser.ExprListContext ctx);
 }

@@ -341,8 +341,7 @@ public class marVM {
                 case PRINT_NIL -> vm.exec_printnil();
                 case PRINT_S -> vm.exec_prints();
                 case TRUE -> vm.exec_true();
-                case JUMP -> // maybe é só fazer i = instruction[1] ainda por testar
-                        i = vm.exec_jump(Integer.parseInt(instruction[1]));
+                case JUMP -> i = vm.exec_jump(Integer.parseInt(instruction[1]));
                 case JUMPF -> i = vm.exec_jumpf(i, Integer.parseInt(instruction[1]));
                 case CONST -> vm.exec_const(Integer.parseInt(instruction[1]));
                 case GLOBAL -> vm.exec_global(Integer.parseInt(instruction[1]));

@@ -1,6 +1,8 @@
 import org.antlr.v4.runtime.tree.*;
+import SymbolTable.FunctionSymbol;
 import SymbolTable.Scope;
 import SymbolTable.Symbol;
+import SymbolTable.VariableSymbol;
 import mar.marBaseListener;
 import mar.marParser;
 
@@ -28,12 +30,6 @@ public class RefPhase extends marBaseListener {
         this.currentScope = this.currentScope.getEnclosingScope();
     }
 
-    public void exitAssign(marParser.AssignContext ctx) {
-        Symbol tVar = this.currentScope.resolve(ctx.ID().getText());
-        if (tVar != null)
-            tVar.assign();
-    }
-
     public void exitId(marParser.IdContext ctx) {
         String id = ctx.ID().getText();
         Symbol tVar = this.currentScope.resolve(id);
@@ -41,9 +37,14 @@ public class RefPhase extends marBaseListener {
             System.out.println("line: " + ctx.getStart().getLine() + ":" + ctx.getStop().getCharPositionInLine()
                     + " error: " + id + " is not defined");
             this.numErrors++;
-        } else if (!tVar.isSet()) {
+        } else if (tVar instanceof VariableSymbol && !((VariableSymbol) tVar).isSet()) {
             System.out.println("line: " + ctx.getStart().getLine() + ":" + ctx.getStop().getCharPositionInLine()
                     + " error: " + id + " has not been initialized");
+            this.numErrors++;
+        }
+        if (tVar instanceof FunctionSymbol) { //ver se funciona so a usar o else
+            System.out.println("line: " + ctx.getStart().getLine() + ":" + ctx.getStop().getCharPositionInLine()
+                    + " error: " + ctx.ID().getText() + " is not a variable");            
             this.numErrors++;
         }
     }
