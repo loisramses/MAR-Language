@@ -311,7 +311,7 @@ public class marVM {
             else toPrintGlobals = "";
             instruction = string.split(" ");
             op = OpCode.valueOf(instruction[0]);
-            vm.trace.add(toPrintGlobals + toPrintStack + string);
+            vm.trace.add(toPrintGlobals + toPrintStack + i + ": " + string);
             switch (op) {
                 case ADD -> vm.exec_add();
                 case SUB -> vm.exec_sub();

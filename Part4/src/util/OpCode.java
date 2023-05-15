@@ -37,8 +37,14 @@ public enum OpCode {
     JUMPF(32, "jumpf"),
     JUMP(33, "jump"),
     GLOBAL(34, "global"),
-    STORE(35, "store"),
-    LOAD(36, "load");
+    STOREG(35, "storeg"),
+    LOADG(36, "loadg"),
+    STOREL(35, "storel"),
+    LOADL(36, "loadl"),
+    CALL(37, "call"),
+    RETURN(38, "return"),
+    LOCAL(39, "local"),
+    POP(40, "pop");
 
     private int value;
     private String text;

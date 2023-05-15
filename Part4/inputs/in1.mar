@@ -1,17 +1,18 @@
-string g;
-string g2;
+number x;
+number y;
+number z;
 
-xpto() {
-   print "xpto " + g2;
+number max( number a, number b ) {
+   if a > b then return a;
+   else return b;
 }
 
-hello() {
-   string s;
-   s = "Hello";
-   print "Hello " + g;
+number max3( number a, number b, number c) {
+    return max(a, max(b,c));
 }
 
-g = "Maria";
-hello();
-xpto();      // xpto() references g2 and g2 is not initialized,
-             // must give runtime error
+// main program starts below
+x = 3;
+y = 5;
+z = 4;
+print max3(x,y,z);

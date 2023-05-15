@@ -83,8 +83,8 @@ public class marVM {
                             this.globals = new ArrayList<>(size);
                             this.instructions.add(OpCode.GLOBAL.getText().toUpperCase() + " " + this.dataInputStream.readInt());
                         }
-                        case STORE -> this.instructions.add(OpCode.STORE.getText().toUpperCase() + " " + this.dataInputStream.readInt());
-                        case LOAD -> this.instructions.add(OpCode.LOAD.getText().toUpperCase() + " " + this.dataInputStream.readInt());
+                        case STOREG -> this.instructions.add(OpCode.STOREG.getText().toUpperCase() + " " + this.dataInputStream.readInt());
+                        case LOADG -> this.instructions.add(OpCode.LOADG.getText().toUpperCase() + " " + this.dataInputStream.readInt());
                         default -> {}
                     }
                 }
@@ -311,7 +311,7 @@ public class marVM {
             else toPrintGlobals = "";
             instruction = string.split(" ");
             op = OpCode.valueOf(instruction[0]);
-            vm.trace.add(toPrintGlobals + toPrintStack + string);
+            vm.trace.add(toPrintGlobals + toPrintStack + i + ": " + string);
             switch (op) {
                 case ADD -> vm.exec_add();
                 case SUB -> vm.exec_sub();
@@ -341,13 +341,12 @@ public class marVM {
                 case PRINT_NIL -> vm.exec_printnil();
                 case PRINT_S -> vm.exec_prints();
                 case TRUE -> vm.exec_true();
-                case JUMP -> // maybe é só fazer i = instruction[1] ainda por testar
-                        i = vm.exec_jump(Integer.parseInt(instruction[1]));
+                case JUMP -> i = vm.exec_jump(Integer.parseInt(instruction[1]));
                 case JUMPF -> i = vm.exec_jumpf(i, Integer.parseInt(instruction[1]));
                 case CONST -> vm.exec_const(Integer.parseInt(instruction[1]));
                 case GLOBAL -> vm.exec_global(Integer.parseInt(instruction[1]));
-                case STORE -> vm.exec_store(Integer.parseInt(instruction[1]));
-                case LOAD -> vm.exec_load(Integer.parseInt(instruction[1]));
+                case STOREG -> vm.exec_store(Integer.parseInt(instruction[1]));
+                case LOADG -> vm.exec_load(Integer.parseInt(instruction[1]));
                 default -> {}
             }
         }

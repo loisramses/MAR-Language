@@ -1,6 +1,6 @@
 grammar mar;
 
-prog: inst+ EOF;
+prog: varDecl* functionDecl* inst+ EOF;
 
 inst:
 	block									# InstBlock
@@ -8,14 +8,12 @@ inst:
 	| PRINT expr ENDLINE					# Print
 	| 'if' expr 'then' inst ('else' inst)?	# If
 	| 'while' expr 'do' inst				# While
-	| varDecl								# VarDeclare
-	| functionDecl							# FuncDeclare
 	| 'return' expr? ENDLINE				# Return
 	| expr ENDLINE							# Useless;
 
 type: 'number' | 'string' | 'bool';
 
-block: CPARENTL inst* CPARENTR;
+block: CPARENTL varDecl* inst* CPARENTR;
 
 varDecl: type ID (AFFECT expr)? ENDLINE;
 

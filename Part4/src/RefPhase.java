@@ -10,11 +10,13 @@ public class RefPhase extends marBaseListener {
     ParseTreeProperty<Scope> scopes;
     Scope global;
     Scope currentScope;
+    FunctionSymbol currentFunction;
     int numErrors;
 
     public RefPhase(ParseTreeProperty<Scope> scopes, Scope global) {
         this.scopes = scopes;
         this.global = global;
+        this.currentFunction = null;
         this.numErrors = 0;
     }
 
@@ -30,6 +32,14 @@ public class RefPhase extends marBaseListener {
         this.currentScope = this.currentScope.getEnclosingScope();
     }
 
+    public void enterFunctionDecl(marParser.FunctionDeclContext ctx) {
+        this.currentFunction = (FunctionSymbol) this.currentScope.getSymbols().get(ctx.ID().getText());
+    }
+
+    public void exitFunctionDecl(marParser.FunctionDeclContext ctx) {
+        this.currentFunction = null;
+    }
+
     public void exitId(marParser.IdContext ctx) {
         String id = ctx.ID().getText();
         Symbol tVar = this.currentScope.resolve(id);
@@ -37,7 +47,7 @@ public class RefPhase extends marBaseListener {
             System.out.println("line: " + ctx.getStart().getLine() + ":" + ctx.getStop().getCharPositionInLine()
                     + " error: " + id + " is not defined");
             this.numErrors++;
-        } else if (tVar instanceof VariableSymbol && !((VariableSymbol) tVar).isSet()) {
+        } else if (tVar instanceof VariableSymbol && !((VariableSymbol) tVar).isSet() && this.currentFunction == null) {
             System.out.println("line: " + ctx.getStart().getLine() + ":" + ctx.getStop().getCharPositionInLine()
                     + " error: " + id + " has not been initialized");
             this.numErrors++;

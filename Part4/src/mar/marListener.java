@@ -78,30 +78,6 @@ public interface marListener extends ParseTreeListener {
 	 */
 	void exitWhile(marParser.WhileContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code VarDeclare}
-	 * labeled alternative in {@link marParser#inst}.
-	 * @param ctx the parse tree
-	 */
-	void enterVarDeclare(marParser.VarDeclareContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code VarDeclare}
-	 * labeled alternative in {@link marParser#inst}.
-	 * @param ctx the parse tree
-	 */
-	void exitVarDeclare(marParser.VarDeclareContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code FuncDeclare}
-	 * labeled alternative in {@link marParser#inst}.
-	 * @param ctx the parse tree
-	 */
-	void enterFuncDeclare(marParser.FuncDeclareContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code FuncDeclare}
-	 * labeled alternative in {@link marParser#inst}.
-	 * @param ctx the parse tree
-	 */
-	void exitFuncDeclare(marParser.FuncDeclareContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code Return}
 	 * labeled alternative in {@link marParser#inst}.
 	 * @param ctx the parse tree

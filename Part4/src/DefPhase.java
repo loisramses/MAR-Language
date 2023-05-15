@@ -47,28 +47,36 @@ public class DefPhase extends marBaseListener {
         this.currentFunction = func;
     }
 
+    public void exitFunctionDecl(marParser.FunctionDeclContext ctx) {
+        this.currentFunction = null;
+    }
+
     public void enterBlock(marParser.BlockContext ctx) {
         this.currentScope = new Scope(currentScope);
         if (this.currentFunction != null) {
             for (Symbol symb : currentFunction.getArguments()) {
                 if (!this.currentScope.contains(symb.getId()))
                     this.currentScope.define(symb);
-                else
+                else {
                     System.out.println("line: " + ctx.getStart().getLine() + ":" + ctx.getStop().getCharPositionInLine()
-                            + " error: formal parameter \"" + symb.getId() + "\" is defined more than once in function");
+                            + " error: formal parameter " + symb.getId() + " is defined more than once in function");
+                    this.numErrors++;
+                }
             }
         }
         this.saveScope(ctx, currentScope);
     }
-
+    
     public void exitAssign(marParser.AssignContext ctx) {
         Symbol tVar = this.currentScope.resolve(ctx.ID().getText());
         if (tVar != null)
-            if (tVar instanceof VariableSymbol)
-                ((VariableSymbol) tVar).assign();
-            else
-                System.out.println("line: " + ctx.getStart().getLine() + ":" + ctx.getStop().getCharPositionInLine()
-                        + " error: cannot assign values to " + tVar.getId() + ", is a function");
+        if (tVar instanceof VariableSymbol)
+        ((VariableSymbol) tVar).assign();
+        else {
+            System.out.println("line: " + ctx.getStart().getLine() + ":" + ctx.getStop().getCharPositionInLine()
+                + " error: cannot assign values to " + tVar.getId() + ", is a function");
+            this.numErrors++;
+        }
     }
 
     public void exitBlock(marParser.BlockContext ctx) {
@@ -79,6 +87,7 @@ public class DefPhase extends marBaseListener {
         Type varType = Type.getType(ctx.type().start.getType());
         VariableSymbol var = new VariableSymbol(ctx.ID().getText(), varType);
         var.assign();
+        var.setFuncArg();
         this.currentFunction.addArgument(var);
     }
 

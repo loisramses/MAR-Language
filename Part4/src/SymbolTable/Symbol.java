@@ -5,28 +5,18 @@ public class Symbol {
     private Type type;
     private Scope scope;
 
-    public Symbol(String id) {
-        this.id = id;
-    }
+    public Symbol(String id) { this.id = id; }
 
     public Symbol(String id, Type type) {
         this(id);
         this.type = type;
     }
 
-    public void setScope(Scope scope) {
-        this.scope = scope;
-    }
+    public void setScope(Scope scope) { this.scope = scope; }
 
-    public String getId() {
-        return this.id;
-    }
+    public Scope getScope() { return this.scope; }
 
-    public Type getType() {
-        return this.type;
-    }
+    public String getId() { return this.id; }
 
-    public Scope getScope() {
-        return this.scope;
-    }
+    public Type getType() { return this.type; }
 }
