@@ -31,7 +31,7 @@ public class Scope {
     }
 
     public void define(Symbol sym) {
-        if (sym instanceof VariableSymbol)
+        if (sym instanceof VariableSymbol && !((VariableSymbol) sym).isFuncArg())
             this.numVars++;
         sym.setScope(this);
         this.symbols.put(sym.getId(), sym);

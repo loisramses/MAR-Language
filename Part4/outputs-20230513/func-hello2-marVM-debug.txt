@@ -1,0 +1,177 @@
+Constant pool:
+0: <STRING:"!">
+1: <STRING:"Mau ">
+2: <STRING:"!">
+3: <STRING:"Hello ">
+4: <STRING:"Maria">
+Instructions:
+0: JUMP 30
+1: LOCAL 1
+2: CONST 0
+3: STOREL 2
+4: CONST 1
+5: LOADL -1
+6: CONCAT
+7: LOADL 2
+8: CONCAT
+9: RETURN 1
+10: POP 1
+11: LOCAL 2
+12: CONST 2
+13: STOREL 3
+14: CONST 3
+15: LOADL -1
+16: CONCAT
+17: LOADL 3
+18: CONCAT
+19: STOREL 2
+20: LOADL 2
+21: PRINT_S
+22: LOADL -1
+23: CALL 1
+24: STOREL -1
+25: LOADL -1
+26: PRINT_S
+27: POP 2
+28: NIL
+29: RETURN 1
+30: CONST 4
+31: CALL 11
+32: POP 1
+33: HALT
+Execution starts at instruction 0
+Trace while running the code:
+                    Globals: []
+                      Stack: []
+                         LB: 0
+0: JUMP 30
+                    Globals: []
+                      Stack: []
+                         LB: 0
+30: CONST 4 '<STRING:"Maria">
+                    Globals: []
+                      Stack: [<STRING:"Maria">]
+                         LB: 0
+31: CALL 11
+                    Globals: []
+                      Stack: [<STRING:"Maria">, <INT:0>, <INT:32>]
+                         LB: 1
+11: LOCAL 2
+                    Globals: []
+                      Stack: [<STRING:"Maria">, <INT:0>, <INT:32>, <NIL>, <NIL>]
+                         LB: 1
+12: CONST 2 '<STRING:"!">
+                    Globals: []
+                      Stack: [<STRING:"Maria">, <INT:0>, <INT:32>, <NIL>, <NIL>, <STRING:"!">]
+                         LB: 1
+13: STOREL 3
+                    Globals: []
+                      Stack: [<STRING:"Maria">, <INT:0>, <INT:32>, <NIL>, <STRING:"!">]
+                         LB: 1
+14: CONST 3 '<STRING:"Hello ">
+                    Globals: []
+                      Stack: [<STRING:"Maria">, <INT:0>, <INT:32>, <NIL>, <STRING:"!">, <STRING:"Hello ">]
+                         LB: 1
+15: LOADL -1
+                    Globals: []
+                      Stack: [<STRING:"Maria">, <INT:0>, <INT:32>, <NIL>, <STRING:"!">, <STRING:"Hello ">, <STRING:"Maria">]
+                         LB: 1
+16: CONCAT
+                    Globals: []
+                      Stack: [<STRING:"Maria">, <INT:0>, <INT:32>, <NIL>, <STRING:"!">, <STRING:"Hello Maria">]
+                         LB: 1
+17: LOADL 3
+                    Globals: []
+                      Stack: [<STRING:"Maria">, <INT:0>, <INT:32>, <NIL>, <STRING:"!">, <STRING:"Hello Maria">, <STRING:"!">]
+                         LB: 1
+18: CONCAT
+                    Globals: []
+                      Stack: [<STRING:"Maria">, <INT:0>, <INT:32>, <NIL>, <STRING:"!">, <STRING:"Hello Maria!">]
+                         LB: 1
+19: STOREL 2
+                    Globals: []
+                      Stack: [<STRING:"Maria">, <INT:0>, <INT:32>, <STRING:"Hello Maria!">, <STRING:"!">]
+                         LB: 1
+20: LOADL 2
+                    Globals: []
+                      Stack: [<STRING:"Maria">, <INT:0>, <INT:32>, <STRING:"Hello Maria!">, <STRING:"!">, <STRING:"Hello Maria!">]
+                         LB: 1
+21: PRINT_S
+Hello Maria!
+                    Globals: []
+                      Stack: [<STRING:"Maria">, <INT:0>, <INT:32>, <STRING:"Hello Maria!">, <STRING:"!">]
+                         LB: 1
+22: LOADL -1
+                    Globals: []
+                      Stack: [<STRING:"Maria">, <INT:0>, <INT:32>, <STRING:"Hello Maria!">, <STRING:"!">, <STRING:"Maria">]
+                         LB: 1
+23: CALL 1
+                    Globals: []
+                      Stack: [<STRING:"Maria">, <INT:0>, <INT:32>, <STRING:"Hello Maria!">, <STRING:"!">, <STRING:"Maria">, <INT:1>, <INT:24>]
+                         LB: 6
+1: LOCAL 1
+                    Globals: []
+                      Stack: [<STRING:"Maria">, <INT:0>, <INT:32>, <STRING:"Hello Maria!">, <STRING:"!">, <STRING:"Maria">, <INT:1>, <INT:24>, <NIL>]
+                         LB: 6
+2: CONST 0 '<STRING:"!">
+                    Globals: []
+                      Stack: [<STRING:"Maria">, <INT:0>, <INT:32>, <STRING:"Hello Maria!">, <STRING:"!">, <STRING:"Maria">, <INT:1>, <INT:24>, <NIL>, <STRING:"!">]
+                         LB: 6
+3: STOREL 2
+                    Globals: []
+                      Stack: [<STRING:"Maria">, <INT:0>, <INT:32>, <STRING:"Hello Maria!">, <STRING:"!">, <STRING:"Maria">, <INT:1>, <INT:24>, <STRING:"!">]
+                         LB: 6
+4: CONST 1 '<STRING:"Mau ">
+                    Globals: []
+                      Stack: [<STRING:"Maria">, <INT:0>, <INT:32>, <STRING:"Hello Maria!">, <STRING:"!">, <STRING:"Maria">, <INT:1>, <INT:24>, <STRING:"!">, <STRING:"Mau ">]
+                         LB: 6
+5: LOADL -1
+                    Globals: []
+                      Stack: [<STRING:"Maria">, <INT:0>, <INT:32>, <STRING:"Hello Maria!">, <STRING:"!">, <STRING:"Maria">, <INT:1>, <INT:24>, <STRING:"!">, <STRING:"Mau ">, <STRING:"Maria">]
+                         LB: 6
+6: CONCAT
+                    Globals: []
+                      Stack: [<STRING:"Maria">, <INT:0>, <INT:32>, <STRING:"Hello Maria!">, <STRING:"!">, <STRING:"Maria">, <INT:1>, <INT:24>, <STRING:"!">, <STRING:"Mau Maria">]
+                         LB: 6
+7: LOADL 2
+                    Globals: []
+                      Stack: [<STRING:"Maria">, <INT:0>, <INT:32>, <STRING:"Hello Maria!">, <STRING:"!">, <STRING:"Maria">, <INT:1>, <INT:24>, <STRING:"!">, <STRING:"Mau Maria">, <STRING:"!">]
+                         LB: 6
+8: CONCAT
+                    Globals: []
+                      Stack: [<STRING:"Maria">, <INT:0>, <INT:32>, <STRING:"Hello Maria!">, <STRING:"!">, <STRING:"Maria">, <INT:1>, <INT:24>, <STRING:"!">, <STRING:"Mau Maria!">]
+                         LB: 6
+9: RETURN 1
+                    Globals: []
+                      Stack: [<STRING:"Maria">, <INT:0>, <INT:32>, <STRING:"Hello Maria!">, <STRING:"!">, <STRING:"Mau Maria!">]
+                         LB: 1
+24: STOREL -1
+                    Globals: []
+                      Stack: [<STRING:"Mau Maria!">, <INT:0>, <INT:32>, <STRING:"Hello Maria!">, <STRING:"!">]
+                         LB: 1
+25: LOADL -1
+                    Globals: []
+                      Stack: [<STRING:"Mau Maria!">, <INT:0>, <INT:32>, <STRING:"Hello Maria!">, <STRING:"!">, <STRING:"Mau Maria!">]
+                         LB: 1
+26: PRINT_S
+Mau Maria!
+                    Globals: []
+                      Stack: [<STRING:"Mau Maria!">, <INT:0>, <INT:32>, <STRING:"Hello Maria!">, <STRING:"!">]
+                         LB: 1
+27: POP 2
+                    Globals: []
+                      Stack: [<STRING:"Mau Maria!">, <INT:0>, <INT:32>]
+                         LB: 1
+28: NIL
+                    Globals: []
+                      Stack: [<STRING:"Mau Maria!">, <INT:0>, <INT:32>, <NIL>]
+                         LB: 1
+29: RETURN 1
+                    Globals: []
+                      Stack: [<NIL>]
+                         LB: 0
+32: POP 1
+                    Globals: []
+                      Stack: []
+                         LB: 0
+33: HALT

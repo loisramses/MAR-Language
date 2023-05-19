@@ -3,7 +3,7 @@ package SymbolTable;
 import mar.marParser;
 
 public enum Type {
-    tNUMBER("number"), tSTRING("string"), tNIL("nil"), tBOOL("bool");
+    tNUMBER("number"), tSTRING("string"), tNIL("nil"), tBOOL("bool"), tINT("int");
 
     private String stringValue;
     

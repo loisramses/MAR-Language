@@ -1,0 +1,105 @@
+Constant pool:
+0: <NUMBER:3.0>
+1: <NUMBER:5.0>
+Instructions:
+0: GLOBAL 3
+1: JUMP 11
+2: LOADL -2
+3: LOADL -1
+4: GT
+5: JUMPF 9
+6: LOADL -2
+7: RETURN 2
+8: JUMP 11
+9: LOADL -1
+10: RETURN 2
+11: CONST 0
+12: STOREG 0
+13: CONST 1
+14: STOREG 1
+15: LOADG 0
+16: LOADG 1
+17: CALL 2
+18: STOREG 2
+19: LOADG 2
+20: PRINT_N
+21: HALT
+Execution starts at instruction 0
+Trace while running the code:
+                    Globals: []
+                      Stack: []
+                         LB: 0
+0: GLOBAL 3
+                    Globals: [<NIL>, <NIL>, <NIL>]
+                      Stack: []
+                         LB: 0
+1: JUMP 11
+                    Globals: [<NIL>, <NIL>, <NIL>]
+                      Stack: []
+                         LB: 0
+11: CONST 0 '<NUMBER:3.0>
+                    Globals: [<NIL>, <NIL>, <NIL>]
+                      Stack: [<NUMBER:3.0>]
+                         LB: 0
+12: STOREG 0
+                    Globals: [<NUMBER:3.0>, <NIL>, <NIL>]
+                      Stack: []
+                         LB: 0
+13: CONST 1 '<NUMBER:5.0>
+                    Globals: [<NUMBER:3.0>, <NIL>, <NIL>]
+                      Stack: [<NUMBER:5.0>]
+                         LB: 0
+14: STOREG 1
+                    Globals: [<NUMBER:3.0>, <NUMBER:5.0>, <NIL>]
+                      Stack: []
+                         LB: 0
+15: LOADG 0
+                    Globals: [<NUMBER:3.0>, <NUMBER:5.0>, <NIL>]
+                      Stack: [<NUMBER:3.0>]
+                         LB: 0
+16: LOADG 1
+                    Globals: [<NUMBER:3.0>, <NUMBER:5.0>, <NIL>]
+                      Stack: [<NUMBER:3.0>, <NUMBER:5.0>]
+                         LB: 0
+17: CALL 2
+                    Globals: [<NUMBER:3.0>, <NUMBER:5.0>, <NIL>]
+                      Stack: [<NUMBER:3.0>, <NUMBER:5.0>, <INT:0>, <INT:18>]
+                         LB: 2
+2: LOADL -2
+                    Globals: [<NUMBER:3.0>, <NUMBER:5.0>, <NIL>]
+                      Stack: [<NUMBER:3.0>, <NUMBER:5.0>, <INT:0>, <INT:18>, <NUMBER:3.0>]
+                         LB: 2
+3: LOADL -1
+                    Globals: [<NUMBER:3.0>, <NUMBER:5.0>, <NIL>]
+                      Stack: [<NUMBER:3.0>, <NUMBER:5.0>, <INT:0>, <INT:18>, <NUMBER:3.0>, <NUMBER:5.0>]
+                         LB: 2
+4: GT
+                    Globals: [<NUMBER:3.0>, <NUMBER:5.0>, <NIL>]
+                      Stack: [<NUMBER:3.0>, <NUMBER:5.0>, <INT:0>, <INT:18>, <BOOL:false>]
+                         LB: 2
+5: JUMPF 9
+                    Globals: [<NUMBER:3.0>, <NUMBER:5.0>, <NIL>]
+                      Stack: [<NUMBER:3.0>, <NUMBER:5.0>, <INT:0>, <INT:18>]
+                         LB: 2
+9: LOADL -1
+                    Globals: [<NUMBER:3.0>, <NUMBER:5.0>, <NIL>]
+                      Stack: [<NUMBER:3.0>, <NUMBER:5.0>, <INT:0>, <INT:18>, <NUMBER:5.0>]
+                         LB: 2
+10: RETURN 2
+                    Globals: [<NUMBER:3.0>, <NUMBER:5.0>, <NIL>]
+                      Stack: [<NUMBER:5.0>]
+                         LB: 0
+18: STOREG 2
+                    Globals: [<NUMBER:3.0>, <NUMBER:5.0>, <NUMBER:5.0>]
+                      Stack: []
+                         LB: 0
+19: LOADG 2
+                    Globals: [<NUMBER:3.0>, <NUMBER:5.0>, <NUMBER:5.0>]
+                      Stack: [<NUMBER:5.0>]
+                         LB: 0
+20: PRINT_N
+5.0
+                    Globals: [<NUMBER:3.0>, <NUMBER:5.0>, <NUMBER:5.0>]
+                      Stack: []
+                         LB: 0
+21: HALT

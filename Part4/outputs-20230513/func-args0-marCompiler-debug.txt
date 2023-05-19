@@ -1,0 +1,26 @@
+... parsing done
+... identification and type checking done
+... code generation
+Constant pool:
+0: <STRING:"Hello">
+1: <NUMBER:1.0>
+2: <NUMBER:2.0>
+3: <NUMBER:3.0>
+Generated assembly code:
+0: JUMP 5
+1: CONST 0
+2: PRINT_S
+3: NIL
+4: RETURN 0
+5: CONST 1
+6: PRINT_N
+7: CALL 1
+8: POP 1
+9: CONST 2
+10: PRINT_N
+11: CALL 1
+12: POP 1
+13: CONST 3
+14: PRINT_N
+15: HALT
+Saving the constant pool and the bytecodes to inputs/func-args0.marbc

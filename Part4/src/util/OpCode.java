@@ -39,12 +39,12 @@ public enum OpCode {
     GLOBAL(34, "global"),
     STOREG(35, "storeg"),
     LOADG(36, "loadg"),
-    STOREL(35, "storel"),
-    LOADL(36, "loadl"),
-    CALL(37, "call"),
-    RETURN(38, "return"),
-    LOCAL(39, "local"),
-    POP(40, "pop");
+    STOREL(37, "storel"),
+    LOADL(38, "loadl"),
+    CALL(39, "call"),
+    RETURN(40, "return"),
+    LOCAL(41, "local"),
+    POP(42, "pop");
 
     private int value;
     private String text;

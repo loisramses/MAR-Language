@@ -18,19 +18,19 @@ public class Const {
     }
 
     public boolean isString() {
-        return this.VALUE instanceof String;
+        return this.TYPE == Type.tSTRING;
     }
 
     public boolean isNumber() {
-        return this.VALUE instanceof Double;
+        return this.TYPE == Type.tNUMBER;
     }
 
     public boolean isBool() {
-        return this.VALUE instanceof Boolean;
+        return this.TYPE == Type.tBOOL;
     }
 
     public boolean isNil() {
-        return this.VALUE == null;
+        return this.TYPE == Type.tNIL;
     }
 
     public void setType(Type type) {

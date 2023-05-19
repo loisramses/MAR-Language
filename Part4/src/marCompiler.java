@@ -9,6 +9,7 @@ import util.*;
 public class marCompiler {
     public static class Evaluator extends marBaseListener {
         private final ParseTreeProperty<Scope> scopes;
+        // private ParseTreeProperty<Boolean> hasReturn;
         private Scope currentScope;
         private final Scope globalScope;
         private final ByteArrayOutputStream byteArray;
@@ -36,8 +37,9 @@ public class marCompiler {
             this.constPool = new ArrayList<>(50);
             this.ifElsePos = new Stack<>();
             this.whilePos = new Stack<>();
-            this.inElse = false;
+            // this.hasReturn = new ParseTreeProperty<>();
             this.changedValue = false;
+            this.inElse = false;
             this.scopes = scopes;
             this.currentScope = null;
             this.currentFunc = null;
@@ -357,17 +359,20 @@ public class marCompiler {
         }
 
         public void exitAssign(marParser.AssignContext ctx) {
-            VariableSymbol temp = (VariableSymbol) this.currentScope.resolve(ctx.ID().getText());
-            temp.assign();
             Const tempConst = this.vars.pop();
-            if (temp.getType() != tempConst.getType()) {
-                printError(ctx, "cannot assign " + tempConst.getType().getText() + " to type " + temp.getType().getText());
-                this.typeErrors++;
+            Symbol test = this.currentScope.resolve(ctx.ID().getText());
+            if (test instanceof VariableSymbol) {
+                VariableSymbol temp = (VariableSymbol) test;
+                temp.assign();
+                if (temp.getType() != tempConst.getType()) {
+                    printError(ctx, "cannot assign " + tempConst.getType().getText() + " to type " + temp.getType().getText());
+                    this.typeErrors++;
+                }
+                if (temp.getScope().isGlobal())
+                    this.opCodes.add("STOREG " + temp.getIndex());
+                else // local
+                    this.opCodes.add("STOREL " + temp.getIndex());
             }
-            if (temp.getScope().isGlobal())
-                this.opCodes.add("STOREG " + temp.getIndex());
-            else // local
-                this.opCodes.add("STOREL " + temp.getIndex());
         }
 
         public void exitVarDecl(marParser.VarDeclContext ctx) {
@@ -394,6 +399,7 @@ public class marCompiler {
                 case tBOOL -> this.vars.add(new Const(Type.tBOOL, false));
                 case tNIL -> this.vars.add(new Const(Type.tNIL, null));
                 case tSTRING -> this.vars.add(new Const(Type.tSTRING, ""));
+                default -> throw new IllegalArgumentException("Unexpected value: " + tempType);
             }
             if (temp.getScope().isGlobal())
                 this.opCodes.add("LOADG " + temp.getIndex());
@@ -421,8 +427,7 @@ public class marCompiler {
                     }
                     this.opCodes.add("JUMPF ");
                     this.ifElsePos.push(this.opCodes.size() - 1);
-                } else if ((ctx instanceof marParser.InstContext)
-                        && ctx.getParent().getChildCount() > 4) { // else
+                } else if (ctx instanceof marParser.InstContext && ctx.getParent().getChildCount() > 4) { // else
                     if (!this.inElse) {
                         this.opCodes.add("JUMP ");
                         int index = this.ifElsePos.pop();
@@ -509,37 +514,65 @@ public class marCompiler {
         }
 
         public void exitFunctionDecl(marParser.FunctionDeclContext ctx) {
+            // if (this.currentFunc.getType() == Type.tNIL) // falta meter se n tiver return
             this.currentFunc = null;
         }
 
         public void enterBlock(marParser.BlockContext ctx) {
             this.currentScope = this.scopes.get(ctx);
-            this.currentScope.mapVars(this.nLocals);
-            if (this.currentScope.getNVars() - this.currentFunc.getArguments().size() > 0) {
-                this.opCodes.add("LOCAL " + this.currentScope.getNVars());
-                this.nLocals += this.currentScope.getNVars();
-            }
+            if (this.currentFunc == null)
+                this.currentScope.mapVars(this.nLocals);
+            else
+                this.currentScope.mapVars(this.nLocals + 2);
+            if (this.currentScope.getNVars() > 0)
+            this.opCodes.add("LOCAL " + this.currentScope.getNVars());
+            this.nLocals += this.currentScope.getNVars();
         }
         
         public void exitBlock(marParser.BlockContext ctx) {
-            if (this.currentScope.getNVars() - this.currentFunc.getArguments().size() > 0) {
+            if (this.currentScope.getNVars() > 0)
                 this.opCodes.add("POP " + this.currentScope.getNVars());
-                this.nLocals -= this.currentScope.getNVars();
-            }
+            this.nLocals -= this.currentScope.getNVars();
             this.currentScope = this.currentScope.getEnclosingScope();
         }
 
         public void exitCall(marParser.CallContext ctx) {
-            FunctionSymbol temp = (FunctionSymbol) this.currentScope.resolve(ctx.ID().getText());
-            this.opCodes.add("CALL " + temp.getPos());
-            if (temp.getType() == Type.tNIL)
-                this.opCodes.add("POP 1");
+            Symbol test = this.currentScope.resolve(ctx.ID().getText());
+            if (test instanceof FunctionSymbol) {
+                FunctionSymbol temp = (FunctionSymbol) this.currentScope.resolve(ctx.ID().getText());
+                this.opCodes.add("CALL " + temp.getPos());
+                for (int i = 0; i < temp.getArguments().size(); i++)
+                    this.vars.pop();
+                this.vars.push(new Const(temp.getType(), null));
+                if (temp.getType() == Type.tNIL) {
+                    this.opCodes.add("POP 1");
+                }
+            }
         }
 
         public void exitReturn(marParser.ReturnContext ctx) {
-            if (this.currentFunc != null)// ver tbm o tipo de funcao, se for nil, n deve ter return sequer
+            Const tempConst;
+            if (this.currentFunc != null) { // se for void
+                if (this.currentFunc.getType() == Type.tNIL) {
+                    this.opCodes.add("NIL");
+                    this.vars.push(new Const(Type.tNIL, null));
+                    if (ctx.expr() != null) { // e tiver return expr
+                        this.printError(ctx, this.currentFunc.getId() + " should not return a value");
+                        this.typeErrors++;
+                    }
+                } else if (ctx.expr() != null) { // se n for void e tiver return expr
+                    tempConst = this.vars.pop();
+                    if (tempConst.getType() != this.currentFunc.getType()) {
+                        this.printError(ctx, this.currentFunc.getId() + " should return a value of type " + this.currentFunc.getType().getText() +
+                        ", not " + tempConst.getType().getText());
+                        this.typeErrors++;
+                    }
+                } else {
+                    this.printError(ctx, this.currentFunc.getId() + " should return a value");
+                    this.typeErrors++;                    
+                }
                 this.opCodes.add("RETURN " + this.currentFunc.getArguments().size());
-            else {
+            } else {
                 this.printError(ctx, "return statement outside function");
                 this.typeErrors++;
             }
@@ -583,15 +616,13 @@ public class marCompiler {
             RefPhase ref = new RefPhase(def.scopes, def.global);
             walker.walk(ref, tree);
 
-            if (def.getNumErrors() > 0 || ref.getNumErrors() > 0)
-                return;
             Evaluator eval = new Evaluator(def.scopes, def.global);
             walker.walk(eval, tree);
 
             if (eval.typeErrors <= 0) {
                 if (debug) System.out.println("... identification and type checking done");
-            } else
-                return;
+            } else return;
+
             DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream(outputFile));
             if (debug) System.out.println("... code generation");
             dataOutputStream.write(eval.constToByteArray());

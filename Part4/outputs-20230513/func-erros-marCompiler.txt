@@ -1,0 +1,11 @@
+... parsing done
+line 6:24 error: xpto should return a value of type number, not string
+line 12:10 error: xpto2 should not return a value
+line 22:0 error: missing return in function xpto4
+line 25:0 error: xpto is not a variable
+line 26:4 error: fact is not defined
+line 27:4 error: xpto has 2 arguments, not 1
+line 29:0 error: cannot assign an expression of type number to a variable of type bool
+line 30:12 error: actual parameter 'true' is of type bool, but type string expected
+... identification and type checking done
+inputs/func-erros.mar has 8 semantic errors

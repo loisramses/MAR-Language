@@ -1,0 +1,62 @@
+Constant pool:
+0: <STRING:"Hello ">
+1: <STRING:"Maria">
+Instructions:
+0: JUMP 7
+1: CONST 0
+2: LOADL -1
+3: CONCAT
+4: PRINT_S
+5: NIL
+6: RETURN 1
+7: CONST 1
+8: CALL 1
+9: POP 1
+10: HALT
+Execution starts at instruction 0
+Trace while running the code:
+                    Globals: []
+                      Stack: []
+                         LB: 0
+0: JUMP 7
+                    Globals: []
+                      Stack: []
+                         LB: 0
+7: CONST 1 '<STRING:"Maria">
+                    Globals: []
+                      Stack: [<STRING:"Maria">]
+                         LB: 0
+8: CALL 1
+                    Globals: []
+                      Stack: [<STRING:"Maria">, <INT:0>, <INT:9>]
+                         LB: 1
+1: CONST 0 '<STRING:"Hello ">
+                    Globals: []
+                      Stack: [<STRING:"Maria">, <INT:0>, <INT:9>, <STRING:"Hello ">]
+                         LB: 1
+2: LOADL -1
+                    Globals: []
+                      Stack: [<STRING:"Maria">, <INT:0>, <INT:9>, <STRING:"Hello ">, <STRING:"Maria">]
+                         LB: 1
+3: CONCAT
+                    Globals: []
+                      Stack: [<STRING:"Maria">, <INT:0>, <INT:9>, <STRING:"Hello Maria">]
+                         LB: 1
+4: PRINT_S
+Hello Maria
+                    Globals: []
+                      Stack: [<STRING:"Maria">, <INT:0>, <INT:9>]
+                         LB: 1
+5: NIL
+                    Globals: []
+                      Stack: [<STRING:"Maria">, <INT:0>, <INT:9>, <NIL>]
+                         LB: 1
+6: RETURN 1
+                    Globals: []
+                      Stack: [<NIL>]
+                         LB: 0
+9: POP 1
+                    Globals: []
+                      Stack: []
+                         LB: 0
+10: HALT

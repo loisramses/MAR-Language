@@ -1,0 +1,3 @@
+Hello Maria
+runtime error: marVM accessed a nil value.
+               global variable might not be initialized.

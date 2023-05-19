@@ -1,6 +1,5 @@
 import java.io.*;
 import java.util.*;
-
 import SymbolTable.Type;
 import util.*;
 
@@ -12,8 +11,9 @@ public class marVM {
         private ArrayList<String> instructions;
         private final ArrayList<String> trace;
         private final ArrayList<String> results;
-        private final Stack<Const> vars;
+        private final ArrayList<Const> vars;
         private final boolean debug;
+        private int LB;
 
         public VM(File file, boolean debug) throws IOException {
             this.dataInputStream = new DataInputStream(new FileInputStream(file));
@@ -21,8 +21,17 @@ public class marVM {
             this.instructions = new ArrayList<>();
             this.trace = new ArrayList<>();
             this.results = new ArrayList<>();
-            this.vars = new Stack<>();
+            this.vars = new ArrayList<>();
             this.debug = debug;
+            this.LB = 0;
+        }
+
+        private void pushVar(Const var) {
+            this.vars.add(var);
+        }
+
+        private Const popVar() {
+            return this.vars.remove(this.vars.size() - 1);
         }
 
         private void setVariables() {
@@ -85,6 +94,12 @@ public class marVM {
                         }
                         case STOREG -> this.instructions.add(OpCode.STOREG.getText().toUpperCase() + " " + this.dataInputStream.readInt());
                         case LOADG -> this.instructions.add(OpCode.LOADG.getText().toUpperCase() + " " + this.dataInputStream.readInt());
+                        case STOREL -> this.instructions.add(OpCode.STOREL.getText().toUpperCase() + " " + this.dataInputStream.readInt());
+                        case LOADL -> this.instructions.add(OpCode.LOADL.getText().toUpperCase() + " " + this.dataInputStream.readInt());
+                        case CALL -> this.instructions.add(OpCode.CALL.getText().toUpperCase() + " " + this.dataInputStream.readInt());
+                        case RETURN -> this.instructions.add(OpCode.RETURN.getText().toUpperCase() + " " + this.dataInputStream.readInt());
+                        case LOCAL -> this.instructions.add(OpCode.LOCAL.getText().toUpperCase() + " " + this.dataInputStream.readInt());
+                        case POP -> this.instructions.add(OpCode.POP.getText().toUpperCase() + " " + this.dataInputStream.readInt());
                         default -> {}
                     }
                 }
@@ -101,167 +116,167 @@ public class marVM {
 
         private void exec_const(int index) {
             Const x = this.constPool.get(index);
-            this.vars.push(x);
+            this.pushVar(x);
         }
 
         private void exec_add() {
-            Double right = (Double) this.vars.pop().getValue();
-            Double left = (Double) this.vars.pop().getValue();
-            this.vars.push(new Const(Type.tNUMBER, Double.sum(left, right)));
+            Double right = (Double) this.popVar().getValue();
+            Double left = (Double) this.popVar().getValue();
+            this.pushVar(new Const(Type.tNUMBER, Double.sum(left, right)));
         }
 
         private void exec_sub() {
-            Double right = (Double) this.vars.pop().getValue();
-            Double left = (Double) this.vars.pop().getValue();
-            this.vars.push(new Const(Type.tNUMBER, left - right));
+            Double right = (Double) this.popVar().getValue();
+            Double left = (Double) this.popVar().getValue();
+            this.pushVar(new Const(Type.tNUMBER, left - right));
         }
 
         private void exec_mult() {
-            Double right = (Double) this.vars.pop().getValue();
-            Double left = (Double) this.vars.pop().getValue();
-            this.vars.push(new Const(Type.tNUMBER, left * right));
+            Double right = (Double) this.popVar().getValue();
+            Double left = (Double) this.popVar().getValue();
+            this.pushVar(new Const(Type.tNUMBER, left * right));
         }
 
         private void exec_div() {
-            Double right = (Double) this.vars.pop().getValue();
-            Double left = (Double) this.vars.pop().getValue();
-            this.vars.push(new Const(Type.tNUMBER, left / right));
+            Double right = (Double) this.popVar().getValue();
+            Double left = (Double) this.popVar().getValue();
+            this.pushVar(new Const(Type.tNUMBER, left / right));
         }
 
         private void exec_uminus() {
-            Double temp = (Double) this.vars.pop().getValue();
-            this.vars.add(new Const(Type.tNUMBER, -temp));
+            Double temp = (Double) this.popVar().getValue();
+            this.pushVar(new Const(Type.tNUMBER, -temp));
         }
 
         private void exec_and() {
-            Boolean right = (Boolean) this.vars.pop().getValue();
-            Boolean left = (Boolean) this.vars.pop().getValue();
-            this.vars.push(new Const(Type.tBOOL, Boolean.logicalAnd(left, right)));
+            Boolean right = (Boolean) this.popVar().getValue();
+            Boolean left = (Boolean) this.popVar().getValue();
+            this.pushVar(new Const(Type.tBOOL, Boolean.logicalAnd(left, right)));
         }
 
         private void exec_concat() {
-            String right = (String) this.vars.pop().getValue();
-            String left = (String) this.vars.pop().getValue();
-            this.vars.push(new Const(Type.tSTRING, "\"" + left.replaceAll("\"", "") + right.replaceAll("\"", "") + "\""));
+            String right = (String) this.popVar().getValue();
+            String left = (String) this.popVar().getValue();
+            this.pushVar(new Const(Type.tSTRING, "\"" + left.replaceAll("\"", "") + right.replaceAll("\"", "") + "\""));
         }
 
         private void exec_eqb() {
-            Boolean right = (Boolean) this.vars.pop().getValue();
-            Boolean left = (Boolean) this.vars.pop().getValue();
-            this.vars.push(new Const(Type.tBOOL, left.equals(right)));
+            Boolean right = (Boolean) this.popVar().getValue();
+            Boolean left = (Boolean) this.popVar().getValue();
+            this.pushVar(new Const(Type.tBOOL, left.equals(right)));
         }
 
         private void exec_eqn() {
-            Double right = (Double) this.vars.pop().getValue();
-            Double left = (Double) this.vars.pop().getValue();
-            this.vars.push(new Const(Type.tBOOL, left.equals(right)));
+            Double right = (Double) this.popVar().getValue();
+            Double left = (Double) this.popVar().getValue();
+            this.pushVar(new Const(Type.tBOOL, left.equals(right)));
         }
 
         private void exec_eqnil() {
-            Object right = this.vars.pop().getValue();
-            Object left = this.vars.pop().getValue();
-            this.vars.push(new Const(Type.tBOOL, left == right));
+            Object right = this.popVar().getValue();
+            Object left = this.popVar().getValue();
+            this.pushVar(new Const(Type.tBOOL, left == right));
         }
 
         private void exec_eqs() {
-            String right = (String) this.vars.pop().getValue();
-            String left = (String) this.vars.pop().getValue();
-            this.vars.push(new Const(Type.tBOOL, left.equals(right)));
+            String right = (String) this.popVar().getValue();
+            String left = (String) this.popVar().getValue();
+            this.pushVar(new Const(Type.tBOOL, left.equals(right)));
         }
 
         private void exec_false() {
-            this.vars.push(new Const(Type.tBOOL, false));
+            this.pushVar(new Const(Type.tBOOL, false));
         }
 
         private void exec_geq() {
-            Double right = (Double) this.vars.pop().getValue();
-            Double left = (Double) this.vars.pop().getValue();
-            this.vars.push(new Const(Type.tBOOL, left >= right));
+            Double right = (Double) this.popVar().getValue();
+            Double left = (Double) this.popVar().getValue();
+            this.pushVar(new Const(Type.tBOOL, left >= right));
         }
 
         private void exec_gt() {
-            Double right = (Double) this.vars.pop().getValue();
-            Double left = (Double) this.vars.pop().getValue();
-            this.vars.push(new Const(Type.tBOOL, left > right));
+            Double right = (Double) this.popVar().getValue();
+            Double left = (Double) this.popVar().getValue();
+            this.pushVar(new Const(Type.tBOOL, left > right));
         }
 
         private void exec_leq() {
-            Double right = (Double) this.vars.pop().getValue();
-            Double left = (Double) this.vars.pop().getValue();
-            this.vars.push(new Const(Type.tBOOL, left <= right));
+            Double right = (Double) this.popVar().getValue();
+            Double left = (Double) this.popVar().getValue();
+            this.pushVar(new Const(Type.tBOOL, left <= right));
         }
 
         private void exec_lt() {
-            Double right = (Double) this.vars.pop().getValue();
-            Double left = (Double) this.vars.pop().getValue();
-            this.vars.push(new Const(Type.tBOOL, left < right));
+            Double right = (Double) this.popVar().getValue();
+            Double left = (Double) this.popVar().getValue();
+            this.pushVar(new Const(Type.tBOOL, left < right));
         }
 
         private void exec_neqb() {
-            Boolean right = (Boolean) this.vars.pop().getValue();
-            Boolean left = (Boolean) this.vars.pop().getValue();
-            this.vars.push(new Const(Type.tBOOL, !left.equals(right)));
+            Boolean right = (Boolean) this.popVar().getValue();
+            Boolean left = (Boolean) this.popVar().getValue();
+            this.pushVar(new Const(Type.tBOOL, !left.equals(right)));
         }
 
         private void exec_neqn() {
-            Double right = (Double) this.vars.pop().getValue();
-            Double left = (Double) this.vars.pop().getValue();
-            this.vars.push(new Const(Type.tBOOL, !left.equals(right)));
+            Double right = (Double) this.popVar().getValue();
+            Double left = (Double) this.popVar().getValue();
+            this.pushVar(new Const(Type.tBOOL, !left.equals(right)));
         }
 
         private void exec_neqnil() {
-            Object right = this.vars.pop().getValue();
-            Object left = this.vars.pop().getValue();
-            this.vars.push(new Const(Type.tBOOL, left != right));
+            Object right = this.popVar().getValue();
+            Object left = this.popVar().getValue();
+            this.pushVar(new Const(Type.tBOOL, left != right));
         }
 
         private void exec_neqs() {
-            String right = (String) this.vars.pop().getValue();
-            String left = (String) this.vars.pop().getValue();
-            this.vars.push(new Const(Type.tBOOL, !left.equals(right)));
+            String right = (String) this.popVar().getValue();
+            String left = (String) this.popVar().getValue();
+            this.pushVar(new Const(Type.tBOOL, !left.equals(right)));
         }
 
         private void exec_nill() {
-            this.vars.push(new Const(Type.tNIL, null));
+            this.pushVar(new Const(Type.tNIL, null));
         }
 
         private void exec_not() {
-            Boolean temp = (Boolean) this.vars.pop().getValue();
-            this.vars.push(new Const(Type.tBOOL, !temp));
+            Boolean temp = (Boolean) this.popVar().getValue();
+            this.pushVar(new Const(Type.tBOOL, !temp));
         }
 
         private void exec_or() {
-            Boolean right = (Boolean) this.vars.pop().getValue();
-            Boolean left = (Boolean) this.vars.pop().getValue();
-            this.vars.push(new Const(Type.tBOOL, Boolean.logicalOr(left, right)));
+            Boolean right = (Boolean) this.popVar().getValue();
+            Boolean left = (Boolean) this.popVar().getValue();
+            this.pushVar(new Const(Type.tBOOL, Boolean.logicalOr(left, right)));
         }
 
         private void exec_printb() {
-            Boolean temp = (Boolean) this.vars.pop().getValue();
+            Boolean temp = (Boolean) this.popVar().getValue();
             this.results.add(temp.toString());
             this.trace.add(temp.toString());
         }
 
         private void exec_printn() {
-            Double temp = (Double) this.vars.pop().getValue();
+            Double temp = (Double) this.popVar().getValue();
             this.results.add(temp.toString());
             this.trace.add(temp.toString());
         }
 
         private void exec_printnil() {
-            this.vars.pop();
+            this.popVar();
             this.results.add("nil");
             this.trace.add("nil");
         }
 
         private void exec_prints() {
-            String temp = ((String) this.vars.pop().getValue()).replaceAll("\"", "");
+            String temp = ((String) this.popVar().getValue()).replaceAll("\"", "");
             this.results.add(temp);
             this.trace.add(temp);
         }
 
         private void exec_true() {
-            this.vars.push(new Const(Type.tBOOL, true));
+            this.pushVar(new Const(Type.tBOOL, true));
         }
 
         public int exec_jump(int pointer) {
@@ -269,24 +284,58 @@ public class marVM {
         }
 
         public int exec_jumpf(int i, int pointer) {
-            Boolean res = (Boolean) this.vars.pop().getValue();
+            Boolean res = (Boolean) this.popVar().getValue();
             if (!res) 
                 return pointer - 1; // menos um pq o i ainda tem que incrementar no for
             return i;
         }
 
         public void exec_global(int size) {
-            for (int i = 0; i < size; i++) {
+            for (int i = 0; i < size; i++)
                 this.globals.add(new Const(Type.tNIL, null));
-            }
         }
 
-        public void exec_store(int index) {
-            this.globals.set(index, this.vars.pop());
+        public void exec_storeg(int index) {
+            this.globals.set(index, this.popVar());
+        }
+        
+        public void exec_loadg(int index) {
+            this.pushVar(this.globals.get(index));
+        }
+        
+        public void exec_storel(int index) {
+            this.vars.set(this.LB + index, this.popVar());
         }
 
-        public void exec_load(int index) {
-            this.vars.push(this.globals.get(index));
+        public void exec_loadl(int index) {
+            this.pushVar(this.vars.get(this.LB + index));
+        }
+
+        public int exec_call(int pointer, int currentInst) {
+            this.pushVar(new Const(Type.tINT, this.LB));
+            this.LB = this.vars.size() - 1;
+            this.pushVar(new Const(Type.tINT, currentInst + 1));
+            return pointer - 1;
+        }
+
+        public int exec_return(int size) {
+            Const funcResult = this.popVar();
+            int nextInst = (int) this.popVar().getValue();
+            this.LB = (int) this.popVar().getValue();
+            for (int i = 0; i < size; i++)
+                this.popVar();
+            this.pushVar(funcResult);
+            return nextInst - 1;
+        }
+
+        public void exec_local(int size) {
+            for (int i = 0; i < size; i++)
+                this.pushVar(new Const(Type.tNIL, null));
+        }
+
+        public void exec_pop(int size) {
+            for (int i = 0; i < size; i++)
+                this.popVar();
         }
     }
 
@@ -302,16 +351,17 @@ public class marVM {
         VM vm = new VM(input, debug);
         vm.setVariables();
         OpCode op;
-        String toPrintStack, toPrintGlobals, string;
+        String toPrintStack, toPrintGlobals, string, lbValue;
         String[] instruction;
         for (int i = 0; i < vm.instructions.size(); i++) {
             string = vm.instructions.get(i);
-            toPrintStack = "\t\t\t\t\t\tStack: " + vm.vars + "\n ";
             if (vm.globals != null) toPrintGlobals = "\t\t\t\t\t\tGLOBALS: " + vm.globals + "\n ";
             else toPrintGlobals = "";
+            toPrintStack = "\t\t\t\t\t\tStack: " + vm.vars + "\n ";
+            lbValue = "\t\t\t\t\t\tLB: " + vm.LB;
             instruction = string.split(" ");
             op = OpCode.valueOf(instruction[0]);
-            vm.trace.add(toPrintGlobals + toPrintStack + i + ": " + string);
+            vm.trace.add(toPrintGlobals + toPrintStack + lbValue + "\n" + i + ": " + string);
             switch (op) {
                 case ADD -> vm.exec_add();
                 case SUB -> vm.exec_sub();
@@ -345,24 +395,27 @@ public class marVM {
                 case JUMPF -> i = vm.exec_jumpf(i, Integer.parseInt(instruction[1]));
                 case CONST -> vm.exec_const(Integer.parseInt(instruction[1]));
                 case GLOBAL -> vm.exec_global(Integer.parseInt(instruction[1]));
-                case STOREG -> vm.exec_store(Integer.parseInt(instruction[1]));
-                case LOADG -> vm.exec_load(Integer.parseInt(instruction[1]));
+                case STOREG -> vm.exec_storeg(Integer.parseInt(instruction[1]));
+                case LOADG -> vm.exec_loadg(Integer.parseInt(instruction[1]));
+                case STOREL -> vm.exec_storel(Integer.parseInt(instruction[1]));
+                case LOADL -> vm.exec_loadl(Integer.parseInt(instruction[1]));
+                case CALL -> i = vm.exec_call(Integer.parseInt(instruction[1]), i);
+                case RETURN -> i = vm.exec_return(Integer.parseInt(instruction[1]));
+                case LOCAL -> vm.exec_local(Integer.parseInt(instruction[1]));
+                case POP -> vm.exec_pop(Integer.parseInt(instruction[1]));
                 default -> {}
             }
         }
         if (vm.debug) {
             System.out.println("Constant pool:");
-            for (int i = 0; i < vm.constPool.size(); i++) {
+            for (int i = 0; i < vm.constPool.size(); i++)
                 System.out.println(i + ": " + vm.constPool.get(i));
-            }
             System.out.println("Instructions:");
-            for (int i = 0; i < vm.instructions.size(); i++) {
+            for (int i = 0; i < vm.instructions.size(); i++)
                 System.out.println(i + ": " + vm.instructions.get(i));
-            }
             System.out.println("Trace while running the code:");
-            for (String inst : vm.trace) {
+            for (String inst : vm.trace)
                 System.out.println(inst);
-            }
         } else for (String res : vm.results) System.out.println(res);
     }
 }

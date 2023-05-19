@@ -1,0 +1,112 @@
+Constant pool:
+0: <STRING:"xpto ">
+1: <STRING:"Hello">
+2: <STRING:"Hello ">
+3: <STRING:"Maria">
+Instructions:
+0: GLOBAL 2
+1: JUMP 18
+2: CONST 0
+3: LOADG 1
+4: CONCAT
+5: PRINT_S
+6: NIL
+7: RETURN 0
+8: LOCAL 1
+9: CONST 1
+10: STOREL 2
+11: CONST 2
+12: LOADG 0
+13: CONCAT
+14: PRINT_S
+15: POP 1
+16: NIL
+17: RETURN 0
+18: CONST 3
+19: STOREG 0
+20: CALL 8
+21: POP 1
+22: CALL 2
+23: POP 1
+24: HALT
+Execution starts at instruction 0
+Trace while running the code:
+                    Globals: []
+                      Stack: []
+                         LB: 0
+0: GLOBAL 2
+                    Globals: [<NIL>, <NIL>]
+                      Stack: []
+                         LB: 0
+1: JUMP 18
+                    Globals: [<NIL>, <NIL>]
+                      Stack: []
+                         LB: 0
+18: CONST 3 '<STRING:"Maria">
+                    Globals: [<NIL>, <NIL>]
+                      Stack: [<STRING:"Maria">]
+                         LB: 0
+19: STOREG 0
+                    Globals: [<STRING:"Maria">, <NIL>]
+                      Stack: []
+                         LB: 0
+20: CALL 8
+                    Globals: [<STRING:"Maria">, <NIL>]
+                      Stack: [<INT:0>, <INT:21>]
+                         LB: 0
+8: LOCAL 1
+                    Globals: [<STRING:"Maria">, <NIL>]
+                      Stack: [<INT:0>, <INT:21>, <NIL>]
+                         LB: 0
+9: CONST 1 '<STRING:"Hello">
+                    Globals: [<STRING:"Maria">, <NIL>]
+                      Stack: [<INT:0>, <INT:21>, <NIL>, <STRING:"Hello">]
+                         LB: 0
+10: STOREL 2
+                    Globals: [<STRING:"Maria">, <NIL>]
+                      Stack: [<INT:0>, <INT:21>, <STRING:"Hello">]
+                         LB: 0
+11: CONST 2 '<STRING:"Hello ">
+                    Globals: [<STRING:"Maria">, <NIL>]
+                      Stack: [<INT:0>, <INT:21>, <STRING:"Hello">, <STRING:"Hello ">]
+                         LB: 0
+12: LOADG 0
+                    Globals: [<STRING:"Maria">, <NIL>]
+                      Stack: [<INT:0>, <INT:21>, <STRING:"Hello">, <STRING:"Hello ">, <STRING:"Maria">]
+                         LB: 0
+13: CONCAT
+                    Globals: [<STRING:"Maria">, <NIL>]
+                      Stack: [<INT:0>, <INT:21>, <STRING:"Hello">, <STRING:"Hello Maria">]
+                         LB: 0
+14: PRINT_S
+Hello Maria
+                    Globals: [<STRING:"Maria">, <NIL>]
+                      Stack: [<INT:0>, <INT:21>, <STRING:"Hello">]
+                         LB: 0
+15: POP 1
+                    Globals: [<STRING:"Maria">, <NIL>]
+                      Stack: [<INT:0>, <INT:21>]
+                         LB: 0
+16: NIL
+                    Globals: [<STRING:"Maria">, <NIL>]
+                      Stack: [<INT:0>, <INT:21>, <NIL>]
+                         LB: 0
+17: RETURN 0
+                    Globals: [<STRING:"Maria">, <NIL>]
+                      Stack: [<NIL>]
+                         LB: 0
+21: POP 1
+                    Globals: [<STRING:"Maria">, <NIL>]
+                      Stack: []
+                         LB: 0
+22: CALL 2
+                    Globals: [<STRING:"Maria">, <NIL>]
+                      Stack: [<INT:0>, <INT:23>]
+                         LB: 0
+2: CONST 0 '<STRING:"xpto ">
+                    Globals: [<STRING:"Maria">, <NIL>]
+                      Stack: [<INT:0>, <INT:23>, <STRING:"xpto ">]
+                         LB: 0
+3: LOADG 1
+runtime error: marVM accessed a nil value.
+               global variable might not be initialized.

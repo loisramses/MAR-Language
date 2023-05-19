@@ -8,6 +8,7 @@ import mar.marParser;
 
 public class RefPhase extends marBaseListener {
     ParseTreeProperty<Scope> scopes;
+    ParseTreeProperty<Boolean> hasReturn;
     Scope global;
     Scope currentScope;
     FunctionSymbol currentFunction;
@@ -54,7 +55,35 @@ public class RefPhase extends marBaseListener {
         }
         if (tVar instanceof FunctionSymbol) { //ver se funciona so a usar o else
             System.out.println("line: " + ctx.getStart().getLine() + ":" + ctx.getStop().getCharPositionInLine()
-                    + " error: " + ctx.ID().getText() + " is not a variable");            
+            + " error: " + ctx.ID().getText() + " is not a variable");            
+            this.numErrors++;
+        }
+    }
+
+    public void exitCall(marParser.CallContext ctx) {
+        String id = ctx.ID().getText();
+        Symbol tFunc = this.currentScope.resolve(id);
+        if (tFunc == null) {
+            System.out.println("line: " + ctx.getStart().getLine() + ":" + ctx.getStop().getCharPositionInLine()
+                    + " error: " + id + " is not defined");
+            this.numErrors++;
+        } else if (tFunc instanceof VariableSymbol) {
+            System.out.println("line: " + ctx.getStart().getLine() + ":" + ctx.getStop().getCharPositionInLine()
+            + " error: " + id + " is not a function");
+            this.numErrors++;
+        }
+    }
+    
+    public void exitAssign(marParser.AssignContext ctx) {
+        String id = ctx.ID().getText();
+        Symbol tVar = this.currentScope.resolve(id);
+        if (tVar == null) {
+            System.out.println("line: " + ctx.getStart().getLine() + ":" + ctx.getStop().getCharPositionInLine()
+                    + " error: " + id + " is not defined");
+            this.numErrors++;
+        } else if (tVar instanceof FunctionSymbol) {
+            System.out.println("line: " + ctx.getStart().getLine() + ":" + ctx.getStop().getCharPositionInLine()
+                    + " error: " + id + " is not a variable");
             this.numErrors++;
         }
     }

@@ -9,6 +9,7 @@ import SymbolTable.*;
 
 public class DefPhase extends marBaseListener {
     ParseTreeProperty<Scope> scopes = new ParseTreeProperty<>();
+    ParseTreeProperty<Boolean> hasReturn = new ParseTreeProperty<>();
     Scope global;
     Scope currentScope;
     FunctionSymbol currentFunction;
@@ -24,6 +25,11 @@ public class DefPhase extends marBaseListener {
         }
     }
 
+    public void exitEveryRule(ParserRuleContext ctx) {
+        if (this.hasReturn.get(ctx) == null && ctx instanceof marParser.InstContext)
+            System.out.println(ctx.getText());
+    }
+
     public void enterProg(marParser.ProgContext ctx) {
         this.global = new Scope(null);
         this.currentScope = this.global;
@@ -33,6 +39,27 @@ public class DefPhase extends marBaseListener {
 
     public void saveScope(ParserRuleContext ctx, Scope scope) {
         this.scopes.put(ctx, scope);
+    }
+
+    public void exitUseless(marParser.UselessContext ctx) {
+        this.hasReturn.put(ctx, false);
+    }
+
+    public void exitReturn(marParser.ReturnContext ctx) {
+        this.hasReturn.put(ctx, true);
+    }
+
+    public void exitWhile(marParser.WhileContext ctx) {
+        this.hasReturn.put(ctx, false);
+    }
+
+    public void exitIf(marParser.IfContext ctx) {
+        if (ctx.getChildCount() == 4) this.hasReturn.put(ctx, false);
+        else this.hasReturn.put(ctx, this.hasReturn.get(ctx.getChild(3)) && this.hasReturn.get(ctx.getChild(5)));
+    }
+
+    public void exitPrint(marParser.PrintContext ctx) {
+        this.hasReturn.put(ctx, false);
     }
 
     public void enterFunctionDecl(marParser.FunctionDeclContext ctx) {
@@ -64,23 +91,28 @@ public class DefPhase extends marBaseListener {
                 }
             }
         }
-        this.saveScope(ctx, currentScope);
+        this.saveScope(ctx, this.currentScope);
     }
     
     public void exitAssign(marParser.AssignContext ctx) {
         Symbol tVar = this.currentScope.resolve(ctx.ID().getText());
-        if (tVar != null)
-        if (tVar instanceof VariableSymbol)
-        ((VariableSymbol) tVar).assign();
-        else {
-            System.out.println("line: " + ctx.getStart().getLine() + ":" + ctx.getStop().getCharPositionInLine()
-                + " error: cannot assign values to " + tVar.getId() + ", is a function");
-            this.numErrors++;
-        }
+        if (tVar != null && tVar instanceof VariableSymbol)
+            ((VariableSymbol) tVar).assign();
+        this.hasReturn.put(ctx, false);
+    }
+
+    public void exitInstBlock(marParser.InstBlockContext ctx) {
+        this.hasReturn.put(ctx, this.hasReturn.get(ctx.block()));
     }
 
     public void exitBlock(marParser.BlockContext ctx) {
         this.currentScope = this.currentScope.getEnclosingScope();
+        boolean hasReturn = false;
+        for (ParserRuleContext inst : ctx.inst()) {
+            // System.out.println(ctx.getText());
+            hasReturn = hasReturn || this.hasReturn.get(inst);
+        }
+        this.hasReturn.put(ctx, hasReturn);
     }
 
     public void exitFormalParam(marParser.FormalParamContext ctx) {

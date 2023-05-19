@@ -1,0 +1,109 @@
+Constant pool:
+0: <STRING:"Hello">
+1: <NUMBER:1.0>
+2: <NUMBER:2.0>
+3: <NUMBER:3.0>
+Instructions:
+0: JUMP 5
+1: CONST 0
+2: PRINT_S
+3: NIL
+4: RETURN 0
+5: CONST 1
+6: PRINT_N
+7: CALL 1
+8: POP 1
+9: CONST 2
+10: PRINT_N
+11: CALL 1
+12: POP 1
+13: CONST 3
+14: PRINT_N
+15: HALT
+Execution starts at instruction 0
+Trace while running the code:
+                    Globals: []
+                      Stack: []
+                         LB: 0
+0: JUMP 5
+                    Globals: []
+                      Stack: []
+                         LB: 0
+5: CONST 1 '<NUMBER:1.0>
+                    Globals: []
+                      Stack: [<NUMBER:1.0>]
+                         LB: 0
+6: PRINT_N
+1.0
+                    Globals: []
+                      Stack: []
+                         LB: 0
+7: CALL 1
+                    Globals: []
+                      Stack: [<INT:0>, <INT:8>]
+                         LB: 0
+1: CONST 0 '<STRING:"Hello">
+                    Globals: []
+                      Stack: [<INT:0>, <INT:8>, <STRING:"Hello">]
+                         LB: 0
+2: PRINT_S
+Hello
+                    Globals: []
+                      Stack: [<INT:0>, <INT:8>]
+                         LB: 0
+3: NIL
+                    Globals: []
+                      Stack: [<INT:0>, <INT:8>, <NIL>]
+                         LB: 0
+4: RETURN 0
+                    Globals: []
+                      Stack: [<NIL>]
+                         LB: 0
+8: POP 1
+                    Globals: []
+                      Stack: []
+                         LB: 0
+9: CONST 2 '<NUMBER:2.0>
+                    Globals: []
+                      Stack: [<NUMBER:2.0>]
+                         LB: 0
+10: PRINT_N
+2.0
+                    Globals: []
+                      Stack: []
+                         LB: 0
+11: CALL 1
+                    Globals: []
+                      Stack: [<INT:0>, <INT:12>]
+                         LB: 0
+1: CONST 0 '<STRING:"Hello">
+                    Globals: []
+                      Stack: [<INT:0>, <INT:12>, <STRING:"Hello">]
+                         LB: 0
+2: PRINT_S
+Hello
+                    Globals: []
+                      Stack: [<INT:0>, <INT:12>]
+                         LB: 0
+3: NIL
+                    Globals: []
+                      Stack: [<INT:0>, <INT:12>, <NIL>]
+                         LB: 0
+4: RETURN 0
+                    Globals: []
+                      Stack: [<NIL>]
+                         LB: 0
+12: POP 1
+                    Globals: []
+                      Stack: []
+                         LB: 0
+13: CONST 3 '<NUMBER:3.0>
+                    Globals: []
+                      Stack: [<NUMBER:3.0>]
+                         LB: 0
+14: PRINT_N
+3.0
+                    Globals: []
+                      Stack: []
+                         LB: 0
+15: HALT
