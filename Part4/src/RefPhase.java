@@ -48,7 +48,7 @@ public class RefPhase extends marBaseListener {
             System.out.println("line: " + ctx.getStart().getLine() + ":" + ctx.getStop().getCharPositionInLine()
                     + " error: " + id + " is not defined");
             this.numErrors++;
-        } else if (tVar instanceof VariableSymbol && !((VariableSymbol) tVar).isSet() && this.currentFunction == null) {
+        } else if (tVar instanceof VariableSymbol && !((VariableSymbol) tVar).isSet() && !((VariableSymbol) tVar).getScope().isGlobal()) {
             System.out.println("line: " + ctx.getStart().getLine() + ":" + ctx.getStop().getCharPositionInLine()
                     + " error: " + id + " has not been initialized");
             this.numErrors++;

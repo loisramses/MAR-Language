@@ -16,6 +16,10 @@ public class FunctionSymbol extends Symbol {
         return this.arguments;
     }
 
+    public Symbol getArgument(int index) {
+        return this.arguments.get(index);
+    }
+
     public void mapArguments() {
         int i = 0;
         for (Symbol symbol : arguments) {

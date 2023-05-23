@@ -3,20 +3,22 @@ import org.antlr.v4.runtime.tree.*;
 import SymbolTable.*;
 import java.io.*;
 import java.util.*;
+
 import mar.*;
+import mar.marParser.UselessContext;
 import util.*;
 
 public class marCompiler {
     public static class Evaluator extends marBaseListener {
         private final ParseTreeProperty<Scope> scopes;
-        // private ParseTreeProperty<Boolean> hasReturn;
+        private ParseTreeProperty<Boolean> hasReturn;
         private Scope currentScope;
         private final Scope globalScope;
         private final ByteArrayOutputStream byteArray;
         private final DataOutputStream byteArrayOutputStream;
         private final ArrayList<Const> constPool;
         private final ArrayList<String> opCodes;
-        private final Stack<Const> vars;
+        private final ArrayList<Const> vars;
         private final Stack<Integer> ifElsePos;
         private final Stack<Integer> whilePos;
         private boolean changedValue;
@@ -26,18 +28,18 @@ public class marCompiler {
         private int nLocals;
         private FunctionSymbol currentFunc;
 
-        public Evaluator(ParseTreeProperty<Scope> scopes, Scope global) {
+        public Evaluator(ParseTreeProperty<Scope> scopes, ParseTreeProperty<Boolean> hasReturn, Scope global) {
             this.typeErrors = 0;
             this.funcPos = -1;
             this.nLocals = 0;
             this.byteArray = new ByteArrayOutputStream();
             this.byteArrayOutputStream = new DataOutputStream(byteArray);
-            this.vars = new Stack<>();
+            this.vars = new ArrayList<>();
             this.opCodes = new ArrayList<>();
             this.constPool = new ArrayList<>(50);
             this.ifElsePos = new Stack<>();
             this.whilePos = new Stack<>();
-            // this.hasReturn = new ParseTreeProperty<>();
+            this.hasReturn = hasReturn;
             this.changedValue = false;
             this.inElse = false;
             this.scopes = scopes;
@@ -46,6 +48,14 @@ public class marCompiler {
             this.globalScope = global;
             if (global.getNVars() > 0)
                 this.opCodes.add("GLOBAL " + global.getNVars());
+        }
+
+        private void pushVar(Const x) {
+            this.vars.add(x);
+        }
+
+        private Const popVar() {
+            return this.vars.remove(this.vars.size() - 1);
         }
 
         public void writeData() {
@@ -176,7 +186,7 @@ public class marCompiler {
 
         public void exitPrint(marParser.PrintContext ctx) {
             String OP = "";
-            Const temp = this.vars.pop();
+            Const temp = this.popVar();
             if (temp.isNumber()) {
                 OP = "PRINT_N";
             } else if (temp.isString()) {
@@ -190,13 +200,13 @@ public class marCompiler {
         }
 
         public void exitNil(marParser.NilContext ctx) {
-            this.vars.push(new Const(Type.tNIL, null));
+            this.pushVar(new Const(Type.tNIL, null));
             this.opCodes.add("NIL");
         }
 
         public void exitBinMulDiv(marParser.BinMulDivContext ctx) {
             String OP;
-            Const right = this.vars.pop(), left = this.vars.pop();
+            Const right = this.popVar(), left = this.popVar();
             if (right.isNumber() && left.isNumber()) {
                 if (ctx.op.getType() == marParser.MULT) {
                     OP = "MULT";
@@ -209,26 +219,26 @@ public class marCompiler {
                 this.printError(ctx, "operator " + ctx.getChild(1).getText() + " is invalid between "
                         + left.getType() + " and " + right.getType());
             }
-            this.vars.push(right);
+            this.pushVar(right);
         }
 
         public void exitLogicOr(marParser.LogicOrContext ctx) {
-            Const right = this.vars.pop(), left = this.vars.pop();
+            Const right = this.popVar(), left = this.popVar();
             if (right.isBool() && left.isBool()) {
-                this.vars.push(new Const(Type.tBOOL, false));
+                this.pushVar(new Const(Type.tBOOL, false));
                 this.opCodes.add("OR");
             } else {
                 this.typeErrors++;
                 this.printError(ctx, "operator " + ctx.getChild(1).getText() + " is invalid between "
                         + left.getType() + " and " + right.getType());
             }
-            this.vars.push(new Const(Type.tBOOL, false));
+            this.pushVar(new Const(Type.tBOOL, false));
         }
 
         public void exitNumber(marParser.NumberContext ctx) {
             double result = Double.parseDouble(ctx.NUMBER().getText());
             Const temp = new Const(Type.tNUMBER, result);
-            this.vars.push(temp);
+            this.pushVar(temp);
             this.constPool.add(temp);
             this.opCodes.add("CONST " + (this.constPool.size() - 1));
         }
@@ -236,7 +246,7 @@ public class marCompiler {
         public void exitInEquality(marParser.InEqualityContext ctx) {
             String OP;
             boolean NEQ = false;
-            Const right = this.vars.pop(), left = this.vars.pop();
+            Const right = this.popVar(), left = this.popVar();
             if (ctx.op.getType() == marParser.NEQ)
                 NEQ = true;
             if (right.isNumber() && left.isNumber()) {
@@ -255,13 +265,13 @@ public class marCompiler {
             }
             if (NEQ)
                 OP = "N" + OP;
-            this.vars.push(new Const(Type.tBOOL, false));
+            this.pushVar(new Const(Type.tBOOL, false));
             this.opCodes.add(OP);
         }
 
         public void exitRelational(marParser.RelationalContext ctx) {
             String OP = null;
-            Const right = this.vars.pop(), left = this.vars.pop();
+            Const right = this.popVar(), left = this.popVar();
             if (right.isNumber() && left.isNumber()) {
                 if (ctx.op.getType() == marParser.LT) {
                     OP = "LT";
@@ -278,26 +288,26 @@ public class marCompiler {
                         + left.getType() + " and " + right.getType());
                 return;
             }
-            this.vars.push(new Const(Type.tBOOL, false));
+            this.pushVar(new Const(Type.tBOOL, false));
             this.opCodes.add(OP);
         }
 
         public void exitString(marParser.StringContext ctx) {
             String result = ctx.STRING().getText();
             Const temp = new Const(Type.tSTRING, result);
-            this.vars.push(temp);
+            this.pushVar(temp);
             this.constPool.add(temp);
             this.opCodes.add("CONST " + (this.constPool.size() - 1));
         }
 
         public void exitBoolean(marParser.BooleanContext ctx) {
             Boolean result = Boolean.parseBoolean(ctx.op.getText());
-            this.vars.push(new Const(Type.tBOOL, result));
+            this.pushVar(new Const(Type.tBOOL, result));
             this.opCodes.add(result.toString().toUpperCase());
         }
 
         public void exitLogicAnd(marParser.LogicAndContext ctx) {
-            Const right = this.vars.pop(), left = this.vars.pop();
+            Const right = this.popVar(), left = this.popVar();
             if (right.isBool() && left.isBool()) {
                 opCodes.add("AND");
             } else {
@@ -305,12 +315,12 @@ public class marCompiler {
                 this.printError(ctx, "operator " + ctx.getChild(1).getText() + " is invalid between "
                         + left.getType() + " and " + right.getType());
             }
-            this.vars.push(new Const(Type.tBOOL, false));
+            this.pushVar(new Const(Type.tBOOL, false));
         }
 
         public void exitUnary(marParser.UnaryContext ctx) {
             boolean error = false;
-            Const temp = this.vars.pop();
+            Const temp = this.popVar();
             if (ctx.op.getType() == marParser.SUB) {
                 if (temp.isNumber()) {
                     this.opCodes.add("UMINUS");
@@ -324,17 +334,16 @@ public class marCompiler {
                     error = true;
                 }
             }
-            this.vars.push(temp);
+            this.pushVar(temp);
             if (error) {
                 this.typeErrors++;
-                this.printError(ctx,
-                        "unary operator " + ctx.op.getText() + " is invalid for " + temp.getType());
+                this.printError(ctx, "unary operator " + ctx.op.getText() + " is invalid for " + temp.getType());
             }
         }
 
         public void exitBinAddSub(marParser.BinAddSubContext ctx) {
             String OP = "";
-            Const right = this.vars.pop(), left = this.vars.pop();
+            Const right = this.popVar(), left = this.popVar();
             if (ctx.op.getType() == marParser.ADD) {
                 if (right.isNumber() && left.isNumber()) {
                     OP = "ADD";
@@ -354,18 +363,19 @@ public class marCompiler {
                             + left.getType() + " and " + right.getType());
                 }
             }
-            this.vars.push(right);
+            this.pushVar(right);
             opCodes.add(OP);
         }
 
         public void exitAssign(marParser.AssignContext ctx) {
-            Const tempConst = this.vars.pop();
+            Const tempConst = this.popVar();
             Symbol test = this.currentScope.resolve(ctx.ID().getText());
             if (test instanceof VariableSymbol) {
                 VariableSymbol temp = (VariableSymbol) test;
                 temp.assign();
                 if (temp.getType() != tempConst.getType()) {
-                    printError(ctx, "cannot assign " + tempConst.getType().getText() + " to type " + temp.getType().getText());
+                    printError(ctx, "cannot assign an expression of type " + tempConst.getType().getText()
+                         + " to a variable of type " + temp.getType().getText());
                     this.typeErrors++;
                 }
                 if (temp.getScope().isGlobal())
@@ -379,7 +389,7 @@ public class marCompiler {
             if (ctx.AFFECT() != null) {
                 VariableSymbol temp = (VariableSymbol) this.currentScope.resolve(ctx.ID().getText());
                 temp.assign();
-                Const tempConst = this.vars.pop();
+                Const tempConst = this.popVar();
                 if (temp.getType() != tempConst.getType()) {
                     printError(ctx, "cannot assign " + tempConst.getType().getText() + " to type " + temp.getType().getText());
                     this.typeErrors++;
@@ -420,7 +430,7 @@ public class marCompiler {
         public void exitEveryRule(ParserRuleContext ctx) {
             if (ctx.getParent() instanceof marParser.IfContext) {
                 if (ctx instanceof marParser.ExprContext) {
-                    Const temp = this.vars.pop();
+                    Const temp = this.popVar();
                     if (!temp.isBool()) {
                         this.printError(ctx, "if expression must be of type bool");
                         this.typeErrors++;
@@ -440,32 +450,13 @@ public class marCompiler {
                 }
             }
             if (ctx.getParent() instanceof marParser.WhileContext) {
+                ArrayList<Integer> loadIndexes = this.conditionChecker(this.whilePos.peek(), this.opCodes.size() - 1, "LOAD");
+                if (loadIndexes.size() == 0) {
+                    this.printError(ctx.getParent(), "loop is likely to be endless a ");
+                    this.typeErrors++;
+                }
                 if (ctx instanceof marParser.ExprContext) {
-                    ArrayList<Integer> loadIndexes = this.conditionChecker(this.whilePos.peek(),
-                            this.opCodes.size() - 1, "LOAD");
-                    if (loadIndexes.size() == 0) {
-                        this.printError(ctx.getParent(), "loop is likely to be endless");
-                        this.typeErrors++;
-                    } else {
-                        String[] res;
-                        ArrayList<Integer> storeIndexes = this.conditionChecker(this.whilePos.peek(),
-                                this.opCodes.size() - 1, "STORE");
-                        for (int integer : loadIndexes) {
-                            res = this.opCodes.get(integer).split(" ");
-                            for (int integer2 : storeIndexes) {
-                                if (this.opCodes.get(integer2).split(" ")[1].equals(res[1])) {
-                                    changedValue = true;
-                                    break;
-                                }
-                            }
-                            if (changedValue) break; // get out earlier
-                        }
-                        if (!changedValue) {
-                            this.printError(ctx.getParent(), "loop is likely to be endless");
-                            this.typeErrors++;
-                        }
-                    }
-                    Const temp = this.vars.pop();
+                    Const temp = this.popVar();
                     if (!temp.isBool()) {
                         this.printError(ctx, "while condition must be of type bool");
                         this.typeErrors++;
@@ -473,6 +464,22 @@ public class marCompiler {
                     this.opCodes.add("JUMPF ");
                     this.whilePos.push(this.opCodes.size() - 1);
                 } else if (ctx instanceof marParser.InstContext) { // else
+                    String[] res;
+                    ArrayList<Integer> storeIndexes = this.conditionChecker(this.whilePos.peek(), this.opCodes.size() - 1, "STORE");
+                    for (int integer : loadIndexes) {
+                        res = this.opCodes.get(integer).split(" ");
+                        for (int integer2 : storeIndexes) {
+                            if (this.opCodes.get(integer2).split(" ")[1].equals(res[1])) {
+                                changedValue = true;
+                                break;
+                            }
+                        }
+                        if (changedValue) break; // get out earlier
+                    }
+                    if (!changedValue) {
+                        this.printError(ctx.getParent(), "loop is likely to be endless b ");
+                        this.typeErrors++;
+                    }
                     int index = this.whilePos.pop();
                     this.opCodes.set(index, this.opCodes.get(index) + (this.opCodes.size() + 1));
                     index = this.whilePos.pop();
@@ -504,6 +511,7 @@ public class marCompiler {
         }
     
         public void enterFunctionDecl(marParser.FunctionDeclContext ctx) {
+            // ver por cada parametro, se corresponde ao tipo
             if (this.funcPos < 0) {
                 this.funcPos = this.opCodes.size();
                 this.opCodes.add("JUMP ");
@@ -514,7 +522,12 @@ public class marCompiler {
         }
 
         public void exitFunctionDecl(marParser.FunctionDeclContext ctx) {
-            // if (this.currentFunc.getType() == Type.tNIL) // falta meter se n tiver return
+            if (this.currentFunc.getType() != Type.tNIL) {// falta meter se n tiver return
+                if (!this.hasReturn.get(ctx)) {
+                    this.printError(ctx, "missing return in function " + this.currentFunc.getId());
+                    this.typeErrors++;
+                }
+            }
             this.currentFunc = null;
         }
 
@@ -532,6 +545,12 @@ public class marCompiler {
         public void exitBlock(marParser.BlockContext ctx) {
             if (this.currentScope.getNVars() > 0)
                 this.opCodes.add("POP " + this.currentScope.getNVars());
+            if (this.currentFunc != null) { // se na func e n tiver return
+                if (this.currentFunc.getType() == Type.tNIL && !this.hasReturn.get(ctx)) {
+                    this.opCodes.add("NIL");
+                    this.opCodes.add("RETURN " + this.currentFunc.getArguments().size());
+                }
+            }
             this.nLocals -= this.currentScope.getNVars();
             this.currentScope = this.currentScope.getEnclosingScope();
         }
@@ -541,10 +560,24 @@ public class marCompiler {
             if (test instanceof FunctionSymbol) {
                 FunctionSymbol temp = (FunctionSymbol) this.currentScope.resolve(ctx.ID().getText());
                 this.opCodes.add("CALL " + temp.getPos());
+                if (ctx.exprList() != null) {
+                    if (ctx.exprList().expr().size() != temp.getArguments().size()) {
+                        this.printError(ctx, temp.getId() +  " has " + temp.getArguments().size() + " arguments, not " + ctx.exprList().expr().size());
+                        this.typeErrors++;
+                    } else {
+                        for (int i = 0; i < temp.getArguments().size(); i++) {
+                            if (this.vars.get(i).getType() != temp.getArgument(i).getType()) {
+                                this.printError(ctx.exprList().expr(i), "actual parameter '" + ctx.exprList().expr(i).getText() + "' if of type " + this.vars.get(i).getType().getText()
+                                + ", but type " + temp.getArgument(i).getType().getText() + " expected");
+                                this.typeErrors++;
+                            }
+                        }
+                    }
+                }
                 for (int i = 0; i < temp.getArguments().size(); i++)
-                    this.vars.pop();
-                this.vars.push(new Const(temp.getType(), null));
-                if (temp.getType() == Type.tNIL) {
+                    this.popVar();
+                this.pushVar(new Const(temp.getType(), null));
+                if (temp.getType() == Type.tNIL && !(ctx.getParent() instanceof UselessContext)) {
                     this.opCodes.add("POP 1");
                 }
             }
@@ -555,13 +588,15 @@ public class marCompiler {
             if (this.currentFunc != null) { // se for void
                 if (this.currentFunc.getType() == Type.tNIL) {
                     this.opCodes.add("NIL");
-                    this.vars.push(new Const(Type.tNIL, null));
+                    this.pushVar(new Const(Type.tNIL, null));
                     if (ctx.expr() != null) { // e tiver return expr
+                        this.popVar();
+                        this.popVar();
                         this.printError(ctx, this.currentFunc.getId() + " should not return a value");
                         this.typeErrors++;
                     }
                 } else if (ctx.expr() != null) { // se n for void e tiver return expr
-                    tempConst = this.vars.pop();
+                    tempConst = this.popVar();
                     if (tempConst.getType() != this.currentFunc.getType()) {
                         this.printError(ctx, this.currentFunc.getId() + " should return a value of type " + this.currentFunc.getType().getText() +
                         ", not " + tempConst.getType().getText());
@@ -576,6 +611,10 @@ public class marCompiler {
                 this.printError(ctx, "return statement outside function");
                 this.typeErrors++;
             }
+        }
+    
+        public void exitUseless(marParser.UselessContext ctx) {
+            this.opCodes.add("POP 1");
         }
     }
 
@@ -601,11 +640,9 @@ public class marCompiler {
             marParser parser = new marParser(tokens);
             ParseTree tree = parser.prog();
 
-            if (parser.getNumberOfSyntaxErrors() > 0) {
-                System.exit(1);
-            }
-            if (debug)
-                System.out.println("... parsing done");
+            if (parser.getNumberOfSyntaxErrors() > 0) System.exit(1);
+
+            if (debug) System.out.println("... parsing done");
 
             ParseTreeWalker walker = new ParseTreeWalker();
             DefPhase def = new DefPhase();
@@ -616,29 +653,29 @@ public class marCompiler {
             RefPhase ref = new RefPhase(def.scopes, def.global);
             walker.walk(ref, tree);
 
-            Evaluator eval = new Evaluator(def.scopes, def.global);
+            Evaluator eval = new Evaluator(def.scopes, def.hasReturn, def.global);
             walker.walk(eval, tree);
 
-            if (eval.typeErrors <= 0) {
-                if (debug) System.out.println("... identification and type checking done");
-            } else return;
-
-            DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream(outputFile));
-            if (debug) System.out.println("... code generation");
-            dataOutputStream.write(eval.constToByteArray());
-            eval.writeData();
-            dataOutputStream.write(eval.byteArray.toByteArray());
-            dataOutputStream.close();
-            if (debug) {
-                System.out.println("Constant pool:");
-                for (int i = 0; i < eval.constPool.size(); i++)
-                    System.out.println(i + ": " + eval.constPool.get(i));
-                System.out.println("Generated assembly code:");
-                int i = 0;
-                for (String string : eval.opCodes)
-                    System.out.println(i++ + ": " + string);
-                System.out.println("Saving the constant pool and the bytecodes to " + outputFile);
-            }
+            if (debug) System.out.println("... identification and type checking done");
+            
+            if (eval.typeErrors <= 0 && def.getNumErrors() <= 0 && ref.getNumErrors() <= 0) {
+                DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream(outputFile));
+                dataOutputStream.write(eval.constToByteArray());
+                eval.writeData();
+                dataOutputStream.write(eval.byteArray.toByteArray());
+                dataOutputStream.close();
+                if (debug) {
+                    System.out.println("... code generation");
+                    System.out.println("Constant pool:");
+                    for (int i = 0; i < eval.constPool.size(); i++)
+                        System.out.println(i + ": " + eval.constPool.get(i));
+                    System.out.println("Generated assembly code:");
+                    int i = 0;
+                    for (String string : eval.opCodes)
+                        System.out.println(i++ + ": " + string);
+                    System.out.println("Saving the constant pool and the bytecodes to " + outputFile);
+                }
+            } else System.out.println(inputFileName + " has " + (eval.typeErrors + def.getNumErrors() + ref.getNumErrors()) + " semantic errors");
         } catch (java.io.IOException e) {
             e.printStackTrace();
         }

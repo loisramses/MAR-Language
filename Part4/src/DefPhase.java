@@ -25,11 +25,6 @@ public class DefPhase extends marBaseListener {
         }
     }
 
-    public void exitEveryRule(ParserRuleContext ctx) {
-        if (this.hasReturn.get(ctx) == null && ctx instanceof marParser.InstContext)
-            System.out.println(ctx.getText());
-    }
-
     public void enterProg(marParser.ProgContext ctx) {
         this.global = new Scope(null);
         this.currentScope = this.global;
@@ -65,17 +60,17 @@ public class DefPhase extends marBaseListener {
     public void enterFunctionDecl(marParser.FunctionDeclContext ctx) {
         String id = ctx.ID().getText();
         Type funcType;
-        if (ctx.type() != null)
-            funcType = Type.getType(ctx.type().start.getType());
-        else
-            funcType = Type.tNIL; // void
+        if (ctx.type() != null) funcType = Type.getType(ctx.type().start.getType());
+        else funcType = Type.tNIL; // void
         FunctionSymbol func = new FunctionSymbol(id, funcType);
         this.currentScope.define(func);
         this.currentFunction = func;
     }
 
     public void exitFunctionDecl(marParser.FunctionDeclContext ctx) {
-        this.currentFunction = null;
+        this.hasReturn.put(ctx, this.hasReturn.get(ctx.block()));
+        this.currentFunction = null; // maybe meter aqui p definir a func como tendo return ou n
+                                     // usar mm uma var no funcsymbol
     }
 
     public void enterBlock(marParser.BlockContext ctx) {
@@ -91,6 +86,7 @@ public class DefPhase extends marBaseListener {
                 }
             }
         }
+        this.currentFunction = null;
         this.saveScope(ctx, this.currentScope);
     }
     
@@ -108,10 +104,8 @@ public class DefPhase extends marBaseListener {
     public void exitBlock(marParser.BlockContext ctx) {
         this.currentScope = this.currentScope.getEnclosingScope();
         boolean hasReturn = false;
-        for (ParserRuleContext inst : ctx.inst()) {
-            // System.out.println(ctx.getText());
+        for (ParserRuleContext inst : ctx.inst())
             hasReturn = hasReturn || this.hasReturn.get(inst);
-        }
         this.hasReturn.put(ctx, hasReturn);
     }
 

@@ -318,8 +318,9 @@ public class marVM {
             return pointer - 1;
         }
 
-        public int exec_return(int size) {
+        public int exec_return(int size, int pointer) {
             Const funcResult = this.popVar();
+            while (this.vars.size() > this.LB + 2) this.popVar(); // poplocal vars
             int nextInst = (int) this.popVar().getValue();
             this.LB = (int) this.popVar().getValue();
             for (int i = 0; i < size; i++)
@@ -400,7 +401,7 @@ public class marVM {
                 case STOREL -> vm.exec_storel(Integer.parseInt(instruction[1]));
                 case LOADL -> vm.exec_loadl(Integer.parseInt(instruction[1]));
                 case CALL -> i = vm.exec_call(Integer.parseInt(instruction[1]), i);
-                case RETURN -> i = vm.exec_return(Integer.parseInt(instruction[1]));
+                case RETURN -> i = vm.exec_return(Integer.parseInt(instruction[1]), i);
                 case LOCAL -> vm.exec_local(Integer.parseInt(instruction[1]));
                 case POP -> vm.exec_pop(Integer.parseInt(instruction[1]));
                 default -> {}

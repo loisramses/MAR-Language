@@ -138,6 +138,11 @@ public class marParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof marListener ) ((marListener)listener).exitProg(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof marVisitor ) return ((marVisitor<? extends T>)visitor).visitProg(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final ProgContext prog() throws RecognitionException {
@@ -236,6 +241,11 @@ public class marParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof marListener ) ((marListener)listener).exitUseless(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof marVisitor ) return ((marVisitor<? extends T>)visitor).visitUseless(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class PrintContext extends InstContext {
@@ -253,6 +263,11 @@ public class marParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof marListener ) ((marListener)listener).exitPrint(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof marVisitor ) return ((marVisitor<? extends T>)visitor).visitPrint(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class ReturnContext extends InstContext {
@@ -268,6 +283,11 @@ public class marParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof marListener ) ((marListener)listener).exitReturn(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof marVisitor ) return ((marVisitor<? extends T>)visitor).visitReturn(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 	@SuppressWarnings("CheckReturnValue")
@@ -287,6 +307,11 @@ public class marParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof marListener ) ((marListener)listener).exitAssign(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof marVisitor ) return ((marVisitor<? extends T>)visitor).visitAssign(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class WhileContext extends InstContext {
@@ -304,6 +329,11 @@ public class marParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof marListener ) ((marListener)listener).exitWhile(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof marVisitor ) return ((marVisitor<? extends T>)visitor).visitWhile(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 	@SuppressWarnings("CheckReturnValue")
@@ -326,6 +356,11 @@ public class marParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof marListener ) ((marListener)listener).exitIf(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof marVisitor ) return ((marVisitor<? extends T>)visitor).visitIf(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class InstBlockContext extends InstContext {
@@ -340,6 +375,11 @@ public class marParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof marListener ) ((marListener)listener).exitInstBlock(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof marVisitor ) return ((marVisitor<? extends T>)visitor).visitInstBlock(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -485,6 +525,11 @@ public class marParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof marListener ) ((marListener)listener).exitType(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof marVisitor ) return ((marVisitor<? extends T>)visitor).visitType(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final TypeContext type() throws RecognitionException {
@@ -544,6 +589,11 @@ public class marParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof marListener ) ((marListener)listener).exitBlock(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof marVisitor ) return ((marVisitor<? extends T>)visitor).visitBlock(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -622,6 +672,11 @@ public class marParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof marListener ) ((marListener)listener).exitVarDecl(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof marVisitor ) return ((marVisitor<? extends T>)visitor).visitVarDecl(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final VarDeclContext varDecl() throws RecognitionException {
@@ -687,6 +742,11 @@ public class marParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof marListener ) ((marListener)listener).exitFunctionDecl(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof marVisitor ) return ((marVisitor<? extends T>)visitor).visitFunctionDecl(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -758,6 +818,11 @@ public class marParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof marListener ) ((marListener)listener).exitFormalParams(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof marVisitor ) return ((marVisitor<? extends T>)visitor).visitFormalParams(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final FormalParamsContext formalParams() throws RecognitionException {
@@ -816,6 +881,11 @@ public class marParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof marListener ) ((marListener)listener).exitFormalParam(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof marVisitor ) return ((marVisitor<? extends T>)visitor).visitFormalParam(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final FormalParamContext formalParam() throws RecognitionException {
@@ -870,6 +940,11 @@ public class marParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof marListener ) ((marListener)listener).exitCall(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof marVisitor ) return ((marVisitor<? extends T>)visitor).visitCall(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class BinMulDivContext extends ExprContext {
@@ -891,6 +966,11 @@ public class marParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof marListener ) ((marListener)listener).exitBinMulDiv(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof marVisitor ) return ((marVisitor<? extends T>)visitor).visitBinMulDiv(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class LogicOrContext extends ExprContext {
@@ -909,6 +989,11 @@ public class marParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof marListener ) ((marListener)listener).exitLogicOr(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof marVisitor ) return ((marVisitor<? extends T>)visitor).visitLogicOr(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 	@SuppressWarnings("CheckReturnValue")
@@ -930,6 +1015,11 @@ public class marParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof marListener ) ((marListener)listener).exitInEquality(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof marVisitor ) return ((marVisitor<? extends T>)visitor).visitInEquality(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 	@SuppressWarnings("CheckReturnValue")
@@ -954,6 +1044,11 @@ public class marParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof marListener ) ((marListener)listener).exitRelational(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof marVisitor ) return ((marVisitor<? extends T>)visitor).visitRelational(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class StringContext extends ExprContext {
@@ -966,6 +1061,11 @@ public class marParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof marListener ) ((marListener)listener).exitString(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof marVisitor ) return ((marVisitor<? extends T>)visitor).visitString(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 	@SuppressWarnings("CheckReturnValue")
@@ -984,6 +1084,11 @@ public class marParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof marListener ) ((marListener)listener).exitUnary(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof marVisitor ) return ((marVisitor<? extends T>)visitor).visitUnary(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 	@SuppressWarnings("CheckReturnValue")
@@ -1006,6 +1111,11 @@ public class marParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof marListener ) ((marListener)listener).exitBinAddSub(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof marVisitor ) return ((marVisitor<? extends T>)visitor).visitBinAddSub(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class HandleParenContext extends ExprContext {
@@ -1023,6 +1133,11 @@ public class marParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof marListener ) ((marListener)listener).exitHandleParen(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof marVisitor ) return ((marVisitor<? extends T>)visitor).visitHandleParen(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class NilContext extends ExprContext {
@@ -1035,6 +1150,11 @@ public class marParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof marListener ) ((marListener)listener).exitNil(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof marVisitor ) return ((marVisitor<? extends T>)visitor).visitNil(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 	@SuppressWarnings("CheckReturnValue")
@@ -1049,6 +1169,11 @@ public class marParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof marListener ) ((marListener)listener).exitNumber(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof marVisitor ) return ((marVisitor<? extends T>)visitor).visitNumber(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class IdContext extends ExprContext {
@@ -1061,6 +1186,11 @@ public class marParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof marListener ) ((marListener)listener).exitId(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof marVisitor ) return ((marVisitor<? extends T>)visitor).visitId(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 	@SuppressWarnings("CheckReturnValue")
@@ -1076,6 +1206,11 @@ public class marParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof marListener ) ((marListener)listener).exitBoolean(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof marVisitor ) return ((marVisitor<? extends T>)visitor).visitBoolean(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 	@SuppressWarnings("CheckReturnValue")
@@ -1095,6 +1230,11 @@ public class marParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof marListener ) ((marListener)listener).exitLogicAnd(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof marVisitor ) return ((marVisitor<? extends T>)visitor).visitLogicAnd(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -1388,6 +1528,11 @@ public class marParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof marListener ) ((marListener)listener).exitExprList(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof marVisitor ) return ((marVisitor<? extends T>)visitor).visitExprList(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
