@@ -69,8 +69,7 @@ public class DefPhase extends marBaseListener {
 
     public void exitFunctionDecl(marParser.FunctionDeclContext ctx) {
         this.hasReturn.put(ctx, this.hasReturn.get(ctx.block()));
-        this.currentFunction = null; // maybe meter aqui p definir a func como tendo return ou n
-                                     // usar mm uma var no funcsymbol
+        this.currentFunction = null;
     }
 
     public void enterBlock(marParser.BlockContext ctx) {

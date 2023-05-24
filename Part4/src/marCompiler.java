@@ -5,7 +5,6 @@ import java.io.*;
 import java.util.*;
 
 import mar.*;
-import mar.marParser.UselessContext;
 import util.*;
 
 public class marCompiler {
@@ -402,19 +401,24 @@ public class marCompiler {
         }
 
         public void exitId(marParser.IdContext ctx) {
-            VariableSymbol temp = (VariableSymbol)  this.currentScope.resolve(ctx.ID().getText());
-            Type tempType = temp.getType();
-            switch (tempType) {
-                case tNUMBER -> this.vars.add(new Const(Type.tNUMBER, 1.0));
-                case tBOOL -> this.vars.add(new Const(Type.tBOOL, false));
-                case tNIL -> this.vars.add(new Const(Type.tNIL, null));
-                case tSTRING -> this.vars.add(new Const(Type.tSTRING, ""));
-                default -> throw new IllegalArgumentException("Unexpected value: " + tempType);
+            Symbol test = this.currentScope.resolve(ctx.ID().getText());
+            if (test instanceof VariableSymbol) {
+                VariableSymbol temp = (VariableSymbol) test;
+                Type tempType = temp.getType();
+                switch (tempType) {
+                    case tNUMBER -> this.pushVar(new Const(Type.tNUMBER, 1.0));
+                    case tBOOL -> this.pushVar(new Const(Type.tBOOL, false));
+                    case tNIL -> this.pushVar(new Const(Type.tNIL, null));
+                    case tSTRING -> this.pushVar(new Const(Type.tSTRING, ""));
+                    default -> throw new IllegalArgumentException("Unexpected value: " + tempType);
+                }
+                if (temp.getScope().isGlobal())
+                    this.opCodes.add("LOADG " + temp.getIndex());
+                else // local
+                    this.opCodes.add("LOADL " + temp.getIndex());
+            } else {
+                this.pushVar(new Const(test.getType(), null));
             }
-            if (temp.getScope().isGlobal())
-                this.opCodes.add("LOADG " + temp.getIndex());
-            else // local
-                this.opCodes.add("LOADL " + temp.getIndex());
 
         }
 
@@ -450,11 +454,6 @@ public class marCompiler {
                 }
             }
             if (ctx.getParent() instanceof marParser.WhileContext) {
-                ArrayList<Integer> loadIndexes = this.conditionChecker(this.whilePos.peek(), this.opCodes.size() - 1, "LOAD");
-                if (loadIndexes.size() == 0) {
-                    this.printError(ctx.getParent(), "loop is likely to be endless a ");
-                    this.typeErrors++;
-                }
                 if (ctx instanceof marParser.ExprContext) {
                     Const temp = this.popVar();
                     if (!temp.isBool()) {
@@ -464,22 +463,37 @@ public class marCompiler {
                     this.opCodes.add("JUMPF ");
                     this.whilePos.push(this.opCodes.size() - 1);
                 } else if (ctx instanceof marParser.InstContext) { // else
-                    String[] res;
-                    ArrayList<Integer> storeIndexes = this.conditionChecker(this.whilePos.peek(), this.opCodes.size() - 1, "STORE");
-                    for (int integer : loadIndexes) {
-                        res = this.opCodes.get(integer).split(" ");
-                        for (int integer2 : storeIndexes) {
-                            if (this.opCodes.get(integer2).split(" ")[1].equals(res[1])) {
-                                changedValue = true;
-                                break;
-                            }
-                        }
-                        if (changedValue) break; // get out earlier
-                    }
-                    if (!changedValue) {
-                        this.printError(ctx.getParent(), "loop is likely to be endless b ");
+                    int temp = this.whilePos.pop();
+                    ArrayList<Integer> loadIndexes = this.conditionChecker(this.whilePos.peek(), temp, "LOAD");
+                    this.whilePos.push(temp);
+                    if (loadIndexes.size() == 0) {
+                        this.printError(ctx.getParent(), "loop is likely to be endless");
                         this.typeErrors++;
+                    } else {
+                        String[] loadString, storeString;
+                        OpCode load, store;
+                        ArrayList<Integer> storeIndexes = this.conditionChecker(this.whilePos.peek(), this.opCodes.size(), "STORE");
+                        for (int integer : loadIndexes) {
+                            loadString = this.opCodes.get(integer).split(" ");
+                            load = OpCode.valueOf(loadString[0]);
+                            for (int integer2 : storeIndexes) {
+                                storeString = this.opCodes.get(integer2).split(" ");
+                                store = OpCode.valueOf(storeString[0]);
+                                if (load == store.next()) {
+                                    if (storeString[1].equals(loadString[1])) { // compare var indexes
+                                        changedValue = true;
+                                        break;
+                                    }
+                                }
+                            }
+                            if (changedValue) break; // get out earlier
+                        }
+                        if (!changedValue) {
+                            this.printError(ctx.getParent(), "loop is likely to be endless");
+                            this.typeErrors++;
+                        }
                     }
+                    this.changedValue = false;
                     int index = this.whilePos.pop();
                     this.opCodes.set(index, this.opCodes.get(index) + (this.opCodes.size() + 1));
                     index = this.whilePos.pop();
@@ -505,13 +519,12 @@ public class marCompiler {
                 str = this.opCodes.get(i);
                 index = str.indexOf(keyword);
                 if (index != -1)
-                    indexes.add(index);
+                    indexes.add(i);
             }
             return indexes;
         }
     
         public void enterFunctionDecl(marParser.FunctionDeclContext ctx) {
-            // ver por cada parametro, se corresponde ao tipo
             if (this.funcPos < 0) {
                 this.funcPos = this.opCodes.size();
                 this.opCodes.add("JUMP ");
@@ -577,7 +590,7 @@ public class marCompiler {
                 for (int i = 0; i < temp.getArguments().size(); i++)
                     this.popVar();
                 this.pushVar(new Const(temp.getType(), null));
-                if (temp.getType() == Type.tNIL && !(ctx.getParent() instanceof UselessContext)) {
+                if (temp.getType() == Type.tNIL && !(ctx.getParent() instanceof marParser.UselessContext)) {
                     this.opCodes.add("POP 1");
                 }
             }

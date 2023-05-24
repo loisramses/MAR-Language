@@ -69,6 +69,10 @@ public enum OpCode {
         return this.value;
     }
 
+    public OpCode next() {
+        return values()[ordinal() + 1];
+    }
+
     public String getText() {
         return this.text;
     }

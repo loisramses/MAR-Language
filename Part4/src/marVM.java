@@ -300,6 +300,12 @@ public class marVM {
         }
         
         public void exec_loadg(int index) {
+            Const temp = this.globals.get(index);
+            if (temp.getType() == Type.tNIL) {
+                System.out.println("runtime error: marVM accessed a nil value."
+                    + "\n\t\t\t\tglobal variable might not be initialized." );
+                System.exit(1);
+            }
             this.pushVar(this.globals.get(index));
         }
         
