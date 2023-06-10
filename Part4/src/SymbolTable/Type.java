@@ -5,8 +5,8 @@ import mar.marParser;
 public enum Type {
     tNUMBER("number"),
     tSTRING("string"),
-    tNIL("nil"),
     tBOOL("bool"),
+    tNIL("nil"),
     tINT("int");
 
     private String stringValue;

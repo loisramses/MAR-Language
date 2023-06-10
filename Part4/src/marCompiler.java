@@ -21,7 +21,6 @@ public class marCompiler {
         private final Stack<Integer> ifElsePos;
         private final Stack<Integer> whilePos;
         private boolean changedValue;
-        private boolean inElse;
         private int typeErrors;
         private int funcPos;
         private int nLocals;
@@ -40,7 +39,6 @@ public class marCompiler {
             this.whilePos = new Stack<>();
             this.hasReturn = hasReturn;
             this.changedValue = false;
-            this.inElse = false;
             this.scopes = scopes;
             this.currentScope = null;
             this.currentFunc = null;
@@ -422,95 +420,75 @@ public class marCompiler {
 
         }
 
-        public void enterEveryRule(ParserRuleContext ctx) {
-            if (ctx instanceof marParser.InstContext && ctx.getParent() instanceof marParser.ProgContext) {
-                if (this.funcPos >= 0) {
-                    this.opCodes.set(this.funcPos, this.opCodes.get(this.funcPos) + this.opCodes.size());
-                    this.funcPos = -1;
-                }
+        public void exitIfCond(marParser.IfCondContext ctx) {
+            Const temp = this.popVar();
+            if (!temp.isBool()) {
+                this.printError(ctx, "if expression must be of type bool");
+                this.typeErrors++;
             }
+            this.opCodes.add("JUMPF ");
+            this.ifElsePos.push(this.opCodes.size() - 1);            
         }
 
-        public void exitEveryRule(ParserRuleContext ctx) {
-            if (ctx.getParent() instanceof marParser.IfContext) {
-                if (ctx instanceof marParser.ExprContext) {
-                    Const temp = this.popVar();
-                    if (!temp.isBool()) {
-                        this.printError(ctx, "if expression must be of type bool");
-                        this.typeErrors++;
-                    }
-                    this.opCodes.add("JUMPF ");
-                    this.ifElsePos.push(this.opCodes.size() - 1);
-                } else if (ctx instanceof marParser.InstContext && ctx.getParent().getChildCount() > 4) { // else
-                    if (!this.inElse) {
-                        this.opCodes.add("JUMP ");
-                        int index = this.ifElsePos.pop();
-                        this.opCodes.set(index, this.opCodes.get(index) + this.opCodes.size());
-                        this.ifElsePos.push(this.opCodes.size() - 1);
-                        this.inElse = true;
-                    } else {
-                        this.inElse = false;
-                    }
-                }
-            }
-            if (ctx.getParent() instanceof marParser.WhileContext) {
-                if (ctx instanceof marParser.ExprContext) {
-                    Const temp = this.popVar();
-                    if (!temp.isBool()) {
-                        this.printError(ctx, "while condition must be of type bool");
-                        this.typeErrors++;
-                    }
-                    this.opCodes.add("JUMPF ");
-                    this.whilePos.push(this.opCodes.size() - 1);
-                } else if (ctx instanceof marParser.InstContext) { // else
-                    int temp = this.whilePos.pop();
-                    ArrayList<Integer> loadIndexes = this.conditionChecker(this.whilePos.peek(), temp, "LOAD");
-                    this.whilePos.push(temp);
-                    if (loadIndexes.size() == 0) {
-                        this.printError(ctx.getParent(), "loop is likely to be endless");
-                        this.typeErrors++;
-                    } else {
-                        String[] loadString, storeString;
-                        OpCode load, store;
-                        ArrayList<Integer> storeIndexes = this.conditionChecker(this.whilePos.peek(), this.opCodes.size(), "STORE");
-                        for (int integer : loadIndexes) {
-                            loadString = this.opCodes.get(integer).split(" ");
-                            load = OpCode.valueOf(loadString[0]);
-                            for (int integer2 : storeIndexes) {
-                                storeString = this.opCodes.get(integer2).split(" ");
-                                store = OpCode.valueOf(storeString[0]);
-                                if (load == store.next()) {
-                                    if (storeString[1].equals(loadString[1])) { // compare var indexes
-                                        changedValue = true;
-                                        break;
-                                    }
-                                }
-                            }
-                            if (changedValue) break; // get out earlier
-                        }
-                        if (!changedValue) {
-                            this.printError(ctx.getParent(), "loop is likely to be endless");
-                            this.typeErrors++;
-                        }
-                    }
-                    this.changedValue = false;
-                    int index = this.whilePos.pop();
-                    this.opCodes.set(index, this.opCodes.get(index) + (this.opCodes.size() + 1));
-                    index = this.whilePos.pop();
-                    this.opCodes.add("JUMP " + (index + 1));
-                }
-            }
+        public void enterElseInst(marParser.ElseInstContext ctx) {
+            this.opCodes.add("JUMP ");
+            int index = this.ifElsePos.pop();
+            this.opCodes.set(index, this.opCodes.get(index) + this.opCodes.size());
+            this.ifElsePos.push(this.opCodes.size() - 1);
         }
 
+        public void exitWhileCond(marParser.WhileCondContext ctx) {
+            Const temp = this.popVar();
+            if (!temp.isBool()) {
+                this.printError(ctx, "while condition must be of type bool");
+                this.typeErrors++;
+            }
+            this.opCodes.add("JUMPF ");
+            this.whilePos.push(this.opCodes.size() - 1);
+        }    
+        
         public void enterWhile(marParser.WhileContext ctx) {
             this.whilePos.push(this.opCodes.size() - 1);
         }
 
-        public void exitIf(marParser.IfContext ctx) {
-            int index = this.ifElsePos.pop();
-            this.opCodes.set(index, this.opCodes.get(index) + this.opCodes.size());
-        }
-
+        public void exitWhile(marParser.WhileContext ctx) {
+            int temp = this.whilePos.pop();
+            ArrayList<Integer> loadIndexes = this.conditionChecker(this.whilePos.peek(), temp, "LOAD");
+            this.whilePos.push(temp);
+            if (loadIndexes.size() == 0) {
+                this.printError(ctx.getParent(), "loop is likely to be endless");
+                this.typeErrors++;
+            } else {
+                String[] loadString, storeString;
+                OpCode load, store;
+                ArrayList<Integer> storeIndexes = this.conditionChecker(this.whilePos.peek(), this.opCodes.size(), "STORE");
+                for (int integer : loadIndexes) {
+                    loadString = this.opCodes.get(integer).split(" ");
+                    load = OpCode.valueOf(loadString[0]);
+                    for (int integer2 : storeIndexes) {
+                        storeString = this.opCodes.get(integer2).split(" ");
+                        store = OpCode.valueOf(storeString[0]);
+                        if (load == store.next()) {
+                            if (storeString[1].equals(loadString[1])) { // compare var indexes
+                                changedValue = true;
+                                break;
+                            }    
+                        }    
+                    }    
+                    if (changedValue) break; // get out earlier
+                }    
+                if (!changedValue) {
+                    this.printError(ctx.getParent(), "loop is likely to be endless");
+                    this.typeErrors++;
+                }    
+            }    
+            this.changedValue = false;
+            int index = this.whilePos.pop();
+            this.opCodes.set(index, this.opCodes.get(index) + (this.opCodes.size() + 1));
+            index = this.whilePos.pop();
+            this.opCodes.add("JUMP " + (index + 1));
+        }    
+        
         private ArrayList<Integer> conditionChecker(int start, int end, String keyword) {
             ArrayList<Integer> indexes = new ArrayList<>();
             String str;
@@ -523,7 +501,12 @@ public class marCompiler {
             }
             return indexes;
         }
-    
+        
+        public void exitIf(marParser.IfContext ctx) {
+            int index = this.ifElsePos.pop();
+            this.opCodes.set(index, this.opCodes.get(index) + this.opCodes.size());
+        }
+
         public void enterFunctionDecl(marParser.FunctionDeclContext ctx) {
             if (this.funcPos < 0) {
                 this.funcPos = this.opCodes.size();
@@ -542,6 +525,13 @@ public class marCompiler {
                 }
             }
             this.currentFunc = null;
+        }
+        
+        public void exitFunctions(marParser.FunctionsContext ctx) {
+            if (this.funcPos >= 0) {
+                this.opCodes.set(this.funcPos, this.opCodes.get(this.funcPos) + this.opCodes.size());
+                this.funcPos = -1;
+            }
         }
 
         public void enterBlock(marParser.BlockContext ctx) {

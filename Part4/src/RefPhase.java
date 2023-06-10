@@ -8,7 +8,6 @@ import mar.marParser;
 
 public class RefPhase extends marBaseListener {
     ParseTreeProperty<Scope> scopes;
-    ParseTreeProperty<Boolean> hasReturn;
     Scope global;
     Scope currentScope;
     FunctionSymbol currentFunction;

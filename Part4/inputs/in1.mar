@@ -1,12 +1,18 @@
-number fact( number n ) {
-   if n == 0 then return 1;
-   return n * fact(n-1);
+string mau( string s ) {
+   string s2;
+   s2 = "!";
+   return "Mau " + s + s2;
 }
 
-print fact(3);
-
-{
-    number a;
-    number b;
-    a = 1 +1 + 3+ 12+3+12+3+123;
+hello( string s ) {
+   string s1;
+   string s2;
+   s2 = "!";
+   s1 = "Hello " + s + s2;
+   print s1;
+   s = mau(s);
+   print s;
 }
+
+// main program starts below
+hello("Maria");

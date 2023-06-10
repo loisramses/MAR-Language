@@ -1,15 +1,23 @@
 grammar mar;
 
-prog: varDecl* functionDecl* inst+ EOF;
+prog: varDecl* functions inst+ EOF;
 
 inst:
-	block									# InstBlock
-	| ID AFFECT expr ENDLINE				# Assign
-	| PRINT expr ENDLINE					# Print
-	| 'if' expr 'then' inst ('else' inst)?	# If
-	| 'while' expr 'do' inst				# While
-	| 'return' expr? ENDLINE				# Return
-	| expr ENDLINE							# Useless;
+	block								# InstBlock
+	| ID AFFECT expr ENDLINE			# Assign
+	| PRINT expr ENDLINE				# Print
+	| 'if' ifCond 'then' inst elseInst?	# If
+	| 'while' whileCond 'do' inst		# While
+	| 'return' expr? ENDLINE			# Return
+	| expr ENDLINE						# Useless;
+
+ifCond: expr;
+
+whileCond: expr;
+
+functions: functionDecl*;
+
+elseInst: 'else' inst;
 
 type: 'number' | 'string' | 'bool';
 

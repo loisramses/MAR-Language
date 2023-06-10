@@ -75,7 +75,7 @@ public class DefPhase extends marBaseListener {
     public void enterBlock(marParser.BlockContext ctx) {
         this.currentScope = new Scope(currentScope);
         if (this.currentFunction != null) {
-            for (Symbol symb : currentFunction.getArguments()) {
+            for (Symbol symb : this.currentFunction.getArguments()) {
                 if (!this.currentScope.contains(symb.getId()))
                     this.currentScope.define(symb);
                 else {

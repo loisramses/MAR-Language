@@ -102,6 +102,46 @@ public interface marListener extends ParseTreeListener {
 	 */
 	void exitUseless(marParser.UselessContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link marParser#ifCond}.
+	 * @param ctx the parse tree
+	 */
+	void enterIfCond(marParser.IfCondContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link marParser#ifCond}.
+	 * @param ctx the parse tree
+	 */
+	void exitIfCond(marParser.IfCondContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link marParser#whileCond}.
+	 * @param ctx the parse tree
+	 */
+	void enterWhileCond(marParser.WhileCondContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link marParser#whileCond}.
+	 * @param ctx the parse tree
+	 */
+	void exitWhileCond(marParser.WhileCondContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link marParser#functions}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunctions(marParser.FunctionsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link marParser#functions}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunctions(marParser.FunctionsContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link marParser#elseInst}.
+	 * @param ctx the parse tree
+	 */
+	void enterElseInst(marParser.ElseInstContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link marParser#elseInst}.
+	 * @param ctx the parse tree
+	 */
+	void exitElseInst(marParser.ElseInstContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link marParser#type}.
 	 * @param ctx the parse tree
 	 */

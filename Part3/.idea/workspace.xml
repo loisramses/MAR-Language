@@ -7,19 +7,16 @@
     <list default="true" id="f9cccd00-31d1-4829-911e-1560b45e3a75" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Part4/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/DefPhase.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/DefPhase.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/inputs/in1.mar" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/inputs/in1.mar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/RefPhase.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/RefPhase.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/SymbolTable/Scope.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/SymbolTable/Scope.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/marCompiler$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/marCompiler$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/marCompiler$Evaluator.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/marCompiler$Evaluator.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/marCompiler.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/marCompiler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/util/Const.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/util/Const.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/out/production/Part4/SymbolTable/Type.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/out/production/Part4/SymbolTable/Type.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/outputs/in1.marbc" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/outputs/in1.marbc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Part4/src/DefPhase.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/src/DefPhase.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Part4/src/RefPhase.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/src/RefPhase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Part4/src/SymbolTable/Scope.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/src/SymbolTable/Scope.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/src/SymbolTable/Type.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/src/SymbolTable/Type.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Part4/src/mar.g4" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/src/mar.g4" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Part4/src/marCompiler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/src/marCompiler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Part4/src/marVM.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/src/marVM.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Part4/src/util/Const.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Part4/src/util/Const.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,7 +50,7 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="Application.run -debug" />
+  <component name="RunManager" selected="Application.compile -debug" />
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -70,6 +67,7 @@
       <workItem from="1684158326180" duration="155000" />
       <workItem from="1684356243005" duration="50000" />
       <workItem from="1684446619995" duration="81000" />
+      <workItem from="1686231076439" duration="310000" />
     </task>
     <servers />
   </component>
